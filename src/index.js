@@ -23,7 +23,7 @@ FXInit(fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
 
-const gridSizeX = FXRandomIntBetween(6, 30)
+const gridSizeX = FXRandomIntBetween(3, 15) * 2
 const gridSizeY = FXRandomIntBetween(25, 50)
 const borders = getWeightedOption([
   ['none', 3],
