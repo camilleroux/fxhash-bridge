@@ -1,5 +1,7 @@
 export default class Style {
-  constructor (s, projectionCalculator3d, p5) {
+  constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
+    this._gridSizeX = gridSizeX
+    this._gridSizeY = gridSizeY
     this._s = s // size of the canvas
     this._projectionCalculator3d = projectionCalculator3d
     this._p5 = p5
