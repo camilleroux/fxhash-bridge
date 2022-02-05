@@ -7,7 +7,7 @@ import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, FXRandomOption, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
 import BoilerplateStyle from './styles/boilerplate'
-import CamilleRouxStyle from './styles/camilleroux'
+import DemoStyle from './styles/demo'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -33,7 +33,7 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.1) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.2, 0.7) * 10) / 10
 
-const defaultStyleClass = FXRandomOption([BoilerplateStyle, CamilleRouxStyle]) // set `defaultStyleClass`to your own style to dev easily
+const defaultStyleClass = FXRandomOption([BoilerplateStyle, DemoStyle]) // set `defaultStyleClass`to your own style to dev easily
 let currentStyle
 
 // defining features
