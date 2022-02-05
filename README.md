@@ -39,6 +39,13 @@ In order to have your style selected, it must:
 * write your tez wallet adress in the comment in your code
 * have fun, make something awesome... ♥️
 
+# Technical info
+- The 3D coordinates of point of the bridge is represented by a p5.Vector with the following dimension:
+  - x: from -gridSizeX / 2 (left) to gridSizeX / 2 (right)
+  - y: from 0 (front) to gridSizeY (back)
+  - z: from 0 (down) to 1 (up)
+- The 2D coordinates of the tiles are an array of p5.Vector. The coord go from (0,0) (top left) to (1,1) (bottom right). So you'll have to multiply them by `s` at drawing (this is done to be dimension-less)
+
 
 About the FXHASH Generative Token webpack boilerplate
 ================
