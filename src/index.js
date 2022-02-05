@@ -4,7 +4,7 @@
 /* eslint-disable no-undef */
 import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
-import { FXInit, FXRandomBetween, FXRandomIntBetween, FXRandomOption, getWeightedOption } from '@liamegan1/fxhash-helpers'
+import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
 import BoilerplateStyle from './styles/boilerplate'
 import DemoStyle from './styles/demo'
@@ -51,7 +51,7 @@ window.$fxhashFeatures = {
 // eslint-disable-next-line no-console
 console.table(window.$fxhashFeatures)
 
-let tilesList = []
+const tilesList = []
 
 // create projectionCalculator3d
 const points3d = [
