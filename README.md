@@ -1,4 +1,46 @@
-FXHASH Generative Token webpack boilerplate
+BRIDGE collaborative project for fxhash
+================
+
+BRIDGE is an experimental project for fxhash. Any artist can contribute. 
+The main rule: draw the tiles at the given coordinates. While they are quite visible, you can add everything you want: birds, stars, grass, reflexions, circles...
+For each edition, there'll be a default style, but you could try all the other styles using the shortcut `n`.
+
+# The story
+
+I'm Camille Roux ([@camillerouxart](https://twitter.com/camillerouxart)). I planned to do a lot of collab this year with fxhash artists I like, but it takes too much time (or maybe I like too much artists 🤣). Some days ago, I woke up with this idea in mind: "Hey! What if I make a collaboration with all the artists I like at once!".
+This is how the project was born.
+
+Moreover, I love the mutual aid and solidarity between fxhash generative artists. The BRIDGE can be seen as a symbol of the link between us ♥️
+
+# The rules
+
+If you contribute to the project, you accept the following rules:
+
+* I can mint this project on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux) with any subset of the styles. (If you've an idea about what I could do with the unselected styles, let me know!)
+* I'll select the styles I'll mint
+* I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included (the 2sd market revenue is for me)
+
+# How to contribute
+
+- clone the project
+- run `npm i``
+- duplicate the `./styles/boilerplate.js`, change the name and info
+- in `index.js` set `defaultStyleClass` to your class style to only use you style and import the class
+- run `npm start` to launch the project
+- create a pull request when you're ready
+
+# How to be selected
+
+In order to have your style selected, it must:
+
+* be dimension-less (same output whatever the canvas dimensions)
+* be determist (same output if you refresh)
+* draw the tiles at the correct place (tiles must be not move if you change style)
+* write your tez wallet adress in the comment in your code
+* have fun, make something awesome... ♥️
+
+
+About the FXHASH Generative Token webpack boilerplate
 ================
 
 A boilerplate to automate and ease the creation of Generative Tokens on fxhash. This project uses [webpack](https://webpack.js.org/) and [webpack-dev-server](https://github.com/webpack/webpack-dev-server) to improve the development and deployment experience.
