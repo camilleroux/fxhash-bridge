@@ -1,7 +1,13 @@
+// BRIDGE
+// Camille Roux, 2022
+
 /* eslint-disable no-undef */
 import p5 from 'p5'
-import { createCols } from './utils'
-import { FXInit, FXRandomBool, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
+import { ProjectionCalculator3d } from 'projection-3d-2d'
+import { FXInit, FXRandomBetween, FXRandomIntBetween, FXRandomOption, getWeightedOption } from '@liamegan1/fxhash-helpers'
+
+import BoilerplateStyle from './styles/boilerplate'
+import CamilleRouxStyle from './styles/camilleroux'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -16,39 +22,51 @@ console.log('By Camille Roux (@CamilleRouxArt) - ' + fxhash)
 FXInit(fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
-let m
 
-const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
-const palette = getWeightedOption([
-  [0, 90],
-  [1, 10]
+const gridSizeX = FXRandomIntBetween(6, 30)
+const gridSizeY = FXRandomIntBetween(25, 50)
+const borders = getWeightedOption([
+  ['none', 3],
+  ['simple', 6],
+  ['double', 1]
 ])
-const colors = createCols(palettes[palette])
-const backgroundColor = colors.pop()
+const perspective = Math.floor(FXRandomBetween(0.01, 0.1) * 100) / 100
+const missingTiles = Math.floor(FXRandomBetween(0.2, 0.7) * 10) / 10
 
-const numCircles = FXRandomIntBetween(0, 500) + 100
-const shadow = FXRandomBool(0.9)
+const defaultStyleClass = FXRandomOption([BoilerplateStyle, CamilleRouxStyle]) // set `defaultStyleClass`to your own style to dev easily
+let currentStyle
 
-// ----------------------
 // defining features
-// ----------------------
-// You can define some token features by populating the $fxhashFeatures property
-// of the window object.
-// More about it in the guide, section features:
-// [https://fxhash.xyz/articles/guide-mint-generative-token#features]
-//
-// window.$fxhashFeatures = {
-//   "Background": "Black",
-//   "Number of lines": 10,
-//   "Inverted": true
-// }
 window.$fxhashFeatures = {
-  palette,
-  shadow,
-  density: numCircles > 500 ? 'High' : (numCircles < 200 ? 'Low' : 'Medium')
+  styleCreator: defaultStyleClass.author(),
+  styleName: defaultStyleClass.name(),
+  gridSizeX,
+  gridSizeY,
+  borders,
+  perspective,
+  missingTiles
 }
 // eslint-disable-next-line no-console
 console.table(window.$fxhashFeatures)
+
+// create projectionCalculator3d
+const points3d = [
+  [-gridSizeX / 2, 0, 1],
+  [gridSizeX / 2, 0, 1],
+  [gridSizeX / 2, 0, 0],
+  [-gridSizeX / 2, 0, 0],
+  [0, 1, 0],
+  [0, 1, 1]
+]
+const points2d = [
+  [0, 0],
+  [1, 0],
+  [1, 1],
+  [0, 1],
+  [0.5, 0.9],
+  [0.5, perspective]
+]
+const projectionCalculator3d = new ProjectionCalculator3d(points3d, points2d)
 
 const sketch = function (p5) {
   p5.setup = function () {
@@ -56,28 +74,37 @@ const sketch = function (p5) {
     s = p5.min(p5.windowWidth, p5.windowHeight)
     p5.createCanvas(s, s)
 
-    m = s / 1000
+    currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
   }
 
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
 
-    p5.background(backgroundColor)
+    currentStyle.beforeDraw()
 
-    p5.drawingContext.shadowOffsetX = 10
-    p5.drawingContext.shadowOffsetY = 10
-    p5.drawingContext.shadowBlur = 20
-    p5.drawingContext.shadowColor = '#00000099'
+    // draw tiles
+    const borderSize = borders === 'simple' ? 1 : 2
+    for (let i = -gridSizeX / 2; i < gridSizeX / 2; i++) {
+      for (let j = gridSizeY - 1; j >= 0; j--) {
+        let height = 0 // default tile height
+        if (borders !== 'none') {
+          height = i <= -gridSizeX / 2 - 1 + borderSize || i >= gridSizeX / 2 - borderSize ? 0.04 : 0 // change height if it's a border tile
+        }
+        if (p5.random() < missingTiles) continue // don't draw the tile if it's a missing tile
 
-    p5.push()
-    for (let i = numCircles; i >= 0; i--) {
-      const c = p5.color(p5.random(colors))
-      p5.fill(c)
-      p5.noStroke()
-      p5.circle(p5.random() * s, p5.random() * s, p5.abs(p5.randomGaussian(0, m * 50)))
+        // calculate 2D projection of the current tile
+        const tilePoints = []
+        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j, height])))
+        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j + 1, height])))
+        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j + 1, height])))
+        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j, height])))
+
+        currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0)
+      }
     }
-    p5.pop()
+
+    currentStyle.afterDraw()
 
     // eslint-disable-next-line no-undef
     fxpreview()
@@ -85,8 +112,15 @@ const sketch = function (p5) {
 
   p5.windowResized = function () {
     s = p5.min(p5.windowWidth, p5.windowHeight)
+    currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
     p5.resizeCanvas(s, s)
-    m = s / 1000
+  }
+
+  p5.keyTyped = function () {
+    if (p5.key === 'n') {
+      // TODO: set next style
+      currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
+    }
   }
 }
 

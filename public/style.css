@@ -7,7 +7,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #011627;
+  background-color: black; /*#011627; */
     /* leave it to hide the scrollbars */
   overflow: hidden;
 }
