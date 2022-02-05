@@ -3,7 +3,6 @@
 
 import Style from './style'
 import { createCols } from '../utils'
-import { getWeightedOption } from '@liamegan1/fxhash-helpers'
 
 const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
 
