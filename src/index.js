@@ -8,6 +8,7 @@ import { FXInit, FXRandomBetween, FXRandomIntBetween, FXRandomOption, getWeighte
 
 import BoilerplateStyle from './styles/boilerplate'
 import DemoStyle from './styles/demo'
+import CamilleRouxStyle from './styles/camilleroux'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -30,16 +31,17 @@ const borders = getWeightedOption([
   ['simple', 6],
   ['double', 1]
 ])
-const perspective = Math.floor(FXRandomBetween(0.01, 0.1) * 100) / 100
-const missingTiles = Math.floor(FXRandomBetween(0.2, 0.7) * 10) / 10
+const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
+const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const defaultStyleClass = FXRandomOption([BoilerplateStyle, DemoStyle]) // set `defaultStyleClass`to your own style to dev easily
+const stylesClasses = [CamilleRouxStyle, BoilerplateStyle, DemoStyle]
+let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
 // defining features
 window.$fxhashFeatures = {
-  styleCreator: defaultStyleClass.author(),
-  styleName: defaultStyleClass.name(),
+  styleCreator: stylesClasses[styleClassId].author(),
+  styleName: stylesClasses[styleClassId].name(),
   gridSizeX,
   gridSizeY,
   borders,
@@ -48,6 +50,8 @@ window.$fxhashFeatures = {
 }
 // eslint-disable-next-line no-console
 console.table(window.$fxhashFeatures)
+
+let tilesList = []
 
 // create projectionCalculator3d
 const points3d = [
@@ -74,37 +78,47 @@ const sketch = function (p5) {
     s = p5.min(p5.windowWidth, p5.windowHeight)
     p5.createCanvas(s, s)
 
-    currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
+    for (let halfI = 0; halfI < gridSizeX / 2; halfI++) {
+      [-gridSizeX / 2 + halfI, gridSizeX / 2 - 1 - halfI].forEach((i) => { // draw tiles from sides to center
+        for (let j = gridSizeY - 1; j >= 0; j--) {
+          if (FXRandomBetween(0, 1) < missingTiles) continue // don't draw the tile if it's a missing tile
+          tilesList.push([i, j])
+        }
+      })
+    }
+
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
   }
 
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
+    FXInit(fxrand)
+    p5.push()
 
     currentStyle.beforeDraw()
 
     // draw tiles
     const borderSize = borders === 'simple' ? 1 : 2
-    for (let i = -gridSizeX / 2; i < gridSizeX / 2; i++) {
-      for (let j = gridSizeY - 1; j >= 0; j--) {
-        let height = 0 // default tile height
-        if (borders !== 'none') {
-          height = i <= -gridSizeX / 2 - 1 + borderSize || i >= gridSizeX / 2 - borderSize ? 0.04 : 0 // change height if it's a border tile
-        }
-        if (p5.random() < missingTiles) continue // don't draw the tile if it's a missing tile
-
-        // calculate 2D projection of the current tile
-        const tilePoints = []
-        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j, height])))
-        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j + 1, height])))
-        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j + 1, height])))
-        tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j, height])))
-
-        currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0)
+    tilesList.forEach((tile) => {
+      const i = tile[0]
+      const j = tile[1]
+      let height = 0 // default tile height
+      if (borders !== 'none') {
+        height = i <= -gridSizeX / 2 - 1 + borderSize || i >= gridSizeX / 2 - borderSize ? 0.04 : 0 // change height if it's a border tile
       }
-    }
+      // calculate 2D projection of the current tile
+      const tilePoints = []
+      tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j, height])))
+      tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i, j + 1, height])))
+      tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j + 1, height])))
+      tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j, height])))
+
+      currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0)
+    })
 
     currentStyle.afterDraw()
+    p5.pop()
 
     // eslint-disable-next-line no-undef
     fxpreview()
@@ -112,15 +126,14 @@ const sketch = function (p5) {
 
   p5.windowResized = function () {
     s = p5.min(p5.windowWidth, p5.windowHeight)
-    currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     p5.resizeCanvas(s, s)
   }
 
-  p5.keyTyped = function () {
-    if (p5.key === 'n') {
-      // TODO: set next style
-      currentStyle = new defaultStyleClass(s, projectionCalculator3d, p5)
-    }
+  p5.mousePressed = function () {
+    styleClassId = (styleClassId + 1) % stylesClasses.length
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+    this.draw()
   }
 }
 
