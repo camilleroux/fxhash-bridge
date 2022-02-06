@@ -130,10 +130,13 @@ const sketch = function (p5) {
     p5.resizeCanvas(s, s)
   }
 
-  p5.mousePressed = function () {
-    styleClassId = (styleClassId + 1) % stylesClasses.length
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    this.draw()
+  p5.mousePressed = function (event) {
+    if (event.which === 0 || event.which === 1) { // if touch or left clic
+      styleClassId = (styleClassId + 1) % stylesClasses.length
+      currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+      this.draw()
+      return false
+    }
   }
 }
 
