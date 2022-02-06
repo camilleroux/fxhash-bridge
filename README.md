@@ -20,7 +20,7 @@ If you contribute to the project, you must accept the following rules:
 * I'll select the styles I'll mint
 * I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included (the 2sd market revenue is for me)
 * For now, I expect there to be about 30-40 editions of each style in the/each drop and 5-10 styles. 
-* Dead line: **February 20st**. If there are enough participants, I plan to mint to fxhash each time I see enough nice styles to do a drop.
+* Dead line: **February 20th**. If there are enough participants, I plan to mint to fxhash each time I see enough nice styles to do a drop.
 
 ## 🧑‍💻 How to contribute
 
