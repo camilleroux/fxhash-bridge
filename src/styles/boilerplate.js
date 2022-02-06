@@ -1,5 +1,6 @@
-// Your Name
-// wallet: tz.........
+// Camille Roux
+// Status: WIP // "WIP", "Ready"
+// Wallet: tz.....
 
 import Style from './style'
 

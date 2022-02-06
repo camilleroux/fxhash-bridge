@@ -1,5 +1,6 @@
 // Camille Roux
-// wallet: tz1WEZkz46AZmGbW32qwUHsdA2PBBATgixth
+// Status: Don't mint // "WIP", "Ready"
+// Wallet: tz1WEZkz46AZmGbW32qwUHsdA2PBBATgixth
 
 import Style from './style'
 import { createCols } from '../utils'
