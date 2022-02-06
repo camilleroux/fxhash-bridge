@@ -79,7 +79,7 @@ const sketch = function (p5) {
     p5.createCanvas(s, s)
 
     for (let halfI = 0; halfI < gridSizeX / 2; halfI++) {
-      [-gridSizeX / 2 + halfI, gridSizeX / 2 - 1 - halfI].forEach((i) => { // draw tiles from sides to center
+      [...new Set([-gridSizeX / 2 + halfI, gridSizeX / 2 - 1 - halfI])].forEach((i) => { // draw tiles from sides to center (Set is used not to draw twice the same column)
         for (let j = gridSizeY - 1; j >= 0; j--) {
           if (FXRandomBetween(0, 1) < missingTiles) continue // don't draw the tile if it's a missing tile
           tilesList.push([i, j])
