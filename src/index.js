@@ -24,12 +24,12 @@ FXInit(fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
 
-const gridSizeX = FXRandomIntBetween(4, 15) * 2 + 1
+const gridSizeX = FXRandomIntBetween(4, 10) * 2 + 1
 const gridSizeY = FXRandomIntBetween(30, 60)
 const borders = getWeightedOption([
-  ['none', 3],
-  ['simple', 6],
-  ['double', 1]
+  ['none', 2],
+  ['simple', 5],
+  ['double', 3]
 ])
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
