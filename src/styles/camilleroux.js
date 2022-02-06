@@ -5,13 +5,12 @@
 import Style from './style'
 import { createCols } from '../utils'
 
-const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
+const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627']
 
 export default class CamilleRouxStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    const palette = 0 // getWeightedOption([[0, 9], [1, 1]])
-    this.colors = createCols(palettes[palette])
+    this.colors = createCols(palettes[0])
     this.backgroundColor = this.colors.pop()
     this.defaultColor = this.colors[0]
   }
@@ -46,5 +45,5 @@ export default class CamilleRouxStyle extends Style {
 
   static author () { return 'Camille Roux' }
 
-  static name () { return 'Demo' }
+  static name () { return 'Evaporating' }
 }
