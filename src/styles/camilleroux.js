@@ -32,14 +32,14 @@ export default class CamilleRouxStyle extends Style {
   }
 
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
+    this._p5.noStroke()
     this._p5.fill(isBorder ? this.defaultColor : this._p5.random(this.colors))
     for (let tilePointId = 0; tilePointId < tilePoints.length; tilePointId++) {
-      const dotDensity = Math.pow((this._gridSizeY - frontLeftCorner3DCoord.y) / this._gridSizeY, 9)
-      for (let i = 0; i < 5000 * dotDensity; i++) {
-        this._p5.noStroke()
+      const dotDensity = Math.pow((this._gridSizeY - frontLeftCorner3DCoord.y) / this._gridSizeY, 4)
+      for (let i = 0; i < 4000 * dotDensity; i++) {
         const pointOriginVect = tilePoints[tilePointId].copy()
         const pointVect = pointOriginVect.lerp(tilePoints[(tilePointId + 1) % tilePoints.length], this._p5.random())
-        this._p5.rect(pointVect.x * this._s, (pointVect.y - Math.abs(this._p5.randomGaussian(0, isBorder ? 0.1 : 0.07))) * this._s, this._s * 0.0005)
+        this._p5.rect(pointVect.x * this._s, (pointVect.y - Math.abs(this._p5.randomGaussian(0, isBorder ? 0.08 : 0.06) * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 1, 0))) * this._s, this._s * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 0.0006, 0.0003))
       }
     }
   }
