@@ -78,15 +78,14 @@ const sketch = function (p5) {
     s = p5.min(p5.windowWidth, p5.windowHeight)
     p5.createCanvas(s, s)
 
-    for (let halfI = 0; halfI < gridSizeX / 2; halfI++) {
-      [...new Set([-gridSizeX / 2 + halfI, gridSizeX / 2 - 1 - halfI])].forEach((i) => { // draw tiles from sides to center (Set is used not to draw twice the same column)
-        for (let j = gridSizeY - 1; j >= 0; j--) {
-          if (FXRandomBetween(0, 1) < missingTiles) continue // don't draw the tile if it's a missing tile
-          tilesList.push([i, j])
+    for (let j = gridSizeY - 1; j >= 0; j--) {
+      for (let halfI = 0; halfI < gridSizeX / 2; halfI++) {
+        if (FXRandomBetween(0, 1) > missingTiles) { tilesList.push([-gridSizeX / 2 + halfI, j]) }
+        if (FXRandomBetween(0, 1) > missingTiles) {
+          if (-gridSizeX / 2 + halfI !== gridSizeX / 2 - 1 - halfI) { tilesList.push([gridSizeX / 2 - 1 - halfI, j]) } // not draw twice the same column
         }
-      })
+      }
     }
-
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
   }
 
