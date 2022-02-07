@@ -38,7 +38,7 @@ export default class CamilleRouxStyle extends Style {
       for (let i = 0; i < 4000 * dotDensity; i++) {
         const pointOriginVect = tilePoints[tilePointId].copy()
         const pointVect = pointOriginVect.lerp(tilePoints[(tilePointId + 1) % tilePoints.length], this._p5.random())
-        this._p5.rect(pointVect.x * this._s, (pointVect.y - Math.abs(this._p5.randomGaussian(0, isBorder ? 0.08 : 0.06) * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 1, 0))) * this._s, this._s * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 0.0006, 0.0003))
+        this._p5.rect(pointVect.x * this._s, (pointVect.y - Math.abs(this._p5.randomGaussian(0, isBorder ? 0.08 : 0.06) * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 1, 0))) * this._s, this._s * this._p5.map(frontLeftCorner3DCoord.y, 0, this._gridSizeY, 0.0005, 0.0003))
       }
     }
   }
