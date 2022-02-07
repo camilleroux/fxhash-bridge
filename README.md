@@ -24,7 +24,7 @@ If you contribute to the project, you must accept the following rules:
 
 ## 🧑‍💻 How to contribute
 
-- clone the project
+- fork then clone the project
 - run `npm i`
 - duplicate the `./styles/boilerplate.js`, change the name and info
 - in `index.js` add your style Class to `stylesClasses` and set `defaultStyleClassId` to only see your style
