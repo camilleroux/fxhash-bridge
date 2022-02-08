@@ -7,37 +7,51 @@ import Style from './style'
 export default class WilkeStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    this.centerx = this._p5.random(0.45, 0.55)
-    this.centery = this._p5.random(0.32, 0.45)
-    this.radius = this._p5.random(0.2, 0.3)
+    this.centerx = this._p5.random(0.47, 0.53)
+    this.centery = this._p5.random(0.25, 0.32)
+    this.radius = this._p5.random(0.20, 0.27)
+    
+    if (Math.abs(this.centery - this.radius) < 0.05) this.centery += 0.05
     this.strokescale = this._s / 500
     console.log("Center x:", this.centerx)
     console.log("Center y:", this.centery)
     console.log("Radius:", this.radius)
-    console.log(this._s)
+    console.log("s: ", this._s)
     
-    
-    // colors
+    let palette = this._p5.random(['light', 'light', 'dark', 'dark', 'dark'])
+    let highlight = this._p5.random(['red', 'blue'])
+    //highlight = 'blue'
+    //palette = 'dark'
+
     // light scheme
     this.bgfill = '#FEFAF0'
     this.bgstipple = '#E9E5DB'
-    this.circlefill = '#303030'
-    this.circlestipple = '#505050'
+    this.circlefill = '#202020'
+    this.circlestipple = '#303030'
     
-    this.borderdark = '#811012'
-    this.borderlight = '#AB4D4E'
     this.floordark = '#000000'
     this.floorlight = this.bgfill
+    this.borderdark = '#811012'
+    this.borderlight = '#AB4D4E'
+
+    if (highlight === 'blue') {
+      this.borderdark = '#093F6E' // '#114D84'
+      this.borderlight = '#406496' // '#5878A9'
+    }
     
     // dark scheme
-    this.bgfill = '#202020'
-    this.bgstipple = '#050505'
-    this.circlefill = '#FEFAF0'
-    this.circlestipple = '#E9E5DB'
+    if (palette === 'dark') {
+      this.bgfill = '#202020'
+      this.bgstipple = '#050505'
+      this.circlefill = '#FEFAF0'
+      this.circlestipple = '#E9E5DB'
     
-    this.borderlight = '#A67475'
-    this.floorlight = this.circlestipple
-    
+      this.floorlight = this.circlestipple
+      
+      if (highlight === 'blue') {
+        this.borderlight = '#7287AD'
+      }
+    }
   }
   
   drawPointInterior (x, y) {
@@ -54,6 +68,54 @@ export default class WilkeStyle extends Style {
     if (y > this.centery || this._p5.dist(x, y, this.centerx, this.centery) < this.radius) {
       this._p5.point(x * this._s, y * this._s)
     }
+  }
+  
+  drawHalo (x0, y0, radius, sd, col = this.circlestipple, n = 50000) {
+    this._p5.stroke(col)
+    this._p5.strokeWeight(.5 * this.strokescale)
+    for (let i = 0; i < n; i++) {
+      let x = this._p5.randomGaussian(x0, sd * radius)
+      let y = this._p5.randomGaussian(y0, sd * radius)
+      if (this._p5.dist(x, y, x0, y0) >= radius) {
+        this._p5.point(x * this._s, y * this._s)
+      }
+    }
+  }
+
+  drawHaloInterior (x0, y0, radius, sd, col, n) {
+    this._p5.stroke(col)
+    this._p5.strokeWeight(.5 * this.strokescale)
+    for (let i = 0; i < n; i++) {
+      let x = this._p5.randomGaussian(x0, sd * radius)
+      let y = this._p5.randomGaussian(y0, sd * radius)
+      if (this._p5.dist(x, y, x0, y0) >= radius) {
+        this.drawPointInterior(x, y)
+      }
+    }
+  }
+  
+  // check whether a new proposed interior angle is too close to existing ones
+  checkIntAngle (theta) {
+    for (let kappa of this.intAngles) {
+      if (Math.abs(theta - kappa) < 6.283185 * 30 / 360)
+        return true
+    }
+    return false
+  }
+  
+  drawRandomHaloInterior () {
+    let theta
+    do {
+      theta = 6.283185 * this._p5.random(-20, 200) / 360
+    } while(this.checkIntAngle(theta))
+    this.intAngles.push(theta)
+    let r = 1.1 * this.radius * Math.sqrt(this._p5.random(.1, 1))
+    let x = r * Math.cos(theta) + this.centerx
+    let y = -r * Math.sin(theta) + this.centery
+    let radius = this._p5.random(.1, .26)
+    radius *= radius
+    let n = 200000 * radius
+    this.drawHaloInterior(x, y, radius, .35, this.bgstipple, n)
   }
   
   beforeDraw () {
@@ -78,16 +140,6 @@ export default class WilkeStyle extends Style {
     this._p5.fill(this.circlefill)
     this._p5.circle(this.centerx * this._s, this.centery * this._s, 2 * this.radius * this._s)
 
-    // halo around center circle
-    /*
-    this._p5.stroke('#640723')
-    this._p5.strokeWeight(1)
-    for (let i = 0; i < 400000; i++) {
-      let x = this._p5.randomGaussian(this.centerx, 0.4*this.radius)
-      let y = this._p5.randomGaussian(this.centery, 0.4*this.radius)
-      this.drawPointExterior(x, y)
-    }*/
-    
     // interior background stippling
     this._p5.stroke(this.circlestipple)
     this._p5.strokeWeight(.5 * this.strokescale)
@@ -100,6 +152,28 @@ export default class WilkeStyle extends Style {
         y = y + this._p5.randomGaussian(0, 0.5/n)
         this.drawPointInterior(x, y)
       }
+    }
+    
+    // halo around center circle
+    this._p5.stroke(this.circlestipple)
+    this._p5.strokeWeight(0.5*this.strokescale)
+    for (let i = 0; i < 200000; i++) {
+      let x = this._p5.randomGaussian(this.centerx, 0.3*this.radius)
+      let y = this._p5.randomGaussian(this.centery, 0.3*this.radius)
+      this.drawPointExterior(x, y)
+    }
+
+    /*
+    // other halos
+    this.drawHalo(.15, .2, .06, .35)
+    this.drawHalo(.9, .6, .04, .35)
+    this.drawHalo(.85, .09, .03, .35)
+    */
+    
+    let k = this._p5.random([2, 3, 4, 5])
+    this.intAngles = []
+    for (let i = 0; i < k; i++) {
+      this.drawRandomHaloInterior()
     }
   }
 
