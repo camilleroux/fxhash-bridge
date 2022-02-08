@@ -19,12 +19,13 @@ If you contribute to the project, you must accept the following rules:
 * I can mint this project on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux) with any subset of styles. (If you've an idea about what I could do with the unselected styles, let me know!)
 * I'll select the styles I'll mint
 * I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included int that mint (the 2sd market revenue is for me)
+* You can't mint/drop it yourself
 * For now, I expect there to be about 30-40 editions of each style in the/each drop and 5-10 styles. 
 * Dead line: **February 20th**. If there are enough participants, I plan to mint to fxhash each time I see enough nice styles to do a drop.
 
 ## 🧑‍💻 How to contribute
 
-- clone the project
+- fork then clone the project
 - run `npm i`
 - duplicate the `./styles/boilerplate.js`, change the name and info
 - in `index.js` add your style Class to `stylesClasses` and set `defaultStyleClassId` to only see your style
@@ -50,7 +51,7 @@ In order to have your style selected, it must:
 
 ## 💻 Technical info
 
-- The 3D coordinates of point of the bridge is represented by a p5.Vector with the following dimension:
+- The 3D coordinates of point of the bridge is represented by a p5.Vector with the following dimensions:
   - x: from -gridSizeX / 2 (left) to gridSizeX / 2 (right)
   - y: from 0 (front) to gridSizeY (back)
   - z: from 0 (down) to 1 (up)
