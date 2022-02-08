@@ -51,7 +51,7 @@ In order to have your style selected, it must:
 
 ## 💻 Technical info
 
-- The 3D coordinates of point of the bridge is represented by a p5.Vector with the following dimension:
+- The 3D coordinates of point of the bridge is represented by a p5.Vector with the following dimensions:
   - x: from -gridSizeX / 2 (left) to gridSizeX / 2 (right)
   - y: from 0 (front) to gridSizeY (back)
   - z: from 0 (down) to 1 (up)
