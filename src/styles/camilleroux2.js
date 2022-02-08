@@ -17,7 +17,6 @@ export default class CamilleRoux2Style extends Style {
     this._maxStorey = Math.floor(this._p5.random(4, 20))
     this._heightSkew = this._p5.random(2, 7)
     this._offsetSkew = this._p5.random([0.3, 1, 2])
-    console.log(this._offsetSkew)
   }
 
   beforeDraw () {
