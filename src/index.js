@@ -9,6 +9,7 @@ import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '
 import BoilerplateStyle from './styles/boilerplate'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
+import RobinMetcalfeStyle from './styles/robinmetcalfe'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -34,8 +35,9 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const stylesClasses = [CamilleRouxStyle, BoilerplateStyle, DemoStyle]
+const stylesClasses = [CamilleRouxStyle, BoilerplateStyle, DemoStyle, RobinMetcalfeStyle]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
+styleClassId = 3
 let currentStyle
 
 // defining features
