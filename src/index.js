@@ -86,13 +86,15 @@ const sketch = function (p5) {
         }
       }
     }
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
   }
 
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
     FXInit(fxrand)
+
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+
     p5.push()
 
     currentStyle.beforeDraw()
@@ -125,14 +127,12 @@ const sketch = function (p5) {
 
   p5.windowResized = function () {
     s = p5.min(p5.windowWidth, p5.windowHeight)
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     p5.resizeCanvas(s, s)
   }
 
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
-      currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
       this.draw()
       return false
     }
