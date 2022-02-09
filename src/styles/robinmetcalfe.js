@@ -5,6 +5,7 @@
 import Style from './style'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 import chroma from "chroma-js";
+import p5 from 'p5'
 
 // Some helper functions
 // Basic lerp
@@ -23,39 +24,38 @@ const range = (number, inMin, inMax, outMin, outMax) => {
 FXInit(fxrand)
 
 // Some random variables which are set across all tiles
-let curtainStringModiferRange
-let heightRange
-let heightVarianceRange
-let colorRange
+let curtainStringModiferRange = [FXRandomBetween(-0.005, -0.001), FXRandomBetween(0.001, 0.005)]
+let heightRange = [FXRandomBetween(0.005, 0.04), FXRandomBetween(0.04, 0.25)]
+let heightVarianceRange = [FXRandomBetween(0.01, 0.05), FXRandomBetween(0.05, 0.25)]
+let colorRange = chroma.scale(['#666', '#f00'])
+let borderHeightRange = [FXRandomBetween(2, 4), FXRandomBetween(4, 7)]
 
-curtainStringModiferRange = [FXRandomBetween(-0.005, -0.001), FXRandomBetween(0.001, 0.005)]
-heightRange = [FXRandomBetween(0.005, 0.04), FXRandomBetween(0.04, 0.25)]
-heightVarianceRange = [FXRandomBetween(0.01, 0.05), FXRandomBetween(0.05, 0.25)]
-colorRange = chroma.scale(['#666', '#f00'])
+let surfaceSinAdjust = FXRandomBetween(2, 8)
+let surfaceCosAdjust = FXRandomBetween(2, 8)
+let surfaceAmplitude = FXRandomBetween(0.001, 0.003)
 
-const pal = chroma.scale(["012a4a","013a63","01497c","014f86","2a6f97","2c7da0","468faf","61a5c2","89c2d9","a9d6e5"])
+
+const palettes = [
+  ["ff5400","ff6d00","ff8500","ff9100","ff9e00","00b4d8","0096c7","0077b6","023e8a","03045e"],
+  ["7400b8","6930c3","5e60ce","5390d9","4ea8de","48bfe3","56cfe1","64dfdf","72efdd","80ffdb"],
+  ["b7094c","a01a58","892b64","723c70","5c4d7d","455e89","2e6f95","1780a1","0091ad"],
+  ["ff6d00","ff7900","ff8500","ff9100","ff9e00","240046","3c096c","5a189a","7b2cbf","9d4edd"]
+]
+
+let pal = chroma.scale(palettes[FXRandomIntBetween(0, palettes.length)])
 
 export default class RobinMetcalfeStyle extends Style {
   
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+
+    // re-init fxhash so that this always starts from the same
+    // random seed point on e.g. window resize
+    fxrand = sfc32(...hashes)
   }
 
   beforeDraw () {
     this._p5.background('#eee')
-  }
-
-  /**
-   * Create a duplicate of a 
-   * @return {[type]} [description]
-   */
-  dupe() {
-
-  }
-  
-  // get tile dimensions
-  dims(t) {
-    return this._p5.createVector(t[1].x - t[0].x, t[1].y - t[0].y)
   }
 
 
@@ -70,21 +70,21 @@ export default class RobinMetcalfeStyle extends Style {
     toColor = '#00f',
     fromAlpha = 1,
     toAlpha = 0,
-    segments = 10
+    segments = 32
   }) {
+
     let lastPoint = from
     let scale = chroma.scale([fromColor, toColor])
     for(let i = 0; i < segments; i++) {
-      let point = this._p5.lerp(from, to, i / segments)
-      let alpha = lerp(fromAlpha, toAlpha, i / segments)
-      this._p5.stroke('#ff0')
-      //console.log(from, to)
-      /*this._p5.line(lastPoint.x,
-                    lastPoint.y,
-                    point.x,
-                    point.y)*/
+      let point = p5.Vector.lerp(from, to, i / segments)
+      this._p5.stroke(scale(i / segments).alpha((segments - i) / segments).hex())
+      this._p5.line(lastPoint.x * this._s,
+                    lastPoint.y * this._s,
+                    point.x * this._s,
+                    point.y * this._s)
       lastPoint = point
     }
+    
   }
 
 
@@ -100,8 +100,8 @@ export default class RobinMetcalfeStyle extends Style {
     // Stick with a simple 3D projection, adjust randomly based
     // on height, apply interesting effects to the "surface" of dots...
 
-    this._p5.stroke(col.saturate(1).hex())
-    this._p5.fill(col.desaturate(2).hex())
+    this._p5.stroke(0, 0)
+    this._p5.fill(col.desaturate(1.5).hex())
 
     this._p5.quad(
       t[0].x * this._s, t[0].y * this._s,
@@ -110,41 +110,70 @@ export default class RobinMetcalfeStyle extends Style {
       t[3].x * this._s, t[3].y * this._s
     )
 
-    
+    const howFarForward = f.y / this._gridSizeY
+
     const point = v().set(prj.getProjectedPoint([f.x, f.y, 0]))
     
-    let gridRes = FXRandomIntBetween(8, 32)
+    let gridRes
     
+    // Optimise. Draw fewer lines the further back each tile/block is
+    if(howFarForward > 0.25) {
+      gridRes = 8
+    } else {
+      gridRes = 16
+    }
+
+    if(f.y < 4)
+      gridRes = 32
+
+
     const xRes = 1 / gridRes
     const yRes = 1 / gridRes
 
-    let height = Math.sin(f.x) + Math.cos(f.y * 4) - Math.sin(f.x % f.y)
+    let height = Math.sin(f.x) + Math.cos(f.y * 4) - Math.sin((f.x + 1) % (f.y + 1))
     height = range(height, -3, 1, heightRange[0], heightRange[1])
+
+
 
     let lastCurtainLength
 
     let heightModifier = FXRandomBetween(heightVarianceRange[0], heightVarianceRange[1])
 
+    if(isBorder)
+      heightModifier *= FXRandomBetween(borderHeightRange[0], borderHeightRange[1])
+
     //let col = colorRange(t[0].x)
-    col = col.desaturate(range(t[0].y, 0, 1, 2, 0)).brighten(range(t[0].y, 0, 1, 3, 0))
+    col = col.desaturate(range(t[0].y, 0, 1, 2, 0))
+              .darken(range(t[0].y, 0, 1, 3, 0))
 
     let topQuad = []
 
     const mults = 3
 
+    p5.strokeWeight((1 - howFarForward) * 2)
+
+    // For continuing the "curtain" to the left, so from x = 0
+    let firstCurtainLength
+
     for(let j = 0; j <= gridRes; j++) {
       for(let i = 0; i <= gridRes; i++) {
 
+        // determine distance from edges
+        const isEdge = (j <= 2 || j >= gridRes - 2 || i <= 2 || i >= gridRes - 2)
+
         let additionalHeightModifier = range(Math.sin(t[0].x * 4), -1, 1, 0, 0.2)
 
-        const pointHeight = isBorder ?
+        let pointHeight = isBorder ?
               height + heightModifier + additionalHeightModifier + 0.04 :
               height + heightModifier + additionalHeightModifier
+
+        let offset = Math.sin(i / surfaceSinAdjust) * Math.cos(j / surfaceCosAdjust)
+        pointHeight += range(offset, -1, 1, -surfaceAmplitude, surfaceAmplitude)
 
         const point = v().set(prj.getProjectedPoint([
                 f.x + (i * xRes),
                 f.y + (j * yRes),
-                pointHeight                
+                pointHeight
               ]))
 
         // Draw ever-fainter quads the further back we go
@@ -191,22 +220,49 @@ export default class RobinMetcalfeStyle extends Style {
           //topQuad.push(point.y)
         }
 
-        p5.stroke(col.darken((gridRes - j) / gridRes).hex())
+        let pointCol = col.darken((gridRes - j) / gridRes)
+        if(isEdge) {
+          pointCol = pointCol.darken(0.1)
+        }
+
+        p5.stroke(pointCol.hex())
         p5.circle(point.x * this._s, point.y * this._s, 1)
 
         // Draw a "curtain" effect hanging down from the front
         // of each quad
-        if(j == 0) {
-          for(let k = 0; k < 4; k++) {
-            let curtainStringModifier = FXRandomBetween(curtainStringModiferRange[0], curtainStringModiferRange[1])
-            
-            p5.stroke(col
+        if(j == 0 || (t[0].x < 0.5 && i == gridRes) || (t[0].x > 0.5 && i == 0)) {
+          
+          let curtainCol = col
+
+          if(j !== 0 && (i == 0 || i == gridRes)) {
+            curtainCol = curtainCol.darken(1 + (j / gridRes)* 2)
+          }
+
+          // Shine
+          const shineFactor = Math.sin(i % (j + 5)) * Math.cos(Math.pow(i, 1.2))
+          curtainCol = curtainCol.brighten(shineFactor * 3)
+
+          p5.stroke(curtainCol
                       .brighten(Math.sin(j % (i + 1)) * Math.cos(j * gridRes))
-                      .darken(Math.sin(j * 2 / ((i + 1) * 4)) * Math.cos(2 * i + j))
+                      .darken(Math.sin(j * 4 / ((i + 1) * 8)) * Math.cos(4 * i + j))
                       .hex())
 
-            if(!lastCurtainLength)
+          for(let k = 0; k < 1; k++) {
+            let curtainStringModifier = FXRandomBetween(curtainStringModiferRange[0], curtainStringModiferRange[1])
+            
+            
+            //if(f.y < 1)
+              //continue
+            
+
+            if(!lastCurtainLength) {
               lastCurtainLength = FXRandomBetween(pointHeight / 4, pointHeight / 2)
+              firstCurtainLength = lastCurtainLength
+            }
+
+            if(j == 1 && i == 0) {
+              lastCurtainLength = firstCurtainLength
+            }
 
             if(lastCurtainLength < 0)
               lastCurtainLength = 0
@@ -227,12 +283,60 @@ export default class RobinMetcalfeStyle extends Style {
               pointHeight
             ]))
             
-            p5.line(
-              curtainStart.x * this._s,
-              curtainStart.y * this._s,
-              curtainEnd.x * this._s,
-              curtainEnd.y * this._s
-            )
+            //p5.line(
+              //curtainStart.x * this._s,
+              //curtainStart.y * this._s,
+              //curtainEnd.x * this._s,
+              //curtainEnd.y * this._s
+            //)*/
+            //
+
+
+            this.lerpLine({
+              from: curtainStart,
+              to: curtainEnd,
+              fromColor: col.hex(),
+              toColor: col.saturate(2).hex(),
+              segments: gridRes
+            })
+
+            /*curtainCol = curtainCol.desaturate(1.25).brighten(1.25)
+
+            p5.stroke(curtainCol
+                      .brighten(Math.sin(j % (i + 1)) * Math.cos(j * gridRes))
+                      .darken(Math.sin(j * 4 / ((i + 1) * 8)) * Math.cos(4 * i + j))
+                      .hex())*/
+
+            /*let floorCurtainStart = v().set(prj.getProjectedPoint([
+              // make the resolution of the "curtain" effect
+              // 4 times finer than the resolution of the quad
+              f.x + (i * xRes + (k * (xRes / 4))),
+              f.y + (j * yRes),
+              isBorder ? 0.04 : 0
+            ]))
+
+            let floorCurtainEnd = v().set(prj.getProjectedPoint([
+              // make the resolution of the "curtain" effect
+              // 4 times finer than the resolution of the quad
+              f.x + (i * xRes + (k * (xRes / 4))),
+              f.y + (j * yRes),
+              (pointHeight - lastCurtainLength) - FXRandomBetween(0.01, 0.1)
+            ]))
+
+            this.lerpLine({
+              from: floorCurtainStart,
+              to: floorCurtainEnd,
+              fromColor: col.hex(),
+              toColor: col.saturate(2).hex(),
+              segments: gridRes
+            })*/
+
+            /*p5.line(
+              floorCurtainStart.x * this._s,
+              floorCurtainStart.y * this._s,
+              floorCurtainEnd.x * this._s,
+              floorCurtainEnd.y * this._s
+            )*/
 
             lastCurtainLength += curtainStringModifier
 
@@ -242,19 +346,17 @@ export default class RobinMetcalfeStyle extends Style {
       }
     }
 
-    //console.log(topQuad)
-    //p5.fill('#f00')
-    //p5.stroke('#0f0')
-    //p5.quad(...topQuad.map(i => i * this._s))
  
     return
 
 
   }
 
-  afterDraw () {}
+  afterDraw () {
+
+  }
 
   static author () { return 'Robin Metcalfe' }
 
-  static name () { return 'Robin' }
+  static name () { return 'Downtown' }
 }
