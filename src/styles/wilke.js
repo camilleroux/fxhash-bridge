@@ -79,8 +79,8 @@ export default class WilkeStyle extends Style {
       this.bgfill = '#202020'
       this.bgstipple = '#383838'
       this.inthalostipple = '#FBF9F3'
-      this.circlefill = '#AA1D1F'
-      this.circlestipple = '#CD3738'
+      this.circlefill = '#9E191A'
+      this.circlestipple = '#B32829'
       this.floordark = '#430909'
       this.floorlight = '#900E0F'
       this.borderdark = this.floordark
