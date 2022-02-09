@@ -2,23 +2,46 @@
 // Status: WIP // "WIP", "Ready"
 // Wallet: tz1XTr7d3FZ19KndZ1HX3iav8fqKeZwGx8bZ
 
+/*
+ The code for WilkeStyle is Copyright (C) 2022 by Claus O. Wilke.
+ 
+ I grant Camille Roux a permanent, irrevocable, non-exclusive,
+ license to release this code as part of the BRIDGE project under
+ the licensing terms of the entire project.
+ 
+ For all other uses, the code for WilkeStyle is released under
+ CC-BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*/
+
 import Style from './style'
 
 export default class WilkeStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    this.centerx = this._p5.random(0.47, 0.53)
-    this.centery = this._p5.random(0.25, 0.32)
-    this.radius = this._p5.random(0.20, 0.27)
     
-    if (Math.abs(this.centery - this.radius) < 0.05) this.centery += 0.05
+    // calculate vanishing points
+    this.vanishing = this._projectionCalculator3d.getProjectedPoint([0, gridSizeY, 0])
+
+    let i = 0
+    do {
+      this.centerx = this._p5.random(0.47, 0.53)
+      this.centery = this._p5.random(0.28, 0.35)
+      this.radius = this._p5.random(0.20, 0.27)
+  
+      if (Math.abs(this.centery - this.radius) < 0.05) this.centery += 0.05
+      i += 1
+    } while (i < 25 && this._p5.dist(this.centerx, this.centery, this.vanishing[0], this.vanishing[1]) > 0.8 * this.radius)
+    console.log("i:", i)
+      
     this.strokescale = this._s / 500
     console.log("Center x:", this.centerx)
     console.log("Center y:", this.centery)
     console.log("Radius:", this.radius)
-    console.log("s: ", this._s)
     
     let palette = this._p5.random(['light', 'light', 'dark', 'dark', 'dark'])
+    if (this._p5.random() < 0.1) {
+      palette = 'red'
+    }
     let highlight = this._p5.random(['red', 'blue'])
     //highlight = 'blue'
     //palette = 'dark'
@@ -27,7 +50,8 @@ export default class WilkeStyle extends Style {
     this.bgfill = '#FEFAF0'
     this.bgstipple = '#E9E5DB'
     this.circlefill = '#202020'
-    this.circlestipple = '#303030'
+    this.circlestipple = '#404040'
+    this.inthalostipple = this.bgfill
     
     this.floordark = '#000000'
     this.floorlight = this.bgfill
@@ -45,12 +69,22 @@ export default class WilkeStyle extends Style {
       this.bgstipple = '#050505'
       this.circlefill = '#FEFAF0'
       this.circlestipple = '#E9E5DB'
-    
+      this.inthalostipple = this.bgstipple
       this.floorlight = this.circlestipple
       
       if (highlight === 'blue') {
         this.borderlight = '#7287AD'
       }
+    } else if (palette === 'red') {
+      this.bgfill = '#202020'
+      this.bgstipple = '#383838'
+      this.inthalostipple = '#FBF9F3'
+      this.circlefill = '#AA1D1F'
+      this.circlestipple = '#CD3738'
+      this.floordark = '#430909'
+      this.floorlight = '#900E0F'
+      this.borderdark = this.floordark
+      this.borderlight = this.floorlight
     }
   }
   
@@ -115,7 +149,7 @@ export default class WilkeStyle extends Style {
     let radius = this._p5.random(.1, .26)
     radius *= radius
     let n = 200000 * radius
-    this.drawHaloInterior(x, y, radius, .35, this.bgstipple, n)
+    this.drawHaloInterior(x, y, radius, .35, this.inthalostipple, n)
   }
   
   beforeDraw () {
@@ -211,6 +245,11 @@ export default class WilkeStyle extends Style {
   }
 
   afterDraw () {
+    /*
+    this._p5.stroke('#FF0000')
+    this._p5.strokeWeight(20)
+    this._p5.point(this.vanishing[0] * this._s, this.vanishing[1] * this._s)
+    */
   }
 
   static author () { return 'Claus O. Wilke' }
