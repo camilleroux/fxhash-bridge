@@ -129,6 +129,7 @@ export default class RobinMetcalfeStyle extends Style {
 
     const center = this.v().set(this.prj.getProjectedPoint([0, this._gridSizeY, 0.1]))
 
+    // radial gradient
     for(let i = this._s * 2; i > 0; i--) {
       let _col
       if(lightMode)
@@ -140,6 +141,7 @@ export default class RobinMetcalfeStyle extends Style {
       this._p5.circle(center.x * this._s, center.y * this._s, i)
     }
 
+    // draw a horizon
     const horizonFrom =  this.v(center.x - 0.4, center.y)
     const horizonTo =  this.v(center.x + 0.4, center.y)
     
@@ -180,7 +182,7 @@ export default class RobinMetcalfeStyle extends Style {
       return
     }
 
-    // Shorthand vars
+    // Shorthand vars - todo:remove
     const prj = this._projectionCalculator3d
     const v = this._p5.createVector
     const p5 = this._p5
@@ -196,8 +198,8 @@ export default class RobinMetcalfeStyle extends Style {
 
     this._p5.stroke(col.desaturate((1 - rowFactor) * 3).alpha(rowFactor).hex())
     this._p5.fill(col.brighten(1).desaturate(1 - rowFactor).alpha(rowFactor * 3).hex())
-    //this._p5.fill(0, 0)
 
+    // do something more interesting with the quads
     this._p5.quad(
       t[0].x * this._s, t[0].y * this._s,
       t[1].x * this._s, t[1].y * this._s,
@@ -220,7 +222,8 @@ export default class RobinMetcalfeStyle extends Style {
       gridRes = 16
     }
 
-    if(f.y < 4)
+    // render the front rows in high detail
+    if(f.y <= 3)
       gridRes = 32
 
 
@@ -230,10 +233,9 @@ export default class RobinMetcalfeStyle extends Style {
     let height = Math.sin(f.x) + Math.cos(f.y * 4) - Math.sin((f.x + 1) % (f.y + 1))
     height = range(height, -3, 1, heightRange[0], heightRange[1])
 
-
     // A height factor to add to buildings, further back = higher
+    // Uses bezier easing
     height += FXRandomBetween(0.02, .15) * this.buildingEase(1 - f.y)
-
 
     let lastCurtainLength
 
@@ -242,7 +244,6 @@ export default class RobinMetcalfeStyle extends Style {
     if(isBorder)
       heightModifier *= FXRandomBetween(borderHeightRange[0], borderHeightRange[1])
 
-    //let col = colorRange(t[0].x)
     col = col.desaturate(range(t[0].y, 0, 1, 2, 0))
               .darken(range(t[0].y, 0, 1, 3, 0))
 
@@ -256,11 +257,8 @@ export default class RobinMetcalfeStyle extends Style {
       structureStrokeWeight = this._s / 250
     }
 
-    
-
-
-
     // For continuing the "curtain" to the left, so from x = 0
+    // Maintain the same height at the corners
     let firstCurtainLength
 
     let bubbleChance = 0
@@ -277,6 +275,8 @@ export default class RobinMetcalfeStyle extends Style {
     const bubbleAlpha = FXRandomBetween(0.2, 1)
 
 
+    // same call is used twice, as there are two seperate loops to 
+    // cater for overdrawing layers issue
     const setupPoint = (i, j) => {
       const isEdge = (j < 2 || j > gridRes - 2 || i < 2 || i > gridRes - 2)
 
@@ -318,15 +318,17 @@ export default class RobinMetcalfeStyle extends Style {
     this._p5.strokeWeight(1)
     this._p5.fill(0, 0)
 
+    /**
+     * Loop 1 - drawing the bubbles
+     */
     for(let j = 0; j <= gridRes; j++) {
       for(let i = 0; i <= gridRes; i++) {
 
 
-        // Draw the bubbles
+        // Draw the bubbles rising from the tiles
         if(FXRandomBetween(0, 1) < bubbleChance) {
-          // spawn a source of bubbles
           
-
+          // spawn a source of bubbles
           const bubbleDarken = FXRandomBetween(0, 1) * (1 - bubbleRowFactor)
           const bubbleDesaturate = FXRandomBetween(0, (j/gridRes) * 2) * (1 - bubbleRowFactor)
           const bubbleSize = [FXRandomBetween(0.2, 0.5), FXRandomBetween(0.5, 3.5)]
@@ -334,8 +336,6 @@ export default class RobinMetcalfeStyle extends Style {
           let bubbleHeight = isBorder ? BORDER_HEIGHT : 0
 
           const bubble = v().set(prj.getProjectedPoint([
-            // make the resolution of the "curtain" effect
-            // 4 times finer than the resolution of the quad
             f.x + (i * xRes),
             f.y + (j * yRes),
             0
@@ -364,22 +364,13 @@ export default class RobinMetcalfeStyle extends Style {
 
           }
 
-          
         }
-
-
-        // Draw the top part
-        // 
-        // Todo - deduplicate this!
-        
-
-        
-
-
       }
     }
 
-
+    /**
+     * Loop 2 - drawing the tops of the structures
+     */
     this._p5.strokeWeight(2 * this.sizeVar * rowFactor)
 
     for(let j = 0; j <= gridRes; j++) {
@@ -391,13 +382,15 @@ export default class RobinMetcalfeStyle extends Style {
     }
 
 
-
-
-
+    /**
+     * Loop 3 - drawing the "side curtains"
+     *
+     * This needs done entirely after drawing the tops, as otherwise
+     * the top layer can end up overlaying the sides if viewing the top
+     * from below
+     */
     for(let j = 0; j <= gridRes; j++) {
       for(let i = 0; i <= gridRes; i++) {
-
-        
 
         this._p5.strokeWeight(structureStrokeWeight * rowFactor)
 
@@ -410,8 +403,6 @@ export default class RobinMetcalfeStyle extends Style {
         // Draw ever-fainter quads the further back we go
         // Gives the impression of the front quads being more prominent
         const floorPoint = this._p5.createVector(point.x * this._s, point.y * this._s - height)
-
-
 
         if(i == 0 && j == 0) {
           //console.log(floorPoint)
@@ -452,7 +443,7 @@ export default class RobinMetcalfeStyle extends Style {
         }
 
 
-        // Draw a "curtain" effect hanging down from the front
+        // Draw a "curtain" effect hanging down from the front/sides
         // of each quad
         // 
         // Checking for !isCenter - drawing left/right walls here
