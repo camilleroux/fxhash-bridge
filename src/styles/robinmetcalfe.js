@@ -76,6 +76,10 @@ export default class RobinMetcalfeStyle extends Style {
     this.delayCenterTiles = []
     this.finishedMainDraw = false
 
+    this.start = new Date().getTime()
+    this.end
+
+
   }
 
   beforeDraw () {
@@ -88,7 +92,7 @@ export default class RobinMetcalfeStyle extends Style {
    * Draw a segmented line which fades from one colour/alpha
    * to another
    */
-  lerpLine({
+  fadeLine({
     from,
     to,
     fromColor = '#f00',
@@ -98,20 +102,24 @@ export default class RobinMetcalfeStyle extends Style {
     segments = 32,
     strokeWeight = 1,
   }) {
-    this._p5.strokeWeight(strokeWeight)
-    let lastPoint = from
-    let scale = chroma.scale([fromColor, toColor])
-    for(let i = 0; i < segments; i++) {
-      let point = p5.Vector.lerp(from, to, i / segments)
-      let a = lerp(fromAlpha, toAlpha, i / segments)
-      this._p5.stroke(scale(i / segments).alpha(a).hex())
-      this._p5.line(lastPoint.x * this._s,
-                    lastPoint.y * this._s,
-                    point.x * this._s,
-                    point.y * this._s)
-      lastPoint = point
-    }
-    
+
+    // Work directly with canvas context rather than p5.line() and alpha
+    // MUCH faster!
+    // See https://p5js.org/reference/#/p5/drawingContext
+    // and https://editor.p5js.org/odmundeetgen/sketches/qqmp0fVSK
+    const grad = this._p5.drawingContext.createLinearGradient(
+                    from.x * this._s,
+                    from.y * this._s,
+                    to.x * this._s,
+                    to.y * this._s,
+                  )
+    grad.addColorStop(0, chroma(fromColor).alpha(fromAlpha).hex())
+    grad.addColorStop(1, chroma(toColor).alpha(toAlpha).hex())
+    this._p5.drawingContext.strokeStyle = grad
+    this._p5.line(from.x * this._s,
+                    from.y * this._s,
+                    to.x * this._s,
+                    to.y * this._s)
   }
 
 
@@ -145,7 +153,7 @@ export default class RobinMetcalfeStyle extends Style {
     const horizonFrom =  this.v(center.x - 0.4, center.y)
     const horizonTo =  this.v(center.x + 0.4, center.y)
     
-    this.lerpLine({
+    this.fadeLine({
       from: horizonFrom,
       to: center,
       fromColor: pal(0.5).brighten(1).hex(),
@@ -156,7 +164,7 @@ export default class RobinMetcalfeStyle extends Style {
       segments: this.sizeVar * 100
     })
 
-    this.lerpLine({
+    this.fadeLine({
       from: center,
       to: horizonTo,
       fromColor: pal(0.75).darken(1).hex(),
@@ -223,9 +231,8 @@ export default class RobinMetcalfeStyle extends Style {
     }
 
     // render the front rows in high detail
-    if(f.y <= 3)
+    if(f.y <= 1.5)
       gridRes = 32
-
 
     const xRes = 1 / gridRes
     const yRes = 1 / gridRes
@@ -263,10 +270,10 @@ export default class RobinMetcalfeStyle extends Style {
 
     let bubbleChance = 0
 
-    let bubbleRows = 8
+    let bubbleRows = 15
 
     if(f.y < bubbleRows)
-      bubbleChance = FXRandomBetween(0.01, 0.05) * (1 - f.y / bubbleRows)
+      bubbleChance = FXRandomBetween(0.025, 0.125) * (1 - f.y / bubbleRows)
 
     let curtainDifference = FXRandomBetween(0.01, 0.1)
 
@@ -278,7 +285,7 @@ export default class RobinMetcalfeStyle extends Style {
     // same call is used twice, as there are two seperate loops to 
     // cater for overdrawing layers issue
     const setupPoint = (i, j) => {
-      const isEdge = (j < 2 || j > gridRes - 2 || i < 2 || i > gridRes - 2)
+      const isEdge = (j < 2 || j > gridRes - 1 || i < 2 || i > gridRes - 1)
 
       let additionalHeightModifier = range(Math.sin(t[0].x * 4), -1, 1, 0, 0.2)
 
@@ -309,7 +316,8 @@ export default class RobinMetcalfeStyle extends Style {
       return {
         point,
         pointCol,
-        pointHeight
+        pointHeight,
+        offset
       }
     }
 
@@ -377,7 +385,7 @@ export default class RobinMetcalfeStyle extends Style {
       for(let i = 0; i <= gridRes; i++) {
         const pointData = setupPoint(i, j)
         this._p5.stroke(pointData.pointCol.hex())
-        this._p5.circle(pointData.point.x * this._s, pointData.point.y * this._s, rowFactor * 2)
+        this._p5.circle(pointData.point.x * this._s, pointData.point.y * this._s, rowFactor)
       }
     }
 
@@ -404,44 +412,6 @@ export default class RobinMetcalfeStyle extends Style {
         // Gives the impression of the front quads being more prominent
         const floorPoint = this._p5.createVector(point.x * this._s, point.y * this._s - height)
 
-        if(i == 0 && j == 0) {
-          //console.log(floorPoint)
-          this.lerpLine({
-            from: floorPoint,
-            to: t[0].copy().mult(this._s)
-          })
-          //col = col.darken(1)
-          //topQuad.push(point.x)
-          //topQuad.push(point.y)
-        }
-        else if(i == 0 && j == gridRes) {
-          this.lerpLine({
-            from: floorPoint,
-            to: t[1].copy().mult(this._s)
-          })
-          //col = col.darken(1)
-          //topQuad.push(point.x)
-          //topQuad.push(point.y)
-        }
-        else if(i == gridRes && j == gridRes) {
-          this.lerpLine({
-            from: floorPoint,
-            to: t[2].copy().mult(this._s)
-          })
-          //col = col.darken(1)
-          //topQuad.push(point.x)
-          //topQuad.push(point.y)
-        }
-        else if(i == gridRes && j == 0) {
-          this.lerpLine({
-            from: floorPoint,
-            to: t[3].copy().mult(this._s)
-          })
-          //col = col.darken(1)
-          //topQuad.push(point.x)
-          //topQuad.push(point.y)
-        }
-
 
         // Draw a "curtain" effect hanging down from the front/sides
         // of each quad
@@ -461,21 +431,14 @@ export default class RobinMetcalfeStyle extends Style {
           }
 
           // Shine
-          const shineFactor = Math.sin(t[0].x * 2) * Math.cos(t[0].y * 4)
+          const shineFactor = Math.sin(t[0].x * 4) * Math.cos(t[0].y * 8)
           curtainCol = curtainCol.brighten(shineFactor / 3)
 
           this._p5.stroke(curtainCol
-                      //.brighten(Math.sin(j % (i + 1)) * Math.cos(j * gridRes))
-                      //.darken(Math.sin(j * 4 / ((i + 1) * 8)) * Math.cos(4 * i + j))
                       .hex())
 
           let k = 1
           let curtainStringModifier = FXRandomBetween(curtainStringModiferRange[0], curtainStringModiferRange[1])
-          
-          
-          //if(f.y < 1)
-            //continue
-          
 
           if(!lastCurtainLength) {
             lastCurtainLength = FXRandomBetween(pointHeight * 0.5, pointHeight * 0.75)
@@ -490,86 +453,28 @@ export default class RobinMetcalfeStyle extends Style {
             lastCurtainLength = 0
 
           let curtainEnd = v().set(prj.getProjectedPoint([
-            // make the resolution of the "curtain" effect
-            // 4 times finer than the resolution of the quad
             f.x + (i * xRes + (k * (xRes / 4))),
             f.y + (j * yRes),
             pointHeight - lastCurtainLength
           ]))
 
           let curtainStart = v().set(prj.getProjectedPoint([
-            // make the resolution of the "curtain" effect
-            // 4 times finer than the resolution of the quad
             f.x + (i * xRes + (k * (xRes / 4))),
             f.y + (j * yRes),
             pointHeight
           ]))
-          
-          //p5.line(
-            //curtainStart.x * this._s,
-            //curtainStart.y * this._s,
-            //curtainEnd.x * this._s,
-            //curtainEnd.y * this._s
-          //)*/
-          //
 
 
-          this.lerpLine({
+          this.fadeLine({
             from: curtainStart,
             to: curtainEnd,
             fromColor: curtainCol.hex(),
             toColor: curtainCol.saturate(2).hex(),
             segments: gridRes,
-            strokeWeight: 5 * this.sizeVar * rowFactor
+            strokeWeight: 3 * this.sizeVar * rowFactor
           })
 
-          
-
-
-          /*if(f.y < 4) {
-
-            curtainCol = curtainCol.desaturate(1.25).brighten(1.25)
-
-            this._p5.stroke(curtainCol
-                    .brighten(Math.sin(j % (i + 1)) * Math.cos(j * gridRes))
-                    .desaturate(Math.sin(j * 4 / ((i + 1) * 8)) * Math.cos(4 * i + j))
-                    .alpha(f.y / 4)
-                    .hex())
-
-            let floorCurtainStart = v().set(prj.getProjectedPoint([
-              // make the resolution of the "curtain" effect
-              // 4 times finer than the resolution of the quad
-              f.x + (i * xRes + (k * (xRes / 4))),
-              f.y + (j * yRes),
-              isBorder ? BORDER_HEIGHT : 0
-            ]))
-
-            let floorCurtainEnd = v().set(prj.getProjectedPoint([
-              // make the resolution of the "curtain" effect
-              // 4 times finer than the resolution of the quad
-              f.x + (i * xRes + (k * (xRes / 4))),
-              f.y + (j * yRes),
-              ((pointHeight - lastCurtainLength) - curtainDifference) / 2
-            ]))
-
-            this.lerpLine({
-              from: floorCurtainStart,
-              to: floorCurtainEnd,
-              fromColor: curtainCol.hex(),
-              toColor: curtainCol.saturate(2).hex(),
-              segments: gridRes
-            })
-          }
-
-          /*p5.line(
-            floorCurtainStart.x * this._s,
-            floorCurtainStart.y * this._s,
-            floorCurtainEnd.x * this._s,
-            floorCurtainEnd.y * this._s
-          )*/
-
           lastCurtainLength += curtainStringModifier
-
 
         }
 
@@ -584,6 +489,10 @@ export default class RobinMetcalfeStyle extends Style {
   }
 
   afterDraw () {
+    this.end = new Date().getTime()
+
+    console.log("Elapsed = ", this.end - this.start)
+
     this.finishedMainDraw = true
     this.delayCenterTiles.forEach(tile => {
       this.drawTile(tile.t, tile.f, tile.isBorder)
