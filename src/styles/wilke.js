@@ -31,13 +31,9 @@ export default class WilkeStyle extends Style {
       if (Math.abs(this.centery - this.radius) < 0.05) this.centery += 0.05
       i += 1
     } while (i < 25 && this._p5.dist(this.centerx, this.centery, this.vanishing[0], this.vanishing[1]) > 0.8 * this.radius)
-    console.log("i:", i)
-      
+
     this.strokescale = this._s / 500
-    console.log("Center x:", this.centerx)
-    console.log("Center y:", this.centery)
-    console.log("Radius:", this.radius)
-    
+
     let palette = this._p5.random(['red', 'green', 'purple', 'light', 'light', 'light', 'dark', 'dark', 'dark', 'dark', 'dark'])
     let highlight = this._p5.random(['red', 'blue'])
 
@@ -153,9 +149,11 @@ export default class WilkeStyle extends Style {
   
   drawRandomHaloInterior () {
     let theta
+    let i = 0
     do {
       theta = 6.283185 * this._p5.random(-20, 200) / 360
-    } while(this.checkIntAngle(theta))
+      i += 1
+    } while(i < 25 && this.checkIntAngle(theta))
     this.intAngles.push(theta)
     let r = 1.1 * this.radius * Math.sqrt(this._p5.random(.1, 1))
     let x = r * Math.cos(theta) + this.centerx
