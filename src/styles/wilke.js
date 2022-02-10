@@ -1,5 +1,5 @@
 // Claus O. Wilke
-// Status: WIP // "WIP", "Ready"
+// Status: Ready
 // Wallet: tz1XTr7d3FZ19KndZ1HX3iav8fqKeZwGx8bZ
 
 /*
@@ -38,13 +38,8 @@ export default class WilkeStyle extends Style {
     console.log("Center y:", this.centery)
     console.log("Radius:", this.radius)
     
-    let palette = this._p5.random(['light', 'light', 'dark', 'dark', 'dark'])
-    if (this._p5.random() < 0.1) {
-      palette = 'red'
-    }
+    let palette = this._p5.random(['red', 'green', 'purple', 'light', 'light', 'light', 'dark', 'dark', 'dark', 'dark', 'dark'])
     let highlight = this._p5.random(['red', 'blue'])
-    //highlight = 'blue'
-    //palette = 'dark'
 
     // light scheme
     this.bgfill = '#FEFAF0'
@@ -62,7 +57,7 @@ export default class WilkeStyle extends Style {
       this.borderdark = '#093F6E' // '#114D84'
       this.borderlight = '#406496' // '#5878A9'
     }
-    
+
     // dark scheme
     if (palette === 'dark') {
       this.bgfill = '#202020'
@@ -83,8 +78,39 @@ export default class WilkeStyle extends Style {
       this.circlestipple = '#B32829'
       this.floordark = '#430909'
       this.floorlight = '#900E0F'
+      this.borderlight = this.inthalostipple
       this.borderdark = this.floordark
+    } else if (palette === 'green') {
+      this.bgfill = '#E9EDDA'
+      this.bgstipple = '#BCCABA'
+      this.inthalostipple = '#F7FBF4'
+      this.circlefill = '#164A0A'
+      this.circlestipple = '#446739'
+      this.floordark = '#164A0A'
+      this.floorlight = '#C4C094'
+      this.borderdark = '#391C0F'
       this.borderlight = this.floorlight
+    } else if (palette === 'purple') {
+      this.bgfill = '#1E226D'
+      this.bgstipple = '#682025'
+      this.inthalostipple = '#000000'
+      this.circlefill = '#F8E921'
+      this.circlestipple = '#EA9E33'
+      this.floordark = '#6A1966'
+      this.floorlight = '#FEEF24'
+      this.borderdark = '#111661'
+      this.borderlight = '#B5AF83'
+    }
+    
+    // swap floor and border colors 25% of the time
+    if (this._p5.random() < 0.25) {
+      let temp = this.floordark
+      this.floordark = this.borderdark
+      this.borderdark = temp
+    
+      temp = this.floorlight
+      this.floorlight = this.borderlight
+      this.borderlight = temp
     }
   }
   
@@ -104,18 +130,6 @@ export default class WilkeStyle extends Style {
     }
   }
   
-  drawHalo (x0, y0, radius, sd, col = this.circlestipple, n = 50000) {
-    this._p5.stroke(col)
-    this._p5.strokeWeight(.5 * this.strokescale)
-    for (let i = 0; i < n; i++) {
-      let x = this._p5.randomGaussian(x0, sd * radius)
-      let y = this._p5.randomGaussian(y0, sd * radius)
-      if (this._p5.dist(x, y, x0, y0) >= radius) {
-        this._p5.point(x * this._s, y * this._s)
-      }
-    }
-  }
-
   drawHaloInterior (x0, y0, radius, sd, col, n) {
     this._p5.stroke(col)
     this._p5.strokeWeight(.5 * this.strokescale)
@@ -191,18 +205,11 @@ export default class WilkeStyle extends Style {
     // halo around center circle
     this._p5.stroke(this.circlestipple)
     this._p5.strokeWeight(0.5*this.strokescale)
-    for (let i = 0; i < 200000; i++) {
+    for (let i = 0; i < 800000; i++) {
       let x = this._p5.randomGaussian(this.centerx, 0.3*this.radius)
       let y = this._p5.randomGaussian(this.centery, 0.3*this.radius)
       this.drawPointExterior(x, y)
     }
-
-    /*
-    // other halos
-    this.drawHalo(.15, .2, .06, .35)
-    this.drawHalo(.9, .6, .04, .35)
-    this.drawHalo(.85, .09, .03, .35)
-    */
     
     let k = this._p5.random([2, 3, 4, 5])
     this.intAngles = []
@@ -245,11 +252,6 @@ export default class WilkeStyle extends Style {
   }
 
   afterDraw () {
-    /*
-    this._p5.stroke('#FF0000')
-    this._p5.strokeWeight(20)
-    this._p5.point(this.vanishing[0] * this._s, this.vanishing[1] * this._s)
-    */
   }
 
   static author () { return 'Claus O. Wilke' }
