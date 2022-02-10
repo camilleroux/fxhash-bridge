@@ -139,6 +139,13 @@ const sketch = function (p5) {
       return false
     }
   }
+  
+  p5.keyPressed = function () {
+    console.log(p5.keyCode)
+    if (p5.keyCode === 83) { // 83 is letter s
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png');
+    }
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
