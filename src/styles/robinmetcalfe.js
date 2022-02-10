@@ -43,8 +43,11 @@ const palettes = [
   ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#00b4d8","#0096c7","#0077b6","#023e8a","#03045e"],
   ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1","#64dfdf","#72efdd","#80ffdb"],
   ["#b7094c","#a01a58","#892b64","#723c70","#5c4d7d","#455e89","#2e6f95","#1780a1","#0091ad"],
-  ["#ff6d00","#ff7900","#ff8500","#ff9100","#ff9e00","#240046","#3c096c","#5a189a","#7b2cbf","#9d4edd"],
+  /*["#ff6d00","#ff7900","#ff8500","#ff9100","#ff9e00","#240046","#3c096c","#5a189a","#7b2cbf","#9d4edd"],*/
   ["#0b090a","#161a1d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
+  ["#006ba6","#0496ff","#ffbc42","#d81159","#8f2d56"],
+  ["#23233b","#2c4268","#007bba","#00a9e2","#7ccdf4","#bce3fa","#9b9c9b","#b2b0b0","#c5c6c6"],
+  ["#9b9c9b","#f0233d","#b01721","#212122","#121214","#b2b0b0","#c5c6c6","#ebebeb"],
 ]
 
 let pal = chroma.scale(palettes[FXRandomIntBetween(0, palettes.length)])
@@ -128,10 +131,16 @@ export default class RobinMetcalfeStyle extends Style {
   background() {
     
     let col
-    if(lightMode)
-      col = pal(1).desaturate(1.1)
-    else
-      col = pal(0).darken(1).desaturate(1.1)
+
+
+
+    if(lightMode) {
+      let paletteIndex = fxrand() > 0.5 ? 1 : 0.5
+      col = pal(paletteIndex).desaturate(1.1)
+    } else {
+      let paletteIndex = fxrand() > 0.5 ? 0 : 0.5
+      col = pal(paletteIndex).darken(1).desaturate(1.1)
+    }
     
     this._p5.strokeWeight(0)
 
@@ -231,7 +240,7 @@ export default class RobinMetcalfeStyle extends Style {
     }
 
     // render the front rows in high detail
-    if(f.y <= 1.5)
+    if(f.y <= 4)
       gridRes = 32
 
     const xRes = 1 / gridRes
@@ -281,6 +290,8 @@ export default class RobinMetcalfeStyle extends Style {
     const bubbleRowFactor = (bubbleRows - f.y) / bubbleRows // goes from 1 -> 0
     const bubbleAlpha = FXRandomBetween(0.2, 1)
 
+    // subtle differences between the "ripples" on each structure
+    const rippleVariance = FXRandomBetween(0.92, 1.08)
 
     // same call is used twice, as there are two seperate loops to 
     // cater for overdrawing layers issue
@@ -293,7 +304,9 @@ export default class RobinMetcalfeStyle extends Style {
             height + heightModifier + additionalHeightModifier + BORDER_HEIGHT :
             height + heightModifier + additionalHeightModifier
 
-      let offset = Math.sin(i / surfaceSinAdjust) * Math.cos(j / surfaceCosAdjust)
+      const adjuster = gridRes / 32
+
+      let offset = Math.sin((i / surfaceSinAdjust / adjuster) * rippleVariance) * Math.cos((j / surfaceCosAdjust / adjuster) * rippleVariance)
       pointHeight += range(offset, -1, 1, -surfaceAmplitude, surfaceAmplitude)              
       
       let pointCol
@@ -325,6 +338,7 @@ export default class RobinMetcalfeStyle extends Style {
     this._p5.stroke(col.brighten().hex())
     this._p5.strokeWeight(1)
     this._p5.fill(0, 0)
+
 
     /**
      * Loop 1 - drawing the bubbles
@@ -379,12 +393,12 @@ export default class RobinMetcalfeStyle extends Style {
     /**
      * Loop 2 - drawing the tops of the structures
      */
-    this._p5.strokeWeight(2 * this.sizeVar * rowFactor)
+    this._p5.strokeWeight(3.5 * this.sizeVar * rowFactor)
 
     for(let j = 0; j <= gridRes; j++) {
       for(let i = 0; i <= gridRes; i++) {
         const pointData = setupPoint(i, j)
-        this._p5.stroke(pointData.pointCol.hex())
+        this._p5.stroke(pointData.pointCol.brighten(pointData.offset / 4).hex())
         this._p5.circle(pointData.point.x * this._s, pointData.point.y * this._s, rowFactor)
       }
     }
