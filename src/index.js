@@ -141,6 +141,13 @@ const sketch = function (p5) {
       return false
     }
   }
+  
+  // save image when pressing 's' key
+  p5.keyPressed = function () {
+    if (p5.keyCode === 83) { // 83 is letter s
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png');
+    }
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
