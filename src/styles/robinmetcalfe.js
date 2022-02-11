@@ -1,5 +1,7 @@
 // Robin Metcalfe
 // Status: WIP // "WIP", "Ready"
+// Twitter: @solarise_webdev
+// Fxhash: https://www.fxhash.xyz/u/Robin
 // Wallet: tz1a3ZWW7sdgX3JGp3h316TvsgpiVGWFYihe
 
 import Style from './style'

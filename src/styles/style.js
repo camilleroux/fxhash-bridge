@@ -1,3 +1,5 @@
+// BRIDGE
+// Camille Roux, 2022
 export default class Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     this._gridSizeX = gridSizeX

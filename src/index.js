@@ -9,7 +9,12 @@ import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '
 import BoilerplateStyle from './styles/boilerplate'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
+import CamilleRoux2Style from './styles/camilleroux2'
+import GorikStyle from './styles/gorik'
+import WilkeStyle from './styles/wilke'
+import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
+import AnaglyphicStyle from './styles/anaglyphic'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -35,7 +40,7 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const stylesClasses = [CamilleRouxStyle, BoilerplateStyle, DemoStyle, RobinMetcalfeStyle]
+const stylesClasses = [GorikStyle, AnaglyphicStyle, PhilosophieStyle, WilkeStyle, RobinMetcalfeStyle, CamilleRoux2Style, CamilleRouxStyle, BoilerplateStyle, DemoStyle]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -87,13 +92,15 @@ const sketch = function (p5) {
         }
       }
     }
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
   }
 
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
     FXInit(fxrand)
+
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+
     p5.push()
 
     currentStyle.beforeDraw()
@@ -126,16 +133,21 @@ const sketch = function (p5) {
 
   p5.windowResized = function () {
     s = p5.min(p5.windowWidth, p5.windowHeight)
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     p5.resizeCanvas(s, s)
   }
 
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
-      currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
       this.draw()
       return false
+    }
+  }
+
+  // save image when pressing 's' key
+  p5.keyPressed = function () {
+    if (p5.keyCode === 83) { // 83 is letter s
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png')
     }
   }
 }
