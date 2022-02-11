@@ -1,6 +1,6 @@
 // Gorik Francois
 // Status: WIP // "WIP", "Ready"
-// Wallet: tz.....
+// Wallet: tz1Zjhf1JkXsjRhaxemA5CxXfsU6G9624nHR
 
 import Style from './style'
 import { FXRandomBetween, FXRandomIntBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
