@@ -73,6 +73,8 @@ export default class RobinMetcalfeStyle extends Style {
     // https://cubic-bezier.com/#.9,.2,.9,.55
     this.buildingEase = new CubicBezier(.9,.2,.9,.55)
 
+    // https://cubic-bezier.com/#1,.01,.62,.99
+    this.backgroundEase = new CubicBezier(1,.01,.62,.99)
 
     // Due to the way the tiles are drawn, the
     // center column of tiles will need redrawn after the loop
@@ -116,6 +118,7 @@ export default class RobinMetcalfeStyle extends Style {
                     to.x * this._s,
                     to.y * this._s,
                   )
+    
     grad.addColorStop(0, chroma(fromColor).alpha(fromAlpha).hex())
     grad.addColorStop(1, chroma(toColor).alpha(toAlpha).hex())
     this._p5.drawingContext.strokeStyle = grad
@@ -136,13 +139,13 @@ export default class RobinMetcalfeStyle extends Style {
 
     if(lightMode) {
       let paletteIndex = fxrand() > 0.5 ? 1 : 0.5
-      col = pal(paletteIndex).desaturate(1.1)
+      col = pal(paletteIndex).saturate(1.1)
     } else {
       let paletteIndex = fxrand() > 0.5 ? 0 : 0.5
       col = pal(paletteIndex).darken(1).desaturate(1.1)
     }
     
-    this._p5.strokeWeight(0)
+    //this._p5.strokeWeight(0)
 
     const center = this.v().set(this.prj.getProjectedPoint([0, this._gridSizeY, 0.1]))
 
@@ -169,7 +172,7 @@ export default class RobinMetcalfeStyle extends Style {
       toColor: pal(0.75).darken(1).hex(),
       fromAlpha: 0,
       toAlpha: 1,
-      strokeWeight: 1,
+      strokeWeight: 1 * this.sizeVar,
       segments: this.sizeVar * 100
     })
 
@@ -180,9 +183,38 @@ export default class RobinMetcalfeStyle extends Style {
       toColor: pal(0.5).brighten(1).hex(),
       fromAlpha: 1,
       toAlpha: 0,
-      strokeWeight: 1,
+      strokeWeight: 1 * this.sizeVar,
       segments: this.sizeVar * 100
     })
+
+    // Draw a series of lines, hill effect at random angle
+    const angle = Math.PI * 1.25 + FXRandomBetween(0, Math.PI * .5)
+    const v = center.copy().add(p5.Vector.fromAngle(angle, FXRandomBetween(0.2, 0.4)))
+    const total = FXRandomIntBetween(100, 350)
+
+    this._p5.strokeWeight(2 * this.sizeVar)
+
+    for(let i = 0; i < total; i++) {
+      const diff = (i - (total / 2)) / (total * 0.75)
+      const dist = Math.abs(diff) * 2
+
+      const from = center.copy().add(this.v(diff, 0))
+      const to = v.copy().add(this.v(diff, 0))
+
+      
+      this.fadeLine({
+        from,
+        to,
+        fromColor: pal(0.75).darken(1).hex(),
+        toColor: pal(0.5).brighten(1).hex(),
+        fromAlpha: this.backgroundEase(dist),
+        toAlpha: 0,
+        strokeWeight: 30
+      })
+    }
+
+    
+
   }
 
 
@@ -515,7 +547,7 @@ export default class RobinMetcalfeStyle extends Style {
 
   static author () { return 'Robin Metcalfe' }
 
-  static name () { return 'Cities In Flux' }
+  static name () { return 'Rise' }
 }
 
 
