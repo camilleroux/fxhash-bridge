@@ -2,6 +2,17 @@
 // Status: WIP // "WIP", "Ready"
 // Wallet: tz1Zjhf1JkXsjRhaxemA5CxXfsU6G9624nHR
 
+/*
+ The code for GorikStyle is Copyright (C) 2022 by Gorik Francois.
+
+ I grant Camille Roux a permanent, irrevocable, non-exclusive,
+ license to release this code as part of the BRIDGE project under
+ the licensing terms of the entire project.
+
+ For all other uses, the code for GorikStyle is released under
+ CC-BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*/
+
 import Style from './style'
 import { FXRandomBetween, FXRandomIntBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
 
@@ -16,32 +27,20 @@ export default class GorikStyle extends Style {
 
   beforeDraw () {
     this.bg()
-    console.log('GorikStyle')
-    this.drawBgPoly(this._s / 2, this._s / 6, this._s / 4)
+    this.drawBgPoly(this._s / 4, this._s / 4, this._s / 4)
+    this.drawBgPoly((this._s / 4) * 3, this._s / 4, this._s / 4)
   }
 
   bg () {
-    const cc = 0
+    const cc = this.getRandomColour(this.randomArray)
+    const cc2 = this.getRandomColour(this.randomArray)
     this._p5.push()
 
-    for (let y = 0; y < this._p5.height; y = y + this.randomArray.length / 2) {
-      for (let c = 1; c < this.randomArray.length; c++) {
-        const clr = this.hexToRgb(this.randomArray[cc])
-        const ns = this._p5.noise(clr.r, clr.g, clr.b)
-        const ns1 = this._p5.noise(clr.r, clr.g, clr.b)
-        const ns2 = this._p5.noise(clr.r, clr.g, clr.b)
-        this._p5.stroke(ns * clr.r, ns1 * clr.g, ns2 * clr.b, 200)
-        this._p5.rect(0, y, this._p5.width, y)
-      }
-    }
+    this._p5.background(this.addAlpha(cc, 100))
+    this._p5.fill(cc2)
 
     for (let i = 0; i < this._p5.height; i += 3) {
       for (let j = 0; j < this._p5.width; j += 3) {
-        const clr = this.hexToRgb(this.randomArray[cc])
-        const ns = this._p5.noise(clr.r, clr.g, clr.b)
-        const ns1 = this._p5.noise(clr.r, clr.g, clr.b)
-        const ns2 = this._p5.noise(clr.r, clr.g, clr.b)
-        this._p5.fill(ns * clr.r, ns1 * clr.g, ns2 * clr.b)
         this._p5.rect(i, j, 2)
       }
     }
@@ -60,8 +59,14 @@ export default class GorikStyle extends Style {
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
     const w = this._p5.dist(tilePoints[0].x, tilePoints[0].y, tilePoints[1].x, tilePoints[1].y) * this._s
     const delta = tilePoints[1].x - tilePoints[0].x
-    for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 25) {
-      this.tLine(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s, 50)
+    if (isBorder) {
+      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 20) {
+        this.line15(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s, 50)
+      }
+    } else {
+      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 15) {
+        this.tLine(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s)
+      }
     }
   }
 
@@ -81,7 +86,7 @@ export default class GorikStyle extends Style {
   }
 
   drawPolygon (points) {
-    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 100))
+    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
     // this._p5.noFill()
     this._p5.beginShape()
     for (const point of points) {
@@ -112,11 +117,19 @@ export default class GorikStyle extends Style {
     return nextPoints
   }
 
-  tLine (x1, y1, x2, y2, weight) {
-    const points = []
-    this._p5.strokeWeight(1)
+  tLine (x1, y1, x2, y2) {
+    this._p5.strokeWeight(5)
     this._p5.noFill()
-    this._p5.stroke(this.getRandomColour(this.randomArray))
+    this._p5.stroke(this.addAlpha(this.getRandomColour(this.randomArray), 150))
+    this._p5.line(x1, y1, x2, y2)
+  }
+
+  line15 (x1, y1, x2, y2, weight) {
+    const points = []
+    this._p5.strokeWeight(0.5)
+
+    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
+    this._p5.noStroke()
     points.push({
       x: x1,
       y: y1
@@ -125,26 +138,22 @@ export default class GorikStyle extends Style {
       x: x2,
       y: y2
     })
-    for (let i = 0; i < weight * 5; i++) {
-      const theta = FXRandomBetween(0, this._p5.TWO_PI)
-      const nx1 = x1 + FXRandomBetween(weight / 2) * Math.cos(theta)
-      const ny1 = y1 + FXRandomBetween(weight / 2) * Math.sin(theta)
-      const nx2 = x2 + FXRandomBetween(weight / 2) * Math.cos(theta)
-      const ny2 = y2 + FXRandomBetween(weight / 2) * Math.sin(theta)
-
-      const lval = FXRandomBetween(0, 1)
-      const px = this._p5.lerp(nx1, nx2, lval)
-      const py = this._p5.lerp(ny1, ny2, lval)
-      points.push({
-        x: px,
-        y: py
-      })
+    for (let k = 0; k < 1; k++) {
+      this._p5.beginShape()
+      this._p5.noStroke()
+      this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
+      this._p5.vertex(x1, y1)
+      for (let lval = 0; lval < 1; lval += 0.001) {
+        const px = this._p5.lerp(x1, x2, lval)
+        const py = this._p5.lerp(y1, y2, lval)
+        const p1 = this._p5.createVector(px, py)
+        const l = this._p5.createVector(y2 - y1, x1 - x2)
+        const pf = p1.add(l.normalize().mult(FXRandomBetween(-weight / 2, weight / 2)))
+        this._p5.vertex(pf.x, pf.y)
+      }
+      this._p5.vertex(x2, y2)
+      this._p5.endShape(this._p5.CLOSE)
     }
-    this._p5.beginShape()
-    for (const point of points) {
-      this._p5.vertex(point.x, point.y)
-    }
-    this._p5.endShape()
   }
 
   afterDraw () {
