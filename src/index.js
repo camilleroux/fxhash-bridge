@@ -9,9 +9,11 @@ import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '
 import BoilerplateStyle from './styles/boilerplate'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
-import WilkeStyle from './styles/wilke'
 import CamilleRoux2Style from './styles/camilleroux2'
 import GorikStyle from './styles/gorik'
+import WilkeStyle from './styles/wilke'
+import PhilosophieStyle from './styles/phil_osophie'
+import RobinMetcalfeStyle from './styles/robinmetcalfe'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -37,7 +39,7 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const stylesClasses = [WilkeStyle, CamilleRoux2Style, CamilleRouxStyle, BoilerplateStyle, DemoStyle, GorikStyle]
+const stylesClasses = [PhilosophieStyle, WilkeStyle, RobinMetcalfeStyle, CamilleRoux2Style, CamilleRouxStyle, BoilerplateStyle, DemoStyle, GorikStyle]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -138,6 +140,13 @@ const sketch = function (p5) {
       styleClassId = (styleClassId + 1) % stylesClasses.length
       this.draw()
       return false
+    }
+  }
+
+  // save image when pressing 's' key
+  p5.keyPressed = function () {
+    if (p5.keyCode === 83) { // 83 is letter s
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png');
     }
   }
 }
