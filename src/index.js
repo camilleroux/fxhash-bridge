@@ -147,7 +147,7 @@ const sketch = function (p5) {
   // save image when pressing 's' key
   p5.keyPressed = function () {
     if (p5.keyCode === 83) { // 83 is letter s
-      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png');
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png')
     }
   }
 }
