@@ -1,5 +1,7 @@
 // Anaglyphic
 // Status: "Ready"
+// Twitter: @anaglyph_ic
+// Fxhash: https://www.fxhash.xyz/u/anaglyphic
 // Wallet: tz1hkKqGk3fPPYroNagWpWsxxV3x8P8jqwp9
 
 import Style from "./style";

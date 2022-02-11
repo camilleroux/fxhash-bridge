@@ -1,5 +1,7 @@
 // Gorik Francois
 // Status: WIP // "WIP", "Ready"
+// Twitter: @anaglyph_ic
+// Fxhash: https://www.fxhash.xyz/u/gorikfr
 // Wallet: tz1Zjhf1JkXsjRhaxemA5CxXfsU6G9624nHR
 
 import Style from './style'
