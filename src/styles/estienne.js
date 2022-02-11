@@ -11,6 +11,7 @@ const palettes = [
 
 export default class EstienneStyle extends Style {
   beforeDraw() {
+    const p5 = this._p5;
     this.palettes = [
       // Cream on blue
       ["#22223b", "#c9ada7", "#f2e9e4"],
@@ -18,33 +19,32 @@ export default class EstienneStyle extends Style {
       ["#fdf0d5", "#003049", "#780000"],
     ]
 
-    this.palette = this._p5.random(this.palettes);
+    this.palette = p5.random(this.palettes);
 
     this.bgColor = this.palette.shift()
     this.strokeTileColor = this.palette.shift()
     this.strokeBorderColor = this.palette.shift()
-    this._p5.background(this.bgColor)
-    this.pylonsHeight = random()
+    p5.background(this.bgColor)
+    this.pylonsHeight = 1.1;
     this.pylonsDrawn = false
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
     const p5 = this._p5
+    const coord = frontLeftCorner3DCoord
+    const quads = []
+    const duplicates = p5.floor(p5.random(5, 20))
 
     p5.push()
 
     p5.stroke(this.strokeTileColor)
     p5.fill(this.bgColor)
+    p5.strokeWeight((1 - (coord.y / this._gridSizeY)**0.5) * this._s / 800)
 
     if (isBorder) {
       p5.stroke(this.strokeBorderColor)
     }
 
-    const coord = frontLeftCorner3DCoord
-
-    const quads = []
-
-    const duplicates = p5.floor(p5.random(5, 20))
 
     for (let i = 0; i < duplicates; i++) {
       let quadPoints = []
@@ -86,6 +86,7 @@ export default class EstienneStyle extends Style {
       )
     }
 
+    // Draw railings and cables
     if (
       isBorder &&
       !(coord.y % 2) &&
@@ -109,16 +110,18 @@ export default class EstienneStyle extends Style {
         coord.y + 1.5,
         coord.z + railHeight + railWidth
       )
+      // cables
       this.line3D(
         coord.x + 0.5,
         coord.y + 0.5,
         coord.z + railHeight + railWidth,
         coord.x + 0.5,
         this._gridSizeY / 2,
-        coord.z + 1
+        coord.z + this.pylonsHeight - 0.1
       )
     }
 
+    // Draw pylons
     if (
       window.$fxhashFeatures.borders != "none" &&
       coord.y / this._gridSizeY < 0.5 &&
@@ -132,7 +135,7 @@ export default class EstienneStyle extends Style {
         -0.1,
         -this._gridSizeX / 2 + 1,
         this._gridSizeY / 2 + 1,
-        1.1
+        this.pylonsHeight
       )
       this.boxFromCorners(
         this._gridSizeX / 2 - 1,
@@ -140,7 +143,7 @@ export default class EstienneStyle extends Style {
         -0.1,
         this._gridSizeX / 2,
         this._gridSizeY / 2 + 1,
-        1.1
+        this.pylonsHeight
       )
       this.pylonsDrawn = true
       p5.pop()
