@@ -1,7 +1,7 @@
 // Estienne
+// Status: WIP // "WIP", "Ready"
 // wallet: tz1fFaDrCytWQiycjWSAfJkyLgQcMMmFEi2y
 
-import { FXRandomIntBetween } from "@liamegan1/fxhash-helpers";
 import Style from "./style";
 
 export default class EstienneStyle extends Style {
