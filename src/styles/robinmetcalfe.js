@@ -40,17 +40,24 @@ let surfaceAmplitude = FXRandomBetween(0.001, 0.003)
 let lightMode = FXRandomBetween(0, 1) > 0.5
 
 const palettes = [
-  ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#00b4d8","#0096c7","#0077b6","#023e8a","#03045e"],
-  ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1","#64dfdf","#72efdd","#80ffdb"],
-  ["#b7094c","#a01a58","#892b64","#723c70","#5c4d7d","#455e89","#2e6f95","#1780a1","#0091ad"],
-  /*["#ff6d00","#ff7900","#ff8500","#ff9100","#ff9e00","#240046","#3c096c","#5a189a","#7b2cbf","#9d4edd"],*/
-  ["#0b090a","#161a1d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
-  ["#006ba6","#0496ff","#ffbc42","#d81159","#8f2d56"],
+  ["#d6d6d6","#ffee32","#ffd100","#202020","#333533"],
+  ["#ffe45c","#ffd60a","#e57824","#cc3333","#932525"],
+  ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#0096c7","#0077b6","#023e8a","#03147e"],
+  ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1"],
+  ["#04479f","#1368aa","#4091c9","#9dcee2","#fedfd4","#f0876a","#f36e53","#f15041","#e72923","#b60217"],
+  ["#1b191a","#363a3d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
   ["#23233b","#2c4268","#007bba","#00a9e2","#7ccdf4","#bce3fa","#9b9c9b","#b2b0b0","#c5c6c6"],
-  ["#9b9c9b","#f0233d","#b01721","#212122","#121214","#b2b0b0","#c5c6c6","#ebebeb"],
+  ["#a4161a","#f0233d","#b01721","#212122","#121214","#b2b0b0","#c5c6c6","#ebebeb"],
+  ["#f8f9fa","#e9ecef","#dee2e6","#ced4da","#adb5bd","#6c757d","#495057","#343a40","#212529"],
 ]
 
-let pal = chroma.scale(palettes[FXRandomIntBetween(0, palettes.length)])
+let chosenPalette = FXRandomIntBetween(0, palettes.length)
+// make monochrome less likely
+if(chosenPalette == 6 && fxrand() < 0.5) {
+  chosenPalette = FXRandomIntBetween(0, palettes.length)
+}
+let pal = chroma.scale(palettes[chosenPalette])
+console.log(`Selected palette = ${chosenPalette}`)
 
 export default class RobinMetcalfeStyle extends Style {
   
@@ -135,14 +142,14 @@ export default class RobinMetcalfeStyle extends Style {
     
     let col
 
-
+    let paletteIndex
 
     if(lightMode) {
-      let paletteIndex = fxrand() > 0.5 ? 1 : 0.5
-      col = pal(paletteIndex).saturate(1.1)
+      paletteIndex = fxrand() > 0.5 ? 1 : 0.5
+      col = pal(paletteIndex).desaturate(0.2)
     } else {
-      let paletteIndex = fxrand() > 0.5 ? 0 : 0.5
-      col = pal(paletteIndex).darken(1).desaturate(1.1)
+      paletteIndex = fxrand() > 0.5 ? 0 : 0.5
+      col = pal(paletteIndex).darken(0.25).desaturate(.5)
     }
     
     //this._p5.strokeWeight(0)
@@ -190,27 +197,39 @@ export default class RobinMetcalfeStyle extends Style {
     // Draw a series of lines, hill effect at random angle
     const angle = Math.PI * 1.25 + FXRandomBetween(0, Math.PI * .5)
     const v = center.copy().add(p5.Vector.fromAngle(angle, FXRandomBetween(0.2, 0.4)))
-    const total = FXRandomIntBetween(100, 350)
+    const total = FXRandomIntBetween(175, 500)
 
     this._p5.strokeWeight(2 * this.sizeVar)
 
     for(let i = 0; i < total; i++) {
-      const diff = (i - (total / 2)) / (total * 0.75)
+      const diff = (i - (total / 2)) / (total * 0.5)
       const dist = Math.abs(diff) * 2
 
       const from = center.copy().add(this.v(diff, 0))
       const to = v.copy().add(this.v(diff, 0))
 
       
-      this.fadeLine({
-        from,
-        to,
-        fromColor: pal(0.75).darken(1).hex(),
-        toColor: pal(0.5).brighten(1).hex(),
-        fromAlpha: this.backgroundEase(dist),
-        toAlpha: 0,
-        strokeWeight: 30
-      })
+      if(paletteIndex <= 0.5) {
+        this.fadeLine({
+          from,
+          to,
+          fromColor: pal(0.8).darken(1).hex(),
+          toColor: pal(0.2).brighten(1).hex(),
+          fromAlpha: this.backgroundEase(dist),
+          toAlpha: 0,
+          strokeWeight: 30
+        })
+      } else {
+        this.fadeLine({
+          from,
+          to,
+          fromColor: pal(0.2).darken(1).hex(),
+          toColor: pal(0.8).brighten(1).hex(),
+          fromAlpha: this.backgroundEase(dist),
+          toAlpha: 0,
+          strokeWeight: 30
+        })
+      }
     }
 
     
@@ -536,9 +555,6 @@ export default class RobinMetcalfeStyle extends Style {
 
   afterDraw () {
     this.end = new Date().getTime()
-
-    console.log("Elapsed = ", this.end - this.start)
-
     this.finishedMainDraw = true
     this.delayCenterTiles.forEach(tile => {
       this.drawTile(tile.t, tile.f, tile.isBorder)
