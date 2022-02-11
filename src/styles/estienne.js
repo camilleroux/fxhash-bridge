@@ -5,13 +5,12 @@
 import { FXRandomIntBetween, FXRandomOption } from "@liamegan1/fxhash-helpers"
 import Style from "./style"
 
-const palettes = [
-  
-]
+const palettes = []
 
 export default class EstienneStyle extends Style {
   beforeDraw() {
-    const p5 = this._p5;
+    const p5 = this._p5
+    p5.strokeJoin(p5.ROUND)
     this.palettes = [
       // Cream on blue
       ["#22223b", "#c9ada7", "#f2e9e4"],
@@ -19,14 +18,14 @@ export default class EstienneStyle extends Style {
       ["#fdf0d5", "#003049", "#780000"],
     ]
 
-    this.palette = p5.random(this.palettes);
+    this.palette = p5.random(this.palettes)
 
     this.bgColor = this.palette.shift()
     this.strokeTileColor = this.palette.shift()
     this.strokeBorderColor = this.palette.shift()
     p5.background(this.bgColor)
-    this.pylonsHeight = 1.1;
-    this.pylonsDrawn = false
+    this.bridgeStyle = p5.floor(p5.random(2));
+    this.pylonsHeight = 1.1
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
@@ -34,17 +33,17 @@ export default class EstienneStyle extends Style {
     const coord = frontLeftCorner3DCoord
     const quads = []
     const duplicates = p5.floor(p5.random(5, 20))
+    const strokeW = ((1 - (coord.y / this._gridSizeY) ** 0.5) * this._s) / 800
 
     p5.push()
 
     p5.stroke(this.strokeTileColor)
     p5.fill(this.bgColor)
-    p5.strokeWeight((1 - (coord.y / this._gridSizeY)**0.5) * this._s / 800)
+    p5.strokeWeight(strokeW)
 
     if (isBorder) {
       p5.stroke(this.strokeBorderColor)
     }
-
 
     for (let i = 0; i < duplicates; i++) {
       let quadPoints = []
@@ -84,11 +83,111 @@ export default class EstienneStyle extends Style {
         q[3].x * this._s,
         q[3].y * this._s
       )
+      p5.pop()
     }
 
+    if (isBorder) {
+      switch (this.bridgeStyle) {
+        case 0:
+          this.suspendedBridge(coord)
+          break
+
+        case 1:
+          this.cableStayedBridge(coord)
+          break
+      }
+    }
+
+    p5.pop()
+  }
+
+  suspendedBridge(coord) {
+    const p5 = this._p5
+
+    // Draw main cables in 2 parts (before and after pylons)
+    if (!this.mainCablesDrawn1) {
+      p5.push()
+      for (let gy = this._gridSizeY; gy > this._gridSizeY / 2; gy--) {
+        const y = 1 - gy / this._gridSizeY
+        const y1 = 1 - (gy - 1) / this._gridSizeY
+        const h0 = 0.2
+        const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
+        const h1 = h0 + p5.min(y1 ** 2, (y1 - 1) ** 2) * 4 * (1 - h0)
+        const strokeW = ((1 - (gy / this._gridSizeY) ** 0.5) * this._s) / 800
+        p5.strokeWeight(3 * strokeW)
+        this.line3D(
+          -this._gridSizeX / 2 + 0.5,
+          gy + 0.5,
+          h,
+          -this._gridSizeX / 2 + 0.5,
+          gy - 0.5,
+          h1
+        )
+        this.line3D(
+          this._gridSizeX / 2 - 0.5,
+          gy + 0.5,
+          h,
+          this._gridSizeX / 2 - 0.5,
+          gy - 0.5,
+          h1
+        )
+      }
+      this.mainCablesDrawn1 = true
+      p5.pop()
+    }
+    if (!this.mainCablesDrawn2 && this.pylonsDrawn) {
+      p5.push()
+      for (let gy = this._gridSizeY / 2; gy > -1; gy--) {
+        const y = 1 - gy / this._gridSizeY
+        const y1 = 1 - (gy - 1) / this._gridSizeY
+        const h0 = 0.2
+        const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
+        const h1 = h0 + p5.min(y1 ** 2, (y1 - 1) ** 2) * 4 * (1 - h0)
+        const strokeW = ((1 - (gy / this._gridSizeY) ** 0.5) * this._s) / 800
+        p5.strokeWeight(3 * strokeW)
+        this.line3D(
+          -this._gridSizeX / 2 + 0.5,
+          gy + 0.5,
+          h,
+          -this._gridSizeX / 2 + 0.5,
+          gy - 0.5,
+          h1
+        )
+        this.line3D(
+          this._gridSizeX / 2 - 0.5,
+          gy + 0.5,
+          h,
+          this._gridSizeX / 2 - 0.5,
+          gy - 0.5,
+          h1
+        )
+      }
+      this.mainCablesDrawn2 = true
+      p5.pop()
+    }
+
+    // Draw secondary cables
+    if (coord.x == -this._gridSizeX / 2 || coord.x == this._gridSizeX / 2 - 1) {
+      const y = 1 - (coord.y - 0.5) / this._gridSizeY
+      const h0 = 0.2
+      const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
+      this.line3D(
+        coord.x + 0.5,
+        coord.y + 0.5,
+        coord.z,
+        coord.x + 0.5,
+        coord.y + 0.5,
+        h
+      )
+    }
+
+    this.pylons(coord)
+  }
+
+  cableStayedBridge(coord) {
+    const p5 = this._p5
     // Draw railings and cables
     if (
-      isBorder &&
       !(coord.y % 2) &&
       (coord.x == -this._gridSizeX / 2 || coord.x == this._gridSizeX / 2 - 1)
     ) {
@@ -121,6 +220,11 @@ export default class EstienneStyle extends Style {
       )
     }
 
+    this.pylons(coord)
+  }
+
+  pylons(coord) {
+    const p5 = this._p5
     // Draw pylons
     if (
       window.$fxhashFeatures.borders != "none" &&
@@ -148,8 +252,6 @@ export default class EstienneStyle extends Style {
       this.pylonsDrawn = true
       p5.pop()
     }
-
-    p5.pop()
   }
 
   // Draw a projected 3D line
