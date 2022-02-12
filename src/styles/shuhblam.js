@@ -120,8 +120,8 @@ export default class ShuhblamStyle extends Style {
   afterDraw() {
     this._p5.line(0, this.y, this._s, this.y)
     this._p5.noFill();
-    var s = this._p5.random(15, 20);
-    for (var i = 0; i < this.y * 1.5; i = i + s) {
+    var s = this._p5.random(5, 20);
+    for (var i = 0; i < this.y * 1.9; i = i + s) {
       this._p5.push()
       this._p5.translate(this._s / 2, this.y)
       var r = i;
