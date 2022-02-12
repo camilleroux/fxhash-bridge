@@ -43,15 +43,15 @@ const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
   ShuhblamStyle,
-  // GorikStyle,
-  // AnaglyphicStyle,
-  // PhilosophieStyle,
-  // WilkeStyle,
-  // RobinMetcalfeStyle,
-  // CamilleRoux2Style,
-  // CamilleRouxStyle,
-  // BoilerplateStyle,
-  // DemoStyle
+  GorikStyle,
+  AnaglyphicStyle,
+  PhilosophieStyle,
+  WilkeStyle,
+  RobinMetcalfeStyle,
+  CamilleRoux2Style,
+  CamilleRouxStyle,
+  BoilerplateStyle,
+  DemoStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
