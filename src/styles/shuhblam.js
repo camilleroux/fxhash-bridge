@@ -1,6 +1,19 @@
-// Cole Gillespie aka shuhblam
-// Status: WIP
+// Cole Gillespie
+// Status: Ready
+// Twitter: @shuhblam
+// Fxhash: https://www.fxhash.xyz/u/shuhblam
 // Wallet: tz1b37erGvRoFPXBuz1DKyZwdKsxMbyt8eq1
+
+/*
+ The code for ShuhblamStyle is Copyright (C) 2022 by Matthew C. Gillespie.
+ 
+ I grant Camille Roux a permanent, irrevocable, non-exclusive,
+ license to release this code as part of the BRIDGE project under
+ the licensing terms of the entire project.
+ 
+ For all other uses, the code for ShuhblamStyle is released under
+ CC-BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*/
 import Style from './style'
 
 export default class ShuhblamStyle extends Style {

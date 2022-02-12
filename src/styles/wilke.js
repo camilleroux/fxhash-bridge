@@ -240,8 +240,8 @@ export default class WilkeStyle extends Style {
     let n = Math.sqrt(Math.max(600*(1 - 0.02*frontLeftCorner3DCoord.y), 9))
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
-        let x = (i + 0.5)/n + this._p5.randomGaussian(0, 0.2/n) - 1
-        let y = (j + 0.5)/n + this._p5.randomGaussian(0, 0.2/n) - 1
+        let x = (i + 0.5)/n + this._p5.randomGaussian(0, 0.2/n) - .5
+        let y = (j + 0.5)/n + this._p5.randomGaussian(0, 0.2/n) - .5
         let p = this._projectionCalculator3d.getProjectedPoint([x + mean.x, y + mean.y, mean.z])
         this._p5.stroke(lightcol)
         this.drawPointHalfClip(p[0] + off, p[1] + off)

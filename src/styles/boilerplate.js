@@ -12,7 +12,6 @@ export default class BoilerplateStyle extends Style {
   }
 
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
-    console.log(frontLeftCorner3DCoord, isBorder)
     this._p5.stroke('#fdfffc')
     this._p5.fill('#011627')
     this._p5.quad(tilePoints[0].x * this._s, tilePoints[0].y * this._s, tilePoints[1].x * this._s, tilePoints[1].y * this._s, tilePoints[2].x * this._s, tilePoints[2].y * this._s, tilePoints[3].x * this._s, tilePoints[3].y * this._s)
