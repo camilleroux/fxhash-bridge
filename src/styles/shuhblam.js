@@ -30,7 +30,6 @@ export default class ShuhblamStyle extends Style {
   }
 
   beforeDraw() {
-    console.log(this._s);
     this.center = this._s / 2;
     this.halfCenter = this.center / 2;
     this._p5.background('#040585');
@@ -119,7 +118,6 @@ export default class ShuhblamStyle extends Style {
   }
 
   afterDraw() {
-    console.log(this.y)
     this._p5.line(0, this.y, this._s, this.y)
     this._p5.noFill();
     var s = this._p5.random(15, 20);
