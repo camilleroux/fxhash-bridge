@@ -7,7 +7,11 @@
 import Style from './style'
 import { createCols } from '../utils'
 
-const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
+const palettes = [
+  'https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627',
+  'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc'
+]
+
 export default class DemoStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
@@ -23,7 +27,7 @@ export default class DemoStyle extends Style {
 
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
     this._p5.stroke(this.defaultColor)
-    this._p5.fill(isBorder ? this.colors[2] : this.defaultColor)
+    //this._p5.fill(isBorder ? this.colors[2] : this.defaultColor)
     this._p5.quad(tilePoints[0].x * this._s, tilePoints[0].y * this._s, tilePoints[1].x * this._s, tilePoints[1].y * this._s, tilePoints[2].x * this._s, tilePoints[2].y * this._s, tilePoints[3].x * this._s, tilePoints[3].y * this._s)
   }
 
