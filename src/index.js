@@ -5,6 +5,7 @@
 import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
+const FXR = require('fxrandomjs')
 
 import BoilerplateStyle from './styles/boilerplate'
 import ShuhblamStyle from './styles/shuhblam'
@@ -27,7 +28,8 @@ import AnaglyphicStyle from './styles/anaglyphic'
 
 // eslint-disable-next-line no-console
 console.log('By Camille Roux (@CamilleRouxArt) - ' + fxhash)
-FXInit(fxrand)
+const rnd = new FXR(fxhash, true) // reimplementation of fxrand that allows for resetting the seed
+FXInit(rnd.fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
 
@@ -109,7 +111,8 @@ const sketch = function (p5) {
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
-    FXInit(fxrand)
+    rnd.setSeed(fxhash, true)
+    FXInit(rnd.fxrand)
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
 
