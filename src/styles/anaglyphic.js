@@ -20,58 +20,58 @@ export default class AnaglyphicStyle extends Style {
       this.prj.getProjectedPoint([0, this._gridSizeY, 0.1])
     );
 
-    const horizon = window.innerHeight * center.y;
+    const horizon = this._s * center.y;
 
     this._p5.circle(
-      window.innerHeight / 2 - 5,
+      this._s / 2 - 5,
       horizon,
-      window.innerHeight / 4
+      this._s / 4
     );
 
-    this._p5.circle(window.innerHeight / 2, horizon, window.innerHeight / 4);
+    this._p5.circle(this._s / 2, horizon, this._s / 4);
 
     this._p5.fill("rgba(0,0,0,0)");
     for (let i = 0; i < 7; i++) {
       this._p5.stroke("rgb(0,255,235)");
       this._p5.circle(
-        window.innerHeight / 2,
+        this._s / 2,
         horizon,
-        (window.innerHeight * (7 - i)) / 4
+        (this._s * (7 - i)) / 4
       );
       this._p5.stroke("rgb(255,0,0)");
       this._p5.circle(
-        window.innerHeight / 2 - 5,
+        this._s / 2 - 5,
         horizon,
-        (window.innerHeight * (7 - i)) / 4
+        (this._s * (7 - i)) / 4
       );
     }
 
     for (let i = 0; i <= 18; i++) {
       this._p5.stroke("rgb(0,255,235)");
       this._p5.line(
-        window.innerHeight / 2 +
-          window.innerHeight * Math.cos((Math.PI / 9) * i), //x1
-        horizon + window.innerHeight * Math.sin((Math.PI / 9) * i), //y1
-        window.innerHeight / 2 +
-          (window.innerHeight / 8) * Math.cos((Math.PI / 9) * i), //x1,
-        horizon + (window.innerHeight / 8) * Math.sin((Math.PI / 9) * i) //y1
+        this._s / 2 +
+          this._s * Math.cos((Math.PI / 9) * i), //x1
+        horizon + this._s * Math.sin((Math.PI / 9) * i), //y1
+        this._s / 2 +
+          (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
+        horizon + (this._s / 8) * Math.sin((Math.PI / 9) * i) //y1
       );
       this._p5.stroke("rgb(255,0,0)");
       this._p5.line(
         -5 +
-          window.innerHeight / 2 +
-          window.innerHeight * Math.cos((Math.PI / 9) * i), //x1
-        horizon + window.innerHeight * Math.sin((Math.PI / 9) * i), //y1
+          this._s / 2 +
+          this._s * Math.cos((Math.PI / 9) * i), //x1
+        horizon + this._s * Math.sin((Math.PI / 9) * i), //y1
         -5 +
-          window.innerHeight / 2 +
-          (window.innerHeight / 8) * Math.cos((Math.PI / 9) * i), //x1,
-        horizon + (window.innerHeight / 8) * Math.sin((Math.PI / 9) * i) //y1
+          this._s / 2 +
+          (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
+        horizon + (this._s / 8) * Math.sin((Math.PI / 9) * i) //y1
       );
     }
     this._p5.stroke("rgba(0,0,0,0)");
     this._p5.fill("rgba(0,0,0,1)");
 
-    this._p5.square(0, horizon - window.innerHeight, window.innerHeight);
+    this._p5.square(0, horizon - this._s, this._s);
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
