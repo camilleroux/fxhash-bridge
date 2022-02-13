@@ -7,12 +7,15 @@ import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
 import BoilerplateStyle from './styles/boilerplate'
+import ShuhblamStyle from './styles/shuhblam'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
 import CamilleRoux2Style from './styles/camilleroux2'
+import GorikStyle from './styles/gorik'
 import WilkeStyle from './styles/wilke'
 import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
+import AnaglyphicStyle from './styles/anaglyphic'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -38,7 +41,18 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const stylesClasses = [PhilosophieStyle, WilkeStyle, RobinMetcalfeStyle, CamilleRoux2Style, CamilleRouxStyle, BoilerplateStyle, DemoStyle]
+const stylesClasses = [
+  ShuhblamStyle,
+  GorikStyle,
+  AnaglyphicStyle,
+  PhilosophieStyle,
+  WilkeStyle,
+  RobinMetcalfeStyle,
+  CamilleRoux2Style,
+  CamilleRouxStyle,
+  BoilerplateStyle,
+  DemoStyle
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -141,11 +155,11 @@ const sketch = function (p5) {
       return false
     }
   }
-  
+
   // save image when pressing 's' key
   p5.keyPressed = function () {
     if (p5.keyCode === 83) { // 83 is letter s
-      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png');
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png')
     }
   }
 }

@@ -1,5 +1,7 @@
 // Robin Metcalfe
 // Status: WIP // "WIP", "Ready"
+// Twitter: @solarise_webdev
+// Fxhash: https://www.fxhash.xyz/u/Robin
 // Wallet: tz1a3ZWW7sdgX3JGp3h316TvsgpiVGWFYihe
 
 import Style from './style'
@@ -40,14 +42,24 @@ let surfaceAmplitude = FXRandomBetween(0.001, 0.003)
 let lightMode = FXRandomBetween(0, 1) > 0.5
 
 const palettes = [
-  ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#00b4d8","#0096c7","#0077b6","#023e8a","#03045e"],
-  ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1","#64dfdf","#72efdd","#80ffdb"],
-  ["#b7094c","#a01a58","#892b64","#723c70","#5c4d7d","#455e89","#2e6f95","#1780a1","#0091ad"],
-  ["#ff6d00","#ff7900","#ff8500","#ff9100","#ff9e00","#240046","#3c096c","#5a189a","#7b2cbf","#9d4edd"],
-  ["#0b090a","#161a1d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
+  ["#d6d6d6","#ffee32","#ffd100","#202020","#333533"],
+  ["#ffe45c","#ffd60a","#e57824","#cc3333","#932525"],
+  ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#0096c7","#0077b6","#023e8a","#03147e"],
+  ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1"],
+  ["#04479f","#1368aa","#4091c9","#9dcee2","#fedfd4","#f0876a","#f36e53","#f15041","#e72923","#b60217"],
+  ["#1b191a","#363a3d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
+  ["#23233b","#2c4268","#007bba","#00a9e2","#7ccdf4","#bce3fa","#9b9c9b","#b2b0b0","#c5c6c6"],
+  ["#a4161a","#f0233d","#b01721","#212122","#121214","#b2b0b0","#c5c6c6","#ebebeb"],
+  ["#f8f9fa","#e9ecef","#dee2e6","#ced4da","#adb5bd","#6c757d","#495057","#343a40","#212529"],
 ]
 
-let pal = chroma.scale(palettes[FXRandomIntBetween(0, palettes.length)])
+let chosenPalette = FXRandomIntBetween(0, palettes.length)
+// make monochrome less likely
+if(chosenPalette == 6 && fxrand() < 0.5) {
+  chosenPalette = FXRandomIntBetween(0, palettes.length)
+}
+let pal = chroma.scale(palettes[chosenPalette])
+console.log(`Selected palette = ${chosenPalette}`)
 
 export default class RobinMetcalfeStyle extends Style {
   
@@ -70,6 +82,8 @@ export default class RobinMetcalfeStyle extends Style {
     // https://cubic-bezier.com/#.9,.2,.9,.55
     this.buildingEase = new CubicBezier(.9,.2,.9,.55)
 
+    // https://cubic-bezier.com/#1,.01,.62,.99
+    this.backgroundEase = new CubicBezier(1,.01,.62,.99)
 
     // Due to the way the tiles are drawn, the
     // center column of tiles will need redrawn after the loop
@@ -113,6 +127,7 @@ export default class RobinMetcalfeStyle extends Style {
                     to.x * this._s,
                     to.y * this._s,
                   )
+    
     grad.addColorStop(0, chroma(fromColor).alpha(fromAlpha).hex())
     grad.addColorStop(1, chroma(toColor).alpha(toAlpha).hex())
     this._p5.drawingContext.strokeStyle = grad
@@ -128,12 +143,18 @@ export default class RobinMetcalfeStyle extends Style {
   background() {
     
     let col
-    if(lightMode)
-      col = pal(1).desaturate(1.1)
-    else
-      col = pal(0).darken(1).desaturate(1.1)
+
+    let paletteIndex
+
+    if(lightMode) {
+      paletteIndex = fxrand() > 0.5 ? 1 : 0.5
+      col = pal(paletteIndex).desaturate(0.2)
+    } else {
+      paletteIndex = fxrand() > 0.5 ? 0 : 0.5
+      col = pal(paletteIndex).darken(0.25).desaturate(.5)
+    }
     
-    this._p5.strokeWeight(0)
+    //this._p5.strokeWeight(0)
 
     const center = this.v().set(this.prj.getProjectedPoint([0, this._gridSizeY, 0.1]))
 
@@ -160,7 +181,7 @@ export default class RobinMetcalfeStyle extends Style {
       toColor: pal(0.75).darken(1).hex(),
       fromAlpha: 0,
       toAlpha: 1,
-      strokeWeight: 1,
+      strokeWeight: 1 * this.sizeVar,
       segments: this.sizeVar * 100
     })
 
@@ -171,9 +192,50 @@ export default class RobinMetcalfeStyle extends Style {
       toColor: pal(0.5).brighten(1).hex(),
       fromAlpha: 1,
       toAlpha: 0,
-      strokeWeight: 1,
+      strokeWeight: 1 * this.sizeVar,
       segments: this.sizeVar * 100
     })
+
+    // Draw a series of lines, hill effect at random angle
+    const angle = Math.PI * 1.25 + FXRandomBetween(0, Math.PI * .5)
+    const v = center.copy().add(p5.Vector.fromAngle(angle, FXRandomBetween(0.2, 0.4)))
+    const total = FXRandomIntBetween(175, 500)
+
+    this._p5.strokeWeight(2 * this.sizeVar)
+
+    for(let i = 0; i < total; i++) {
+      const diff = (i - (total / 2)) / (total * 0.5)
+      const dist = Math.abs(diff) * 2
+
+      const from = center.copy().add(this.v(diff, 0))
+      const to = v.copy().add(this.v(diff, 0))
+
+      
+      if(paletteIndex <= 0.5) {
+        this.fadeLine({
+          from,
+          to,
+          fromColor: pal(0.8).darken(1).hex(),
+          toColor: pal(0.2).brighten(1).hex(),
+          fromAlpha: this.backgroundEase(dist),
+          toAlpha: 0,
+          strokeWeight: 30
+        })
+      } else {
+        this.fadeLine({
+          from,
+          to,
+          fromColor: pal(0.2).darken(1).hex(),
+          toColor: pal(0.8).brighten(1).hex(),
+          fromAlpha: this.backgroundEase(dist),
+          toAlpha: 0,
+          strokeWeight: 30
+        })
+      }
+    }
+
+    
+
   }
 
 
@@ -231,7 +293,7 @@ export default class RobinMetcalfeStyle extends Style {
     }
 
     // render the front rows in high detail
-    if(f.y <= 1.5)
+    if(f.y <= 4)
       gridRes = 32
 
     const xRes = 1 / gridRes
@@ -281,6 +343,8 @@ export default class RobinMetcalfeStyle extends Style {
     const bubbleRowFactor = (bubbleRows - f.y) / bubbleRows // goes from 1 -> 0
     const bubbleAlpha = FXRandomBetween(0.2, 1)
 
+    // subtle differences between the "ripples" on each structure
+    const rippleVariance = FXRandomBetween(0.92, 1.08)
 
     // same call is used twice, as there are two seperate loops to 
     // cater for overdrawing layers issue
@@ -293,7 +357,9 @@ export default class RobinMetcalfeStyle extends Style {
             height + heightModifier + additionalHeightModifier + BORDER_HEIGHT :
             height + heightModifier + additionalHeightModifier
 
-      let offset = Math.sin(i / surfaceSinAdjust) * Math.cos(j / surfaceCosAdjust)
+      const adjuster = gridRes / 32
+
+      let offset = Math.sin((i / surfaceSinAdjust / adjuster) * rippleVariance) * Math.cos((j / surfaceCosAdjust / adjuster) * rippleVariance)
       pointHeight += range(offset, -1, 1, -surfaceAmplitude, surfaceAmplitude)              
       
       let pointCol
@@ -325,6 +391,7 @@ export default class RobinMetcalfeStyle extends Style {
     this._p5.stroke(col.brighten().hex())
     this._p5.strokeWeight(1)
     this._p5.fill(0, 0)
+
 
     /**
      * Loop 1 - drawing the bubbles
@@ -379,12 +446,12 @@ export default class RobinMetcalfeStyle extends Style {
     /**
      * Loop 2 - drawing the tops of the structures
      */
-    this._p5.strokeWeight(2 * this.sizeVar * rowFactor)
+    this._p5.strokeWeight(3.5 * this.sizeVar * rowFactor)
 
     for(let j = 0; j <= gridRes; j++) {
       for(let i = 0; i <= gridRes; i++) {
         const pointData = setupPoint(i, j)
-        this._p5.stroke(pointData.pointCol.hex())
+        this._p5.stroke(pointData.pointCol.brighten(pointData.offset / 4).hex())
         this._p5.circle(pointData.point.x * this._s, pointData.point.y * this._s, rowFactor)
       }
     }
@@ -490,9 +557,6 @@ export default class RobinMetcalfeStyle extends Style {
 
   afterDraw () {
     this.end = new Date().getTime()
-
-    console.log("Elapsed = ", this.end - this.start)
-
     this.finishedMainDraw = true
     this.delayCenterTiles.forEach(tile => {
       this.drawTile(tile.t, tile.f, tile.isBorder)
@@ -501,7 +565,7 @@ export default class RobinMetcalfeStyle extends Style {
 
   static author () { return 'Robin Metcalfe' }
 
-  static name () { return 'Cities In Flux' }
+  static name () { return 'Rise' }
 }
 
 

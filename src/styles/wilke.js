@@ -1,5 +1,7 @@
 // Claus O. Wilke
 // Status: Ready
+// Twitter: @ClausWilke
+// Fxhash: https://www.fxhash.xyz/u/clauswilke
 // Wallet: tz1XTr7d3FZ19KndZ1HX3iav8fqKeZwGx8bZ
 
 /*

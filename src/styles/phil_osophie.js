@@ -1,5 +1,7 @@
 // phil_osophie
 // Status: WIP
+// Twitter: @phil_osophie
+// Fxhash: https://www.fxhash.xyz/u/phil_osophie
 // Wallet: phil-osophie.tez
 
 import Style from './style'
