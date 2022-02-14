@@ -15,7 +15,7 @@ import CamilleRoux2Style from './styles/camilleroux2'
 import GorikStyle from './styles/gorik'
 import WilkeStyle from './styles/wilke'
 import PhilosophieStyle from './styles/phil_osophie'
-//import RobinMetcalfeStyle from './styles/robinmetcalfe'
+import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
 import DavidEsqStyle from './styles/davidesq'
 
@@ -46,7 +46,6 @@ const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
   DavidEsqStyle,
-  
   ShuhblamStyle,
   GorikStyle,
   AnaglyphicStyle,
