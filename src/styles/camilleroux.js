@@ -1,5 +1,7 @@
 // Camille Roux
 // Status: WIP // "WIP", "Ready"
+// Twitter: @camillerouxart
+// Fxhash: https://www.fxhash.xyz/u/Camille%20Roux
 // Wallet: tz1WEZkz46AZmGbW32qwUHsdA2PBBATgixth
 
 import Style from './style'

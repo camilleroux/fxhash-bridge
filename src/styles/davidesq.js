@@ -1,5 +1,7 @@
 // David Esq.
 // Status: Ready // "WIP", "Ready"
+// Twitter: @emcyze
+// Fxhash: https://www.fxhash.xyz/u/David%20Esq
 // Wallet: tz1PQNPx5AtjN6ff3GW52MPdS1qumLXzhHN4
 
 import Style from './style'

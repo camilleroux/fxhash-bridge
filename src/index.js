@@ -5,10 +5,18 @@
 import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
+const FXR = require('fxrandomjs')
 
 import BoilerplateStyle from './styles/boilerplate'
+import ShuhblamStyle from './styles/shuhblam'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
+import CamilleRoux2Style from './styles/camilleroux2'
+import GorikStyle from './styles/gorik'
+import WilkeStyle from './styles/wilke'
+import PhilosophieStyle from './styles/phil_osophie'
+//import RobinMetcalfeStyle from './styles/robinmetcalfe'
+import AnaglyphicStyle from './styles/anaglyphic'
 import DavidEsqStyle from './styles/davidesq'
 
 // note about the fxrand() function
@@ -21,7 +29,8 @@ import DavidEsqStyle from './styles/davidesq'
 
 // eslint-disable-next-line no-console
 console.log('By Camille Roux (@CamilleRouxArt) - ' + fxhash)
-FXInit(fxrand)
+const rnd = new FXR(fxhash, true) // reimplementation of fxrand that allows for resetting the seed
+FXInit(rnd.fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
 
@@ -35,9 +44,19 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-//const stylesClasses = [CamilleRouxStyle, BoilerplateStyle, DemoStyle, DavidEsqStyle]
-const stylesClasses = [DavidEsqStyle]
-
+const stylesClasses = [
+  DavidEsqStyle,
+  ShuhblamStyle,
+  GorikStyle,
+  AnaglyphicStyle,
+  PhilosophieStyle,
+  WilkeStyle,
+  RobinMetcalfeStyle,
+  CamilleRoux2Style,
+  CamilleRouxStyle,
+  BoilerplateStyle,
+  DemoStyle
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -89,13 +108,16 @@ const sketch = function (p5) {
         }
       }
     }
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
   }
 
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
-    FXInit(fxrand)
+    rnd.setSeed(fxhash, true)
+    FXInit(rnd.fxrand)
+
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
+
     p5.push()
 
     currentStyle.beforeDraw()
@@ -128,16 +150,21 @@ const sketch = function (p5) {
 
   p5.windowResized = function () {
     s = p5.min(p5.windowWidth, p5.windowHeight)
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     p5.resizeCanvas(s, s)
   }
 
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
-      currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
       this.draw()
       return false
+    }
+  }
+
+  // save image when pressing 's' key
+  p5.keyPressed = function () {
+    if (p5.keyCode === 83) { // 83 is letter s
+      p5.saveCanvas(`BRIDGE-${fxhash}`, 'png')
     }
   }
 }
