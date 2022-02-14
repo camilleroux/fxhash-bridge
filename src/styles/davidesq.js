@@ -36,8 +36,7 @@ export default class s extends Style {
     this._p5.drawingContext.fillStyle = this.bgColor;
     this._p5.ellipseMode(this._p5.CENTER);
     this._p5.angleMode(this._p5.DEGREES);
-
-    // add the blury effect
+// add the blury effect
     this._p5.drawingContext.shadowBlur = 50;
     this._p5.drawingContext.shadowColor = this.my_palette[0];
 
