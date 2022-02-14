@@ -1,5 +1,5 @@
 // Estienne
-// Status: WIP // "WIP", "Ready"
+// Status: WIP
 // wallet: tz1fFaDrCytWQiycjWSAfJkyLgQcMMmFEi2y
 
 import { FXRandomIntBetween, FXRandomOption } from "@liamegan1/fxhash-helpers"
@@ -12,23 +12,45 @@ const palettes = []
 export default class EstienneStyle extends Style {
   beforeDraw() {
     const p5 = this._p5
-    p5.strokeJoin(p5.ROUND)
+
+    // Reset the random and noise seeds each time
+    if (!this.seed) this.seed = p5.random(9999999999)
+    p5.noiseSeed(this.seed)
+    p5.randomSeed(this.seed)
+
+    // Calculate size ratio to get consistent results across all resolutions
+    this.ratio = this._s / 800
+
+    // Custom Palettes
+    // [0]: background color, [1]: default color, [2]: accent color, [3]: color variation
     this.palettes = [
-      // Cream on blue
-      ["#f2e9e4", "#22223b", "#d62828"],
-      // White and red on dark gray
-      ["#fdf0d5", "#003049", "#780000"],
+      // brown and green on cream
+      ["#f4ece2", "#562c2c", "#687259", 20],
+      // Teal and burgundy on cream
+      ["#fdf0d5", "#003049", "#780000", 50],
+      // Cyan and pink on black
+      ['#161a1d', '#17c3b2', '#f15bb5', 30],
+      // Black and Gray on white
+      ['#e9ecef', '#6c757d', '#212529', 20]
     ]
 
     this.palette = p5.random(this.palettes)
 
-    this.bgColor = this.palette.shift()
-    this.strokeTileColor = this.palette.shift()
-    this.strokeBorderColor = this.palette.shift()
+    this.bgColor = this.palette[0]
+    this.strokeTileColor = this.palette[1]
+    this.strokeBorderColor = this.palette[2]
+    this.colorVar = this.palette[3]
+
     p5.background(this.bgColor)
+
+    // Select a bridge style (cable-stayed or suspended)
+    // shown only when borders are active
     this.bridgeStyle = p5.floor(p5.random(2))
+
+    // Probability of switched colors applied to the tiles and buildings
+    this.switchedColors = p5.random([0, 0.3, 0.5])
+    
     this.pylonsHeight = 1.1
-    this.colorVar = 30
 
     p5.push()
     p5.stroke(this.strokeTileColor)
@@ -42,12 +64,14 @@ export default class EstienneStyle extends Style {
     const coord = frontLeftCorner3DCoord
     const quads = []
     const duplicates = p5.floor(p5.random(5, 12))
-    this.strokeW =
-      0.05 + ((1 - (coord.y / this._gridSizeY) ** 0.5) * this._s) / 800
+    this.strokeW = 0.05 + (1 - (coord.y / this._gridSizeY) ** 0.5) * this.ratio
 
     p5.push()
 
-    p5.stroke(this.strokeTileColor)
+    let currentColor
+    if (p5.random() > this.switchedColors) currentColor = this.strokeTileColor
+    else currentColor = this.strokeBorderColor
+
     p5.fill(this.bgColor)
     p5.strokeWeight(this.strokeW)
 
@@ -78,7 +102,7 @@ export default class EstienneStyle extends Style {
 
     for (let q of quads) {
       p5.push()
-      let c = p5.color(isBorder ? this.strokeBorderColor : this.strokeTileColor)
+      let c = p5.color(isBorder ? this.strokeBorderColor : currentColor)
       c.setAlpha(q[4])
       p5.stroke(c)
       let bg = p5.color(this.bgColor)
@@ -110,6 +134,10 @@ export default class EstienneStyle extends Style {
     }
 
     p5.pop()
+  }
+
+  afterDraw() {
+    this.paperVignette()
   }
 
   suspendedBridge(coord) {
@@ -271,7 +299,8 @@ export default class EstienneStyle extends Style {
     c.setAlpha(50)
     this._p5.stroke(c)
     for (let y = this._gridSizeY; y >= 0; y -= 0.5) {
-      this.strokeW = this._p5.map(y, 0, this._gridSizeY, 2, 0.05, true)
+      this.strokeW =
+        this._p5.map(y, 0, this._gridSizeY, 2, 0.05, true) * this.ratio
       this._p5.strokeWeight(this.strokeW)
       this.line3D(
         this._p5.random(-6 * this._gridSizeX, 6 * this._gridSizeX),
@@ -287,14 +316,14 @@ export default class EstienneStyle extends Style {
     // Draw sun
     this._p5.push()
     this._p5.stroke(this.strokeBorderColor)
-    this.strokeW = (0.5 * this._s) / 800
+    this.strokeW = 0.5 * this.ratio
     this._p5.strokeWeight(this.strokeW)
     let x = this._p5.random(-this._gridSizeX * 4, this._gridSizeX * 4)
     this.xzCircle(x, this._gridSizeY, 2.5, 20, 32)
-    this._p5.pop();
+    this._p5.pop()
 
-    // Draw Buildings
-    this.strokeW = (0.3 * this._s) / 800
+    // Draw city base
+    this.strokeW = 0.3 * this.ratio
     this._p5.strokeWeight(this.strokeW)
     this.boxFromCorners(
       -this._gridSizeX * 6.2,
@@ -304,14 +333,14 @@ export default class EstienneStyle extends Style {
       0.9 * this._gridSizeY,
       0
     )
+
+    // Draw Buildings
     for (let y = this._gridSizeY * 3; y > this._gridSizeY; y -= 0.1) {
-      this.strokeW = this._p5.map(
-        y,
-        this._gridSizeY * 3,
-        this._gridSizeY,
-        0.05,
-        0.2
-      )
+      if (this._p5.random() > this.switchedColors) this._p5.stroke(this.strokeTileColor)
+      else this._p5.stroke(this.strokeBorderColor)
+      this.strokeW =
+        this._p5.map(y, this._gridSizeY * 3, this._gridSizeY, 0.05, 0.2) *
+        this.ratio
       this._p5.strokeWeight(this.strokeW)
       let s = this._p5.random(1, 4)
       let x1 =
@@ -341,7 +370,7 @@ export default class EstienneStyle extends Style {
     }
   }
 
-  // Draw a random line
+  // Draw a random line // UNUSED
   line_random(...args) {
     let d = this.strokeW * 5
     let l = 4
@@ -360,7 +389,7 @@ export default class EstienneStyle extends Style {
 
   // Draw a noise line
   line(x1, y1, x2, y2) {
-    let d = (15 * this._s) / 800 //this.strokeW * 30
+    let d = 15 * this.ratio
     let l = 4
     this._p5.push()
     let c = this._p5.color(this._p5.drawingContext.strokeStyle)
@@ -374,16 +403,32 @@ export default class EstienneStyle extends Style {
       c.levels[3] / (0.5 * l)
     )
     for (let i = 0; i < l; i++) {
-      let rx1 = x1 + d * (this._p5.noise(x1, y1 + x1, 4.71 * i) - 0.5)
-      let ry1 = y1 + d * (this._p5.noise(y1, y1 + x1, 4.71 * i) - 0.5)
-      let rx2 = x2 + d * (this._p5.noise(x2, x2 + y2, 4.71 * i) - 0.5)
-      let ry2 = y2 + d * (this._p5.noise(y2, x2 + y2, 4.71 * i) - 0.5)
+      let rx1 =
+        x1 +
+        d *
+          (this._p5.noise(x1 / this.ratio, (y1 + x1) / this.ratio, 4.71 * i) -
+            0.5)
+      let ry1 =
+        y1 +
+        d *
+          (this._p5.noise(y1 / this.ratio, (y1 + x1) / this.ratio, 4.71 * i) -
+            0.5)
+      let rx2 =
+        x2 +
+        d *
+          (this._p5.noise(x2 / this.ratio, (x2 + y2) / this.ratio, 4.71 * i) -
+            0.5)
+      let ry2 =
+        y2 +
+        d *
+          (this._p5.noise(y2 / this.ratio, (x2 + y2) / this.ratio, 4.71 * i) -
+            0.5)
       this._p5.line(rx1, ry1, rx2, ry2)
     }
     this._p5.pop()
   }
 
-  // Draw a dotted line
+  // Draw a dotted line // UNUSED
   line_dotted(x1, y1, x2, y2) {
     this._p5.rectMode(this._p5.CENTER)
     let d = this._p5.drawingContext.lineWidth * 2
@@ -514,7 +559,25 @@ export default class EstienneStyle extends Style {
     }
   }
 
-  afterDraw() {}
+  paperVignette() {
+    // Creates a radial gradient fill
+    let grad = this._p5.drawingContext.createRadialGradient(
+      this._s / 2,
+      this._s / 2,
+      0.4 * this._s,
+      this._s / 2,
+      this._s / 2,
+      0.6 * this._s
+    )
+    let col1 = this._p5.color(this.bgColor)
+    let col2 = this._p5.color(this.bgColor)
+    col1.setAlpha(0)
+    grad.addColorStop(0, col1)
+    grad.addColorStop(1, col2)
+    this._p5.drawingContext.fillStyle = grad
+    this._p5.noStroke()
+    this._p5.circle(this._s / 2, this._s / 2, 2 * this._s)
+  }
 
   static author() {
     return "Estienne"
