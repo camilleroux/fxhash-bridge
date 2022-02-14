@@ -1,10 +1,7 @@
 // Estienne
-// Status: WIP
+// Status: Ready
 // wallet: tz1fFaDrCytWQiycjWSAfJkyLgQcMMmFEi2y
 
-import { FXRandomIntBetween, FXRandomOption } from "@liamegan1/fxhash-helpers"
-import { random } from "chroma-js"
-import p5 from "p5"
 import Style from "./style"
 
 const palettes = []
@@ -152,7 +149,7 @@ export default class EstienneStyle extends Style {
         const h0 = 0.2
         const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
         const h1 = h0 + p5.min(y1 ** 2, (y1 - 1) ** 2) * 4 * (1 - h0)
-        p5.strokeWeight(4 * this.strokeW)
+        p5.strokeWeight(8 * this.strokeW)
         this.line3D(
           -this._gridSizeX / 2 + 0.5,
           gy + 0.5,
