@@ -3,6 +3,8 @@
 // wallet: tz1fFaDrCytWQiycjWSAfJkyLgQcMMmFEi2y
 
 import { FXRandomIntBetween, FXRandomOption } from "@liamegan1/fxhash-helpers"
+import { random } from "chroma-js"
+import p5 from "p5"
 import Style from "./style"
 
 const palettes = []
@@ -13,7 +15,7 @@ export default class EstienneStyle extends Style {
     p5.strokeJoin(p5.ROUND)
     this.palettes = [
       // Cream on blue
-      ["#22223b", "#c9ada7", "#f2e9e4"],
+      ["#f2e9e4", "#22223b", "#d62828"],
       // White and red on dark gray
       ["#fdf0d5", "#003049", "#780000"],
     ]
@@ -24,28 +26,36 @@ export default class EstienneStyle extends Style {
     this.strokeTileColor = this.palette.shift()
     this.strokeBorderColor = this.palette.shift()
     p5.background(this.bgColor)
-    this.bridgeStyle = p5.floor(p5.random(2));
+    this.bridgeStyle = p5.floor(p5.random(2))
     this.pylonsHeight = 1.1
+    this.colorVar = 30
+
+    p5.push()
+    p5.stroke(this.strokeTileColor)
+    p5.fill(this.bgColor)
+    this.bgCity()
+    p5.pop()
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
     const p5 = this._p5
     const coord = frontLeftCorner3DCoord
     const quads = []
-    const duplicates = p5.floor(p5.random(5, 20))
-    const strokeW = ((1 - (coord.y / this._gridSizeY) ** 0.5) * this._s) / 800
+    const duplicates = p5.floor(p5.random(5, 12))
+    this.strokeW =
+      0.05 + ((1 - (coord.y / this._gridSizeY) ** 0.5) * this._s) / 800
 
     p5.push()
 
     p5.stroke(this.strokeTileColor)
     p5.fill(this.bgColor)
-    p5.strokeWeight(strokeW)
+    p5.strokeWeight(this.strokeW)
 
     if (isBorder) {
       p5.stroke(this.strokeBorderColor)
     }
 
-    for (let i = 0; i < duplicates; i++) {
+    for (let i = 0; i <= duplicates; i++) {
       let quadPoints = []
       ;[
         [coord.x, coord.y],
@@ -62,18 +72,19 @@ export default class EstienneStyle extends Style {
         )
         quadPoints.push(v)
       }, this)
-      quadPoints[4] = p5.lerpColor(
-        p5.color(this.bgColor),
-        p5.color(isBorder ? this.strokeBorderColor : this.strokeTileColor),
-        (i / duplicates) ** 2
-      )
+      quadPoints[4] = 255 * (i / duplicates) ** 2
       quads.push(quadPoints)
     }
 
     for (let q of quads) {
       p5.push()
-      p5.stroke(q[4])
-      p5.quad(
+      let c = p5.color(isBorder ? this.strokeBorderColor : this.strokeTileColor)
+      c.setAlpha(q[4])
+      p5.stroke(c)
+      let bg = p5.color(this.bgColor)
+      bg.setAlpha(q[4])
+      p5.fill(bg)
+      this.quad(
         q[0].x * this._s,
         q[0].y * this._s,
         q[1].x * this._s,
@@ -113,8 +124,7 @@ export default class EstienneStyle extends Style {
         const h0 = 0.2
         const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
         const h1 = h0 + p5.min(y1 ** 2, (y1 - 1) ** 2) * 4 * (1 - h0)
-        const strokeW = ((1 - (gy / this._gridSizeY) ** 0.5) * this._s) / 800
-        p5.strokeWeight(3 * strokeW)
+        p5.strokeWeight(4 * this.strokeW)
         this.line3D(
           -this._gridSizeX / 2 + 0.5,
           gy + 0.5,
@@ -143,8 +153,7 @@ export default class EstienneStyle extends Style {
         const h0 = 0.2
         const h = h0 + p5.min(y ** 2, (y - 1) ** 2) * 4 * (1 - h0)
         const h1 = h0 + p5.min(y1 ** 2, (y1 - 1) ** 2) * 4 * (1 - h0)
-        const strokeW = ((1 - (gy / this._gridSizeY) ** 0.5) * this._s) / 800
-        p5.strokeWeight(3 * strokeW)
+        p5.strokeWeight(4 * this.strokeW)
         this.line3D(
           -this._gridSizeX / 2 + 0.5,
           gy + 0.5,
@@ -223,15 +232,16 @@ export default class EstienneStyle extends Style {
     this.pylons(coord)
   }
 
+  // Draw pylons
   pylons(coord) {
     const p5 = this._p5
-    // Draw pylons
     if (
       window.$fxhashFeatures.borders != "none" &&
       coord.y / this._gridSizeY < 0.5 &&
       !this.pylonsDrawn
     ) {
       p5.push()
+      p5.strokeWeight(2 * this.strokeW)
       p5.stroke(this.strokeBorderColor)
       this.boxFromCorners(
         -this._gridSizeX / 2,
@@ -254,9 +264,163 @@ export default class EstienneStyle extends Style {
     }
   }
 
+  bgCity() {
+    // Draw water
+    this._p5.push()
+    let c = this._p5.color(this.strokeTileColor)
+    c.setAlpha(50)
+    this._p5.stroke(c)
+    for (let y = 3 * this._gridSizeY; y >= 0; y -= 0.5) {
+      this.strokeW = this._p5.map(y, 0, this._gridSizeY, 2, 0.05, true)
+      this._p5.strokeWeight(this.strokeW)
+      this.line3D(
+        this._p5.random(-6 * this._gridSizeX, 6 * this._gridSizeX),
+        y,
+        -0.2,
+        this._p5.random(-6 * this._gridSizeX, 6 * this._gridSizeX),
+        y,
+        -0.2
+      )
+    }
+    this._p5.pop()
+    
+    // Draw sun
+    this.strokeW = (0.5 * this._s) / 800
+    this._p5.strokeWeight(this.strokeW)
+    let x = this._p5.random(-this._gridSizeX * 4, this._gridSizeX * 4)
+      this.xzCircle(x, this._gridSizeY, 2.5, this._s / 40, 32)
+
+    // Draw Buildings
+    this.strokeW = (0.5 * this._s) / 800
+    this._p5.strokeWeight(this.strokeW)
+    this.boxFromCorners(
+      -this._gridSizeX * 5.2,
+      this._gridSizeY * 3,
+      -0.2,
+      this._gridSizeX * 5.2,
+      0.9 * this._gridSizeY,
+      0
+    )
+    for (let y = this._gridSizeY * 3; y > this._gridSizeY; y -= 0.1) {
+      this.strokeW = this._p5.map(
+        y,
+        this._gridSizeY * 3,
+        this._gridSizeY,
+        0.05,
+        0.2
+      )
+      this._p5.strokeWeight(this.strokeW)
+      let s = this._p5.random(1, 4)
+      let x1 =
+        this._p5.random([-1, 1]) *
+          this._p5.random(this._gridSizeX / 2, this._gridSizeX * 5) -
+        s / 2
+      let y1 = y
+      let z1 = 0
+      let x2 = x1 + s
+      let y2 = y1 + s
+      let z2 = 1 + this._p5.random() ** 3 * 2
+      this.boxFromCorners(x1, y1, z1, x2, y2, z2)
+    }
+  }
+
+  // Draw a circle in the XZ plane
+  xzCircle(x, y, z, diam, steps = 32) {
+    const aOffset = this._p5.random(this._p5.TWO_PI)
+    for (let i = 0; i <= steps; i++) {
+      const a0 = (i * this._p5.TWO_PI) / steps + aOffset
+      const a1 = ((i + 1) * this._p5.TWO_PI) / steps + aOffset
+      const x0 = x + 0.5 * diam * this._p5.cos(a0)
+      const z0 = z + 0.5 * diam * this._p5.sin(a0) / this._gridSizeX
+      const x1 = x + 0.5 * diam * this._p5.cos(a1)
+      const z1 = z + 0.5 * diam * this._p5.sin(a1) / this._gridSizeX
+      this.line3D(x0, y, z0, x1, y, z1)
+    }
+  }
+
+  // Draw a random line
+  line_random(...args) {
+    let d = this.strokeW * 5
+    let l = 4
+    this._p5.push()
+    let c = this._p5.color(this._p5.drawingContext.strokeStyle)
+    c.levels = c.levels.map(
+      (x) => x + this._p5.random(-this.colorVar, this.colorVar)
+    )
+    this._p5.stroke(c.levels[0], c.levels[1], c.levels[2], c.levels[3] / l)
+    for (let i = 0; i < l; i++) {
+      args = args.map((x) => x + this._p5.random(-d, d))
+      this._p5.line(...args)
+    }
+    this._p5.pop()
+  }
+
+  // Draw a noise line
+  line(x1, y1, x2, y2) {
+    let d = (15 * this._s) / 800 //this.strokeW * 30
+    let l = 4
+    this._p5.push()
+    let c = this._p5.color(this._p5.drawingContext.strokeStyle)
+    c.levels = c.levels.map(
+      (x) => x + this._p5.random(-this.colorVar, this.colorVar)
+    )
+    this._p5.stroke(
+      c.levels[0],
+      c.levels[1],
+      c.levels[2],
+      c.levels[3] / (0.5 * l)
+    )
+    for (let i = 0; i < l; i++) {
+      let rx1 = x1 + d * (this._p5.noise(x1, y1 + x1, 4.71 * i) - 0.5)
+      let ry1 = y1 + d * (this._p5.noise(y1, y1 + x1, 4.71 * i) - 0.5)
+      let rx2 = x2 + d * (this._p5.noise(x2, x2 + y2, 4.71 * i) - 0.5)
+      let ry2 = y2 + d * (this._p5.noise(y2, x2 + y2, 4.71 * i) - 0.5)
+      this._p5.line(rx1, ry1, rx2, ry2)
+    }
+    this._p5.pop()
+  }
+
+  // Draw a dotted line
+  line_dotted(x1, y1, x2, y2) {
+    this._p5.rectMode(this._p5.CENTER)
+    let d = this._p5.drawingContext.lineWidth * 2
+    let l = (1600 * this._p5.dist(x1, y1, x2, y2)) / this._s
+    this._p5.push()
+    let c = this._p5.color(this._p5.drawingContext.strokeStyle)
+    c.levels = c.levels.map(
+      (x) => x + this._p5.random(-this.colorVar, this.colorVar)
+    )
+    this._p5.noStroke()
+    this._p5.fill(c.levels[0], c.levels[1], c.levels[2], c.levels[3] / 2)
+    for (let i = 0; i < 1; i += 1 / l) {
+      if (this._p5.random() < 0.5)
+        this._p5.circle(
+          this._p5.lerp(x1, x2, i),
+          this._p5.lerp(y1, y2, i),
+          this._p5.random(d / 2, d * 2)
+        )
+    }
+    this._p5.pop()
+  }
+
+  // Draw a quad using the custom line method
+  quad(x1, y1, x2, y2, x3, y3, x4, y4) {
+    this._p5.push()
+    this._p5.noStroke()
+    this._p5.quad(x1, y1, x2, y2, x3, y3, x4, y4)
+    this._p5.pop()
+    this._p5.push()
+    this._p5.noFill()
+    this.line(x1, y1, x2, y2)
+    this.line(x2, y2, x3, y3)
+    this.line(x3, y3, x4, y4)
+    this.line(x4, y4, x1, y1)
+    this._p5.pop()
+  }
+
   // Draw a projected 3D line
   line3D(x1, y1, z1, x2, y2, z2) {
-    this._p5.line(
+    this.line(
       ...this._projectionCalculator3d
         .getProjectedPoint([x1, y1, z1])
         .map((x) => x * this._s),
@@ -334,7 +498,7 @@ export default class EstienneStyle extends Style {
     )
 
     for (let p of pointList) {
-      this._p5.quad(
+      this.quad(
         p[0][0] * this._s,
         p[0][1] * this._s,
         p[1][0] * this._s,
