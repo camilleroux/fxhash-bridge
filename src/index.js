@@ -5,8 +5,10 @@
 import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
+const FXR = require('fxrandomjs')
 
 import BoilerplateStyle from './styles/boilerplate'
+import ShuhblamStyle from './styles/shuhblam'
 import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
 import CamilleRoux2Style from './styles/camilleroux2'
@@ -16,6 +18,7 @@ import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
 import frederativeStyle from './styles/frederative'
+import DavidEsqStyle from './styles/davidesq'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -27,7 +30,8 @@ import frederativeStyle from './styles/frederative'
 
 // eslint-disable-next-line no-console
 console.log('By Camille Roux (@CamilleRouxArt) - ' + fxhash)
-FXInit(fxrand)
+const rnd = new FXR(fxhash, true) // reimplementation of fxrand that allows for resetting the seed
+FXInit(rnd.fxrand)
 const seed = ~~(fxrand() * 123456789)
 let s
 
@@ -41,7 +45,20 @@ const borders = getWeightedOption([
 const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
-const stylesClasses = [frederativeStyle, GorikStyle, AnaglyphicStyle, PhilosophieStyle, WilkeStyle, RobinMetcalfeStyle, CamilleRoux2Style, CamilleRouxStyle, BoilerplateStyle, DemoStyle]
+const stylesClasses = [
+  frederativeStyle,
+  DavidEsqStyle,
+  ShuhblamStyle,
+  GorikStyle,
+  AnaglyphicStyle,
+  PhilosophieStyle,
+  WilkeStyle,
+  RobinMetcalfeStyle,
+  CamilleRoux2Style,
+  CamilleRouxStyle,
+  BoilerplateStyle,
+  DemoStyle
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -98,7 +115,8 @@ const sketch = function (p5) {
   p5.draw = function () {
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
-    FXInit(fxrand)
+    rnd.setSeed(fxhash, true)
+    FXInit(rnd.fxrand)
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
 
