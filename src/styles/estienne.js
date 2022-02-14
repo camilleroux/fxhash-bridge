@@ -246,7 +246,7 @@ export default class EstienneStyle extends Style {
       this.boxFromCorners(
         -this._gridSizeX / 2,
         this._gridSizeY / 2,
-        -0.1,
+        -0.2,
         -this._gridSizeX / 2 + 1,
         this._gridSizeY / 2 + 1,
         this.pylonsHeight
@@ -254,7 +254,7 @@ export default class EstienneStyle extends Style {
       this.boxFromCorners(
         this._gridSizeX / 2 - 1,
         this._gridSizeY / 2,
-        -0.1,
+        -0.2,
         this._gridSizeX / 2,
         this._gridSizeY / 2 + 1,
         this.pylonsHeight
@@ -270,7 +270,7 @@ export default class EstienneStyle extends Style {
     let c = this._p5.color(this.strokeTileColor)
     c.setAlpha(50)
     this._p5.stroke(c)
-    for (let y = 3 * this._gridSizeY; y >= 0; y -= 0.5) {
+    for (let y = this._gridSizeY; y >= 0; y -= 0.5) {
       this.strokeW = this._p5.map(y, 0, this._gridSizeY, 2, 0.05, true)
       this._p5.strokeWeight(this.strokeW)
       this.line3D(
@@ -283,21 +283,24 @@ export default class EstienneStyle extends Style {
       )
     }
     this._p5.pop()
-    
+
     // Draw sun
+    this._p5.push()
+    this._p5.stroke(this.strokeBorderColor)
     this.strokeW = (0.5 * this._s) / 800
     this._p5.strokeWeight(this.strokeW)
     let x = this._p5.random(-this._gridSizeX * 4, this._gridSizeX * 4)
-      this.xzCircle(x, this._gridSizeY, 2.5, this._s / 40, 32)
+    this.xzCircle(x, this._gridSizeY, 2.5, 20, 32)
+    this._p5.pop();
 
     // Draw Buildings
-    this.strokeW = (0.5 * this._s) / 800
+    this.strokeW = (0.3 * this._s) / 800
     this._p5.strokeWeight(this.strokeW)
     this.boxFromCorners(
-      -this._gridSizeX * 5.2,
+      -this._gridSizeX * 6.2,
       this._gridSizeY * 3,
       -0.2,
-      this._gridSizeX * 5.2,
+      this._gridSizeX * 6.2,
       0.9 * this._gridSizeY,
       0
     )
@@ -313,7 +316,7 @@ export default class EstienneStyle extends Style {
       let s = this._p5.random(1, 4)
       let x1 =
         this._p5.random([-1, 1]) *
-          this._p5.random(this._gridSizeX / 2, this._gridSizeX * 5) -
+          this._p5.random(this._gridSizeX / 2, this._gridSizeX * 6) -
         s / 2
       let y1 = y
       let z1 = 0
@@ -331,9 +334,9 @@ export default class EstienneStyle extends Style {
       const a0 = (i * this._p5.TWO_PI) / steps + aOffset
       const a1 = ((i + 1) * this._p5.TWO_PI) / steps + aOffset
       const x0 = x + 0.5 * diam * this._p5.cos(a0)
-      const z0 = z + 0.5 * diam * this._p5.sin(a0) / this._gridSizeX
+      const z0 = z + (0.5 * diam * this._p5.sin(a0)) / this._gridSizeX
       const x1 = x + 0.5 * diam * this._p5.cos(a1)
-      const z1 = z + 0.5 * diam * this._p5.sin(a1) / this._gridSizeX
+      const z1 = z + (0.5 * diam * this._p5.sin(a1)) / this._gridSizeX
       this.line3D(x0, y, z0, x1, y, z1)
     }
   }
