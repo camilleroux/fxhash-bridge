@@ -17,6 +17,7 @@ import WilkeStyle from './styles/wilke'
 import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
+import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 
 // note about the fxrand() function
@@ -45,6 +46,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  frederativeStyle,
   DavidEsqStyle,
   ShuhblamStyle,
   GorikStyle,
