@@ -1,5 +1,5 @@
 // Robin Metcalfe
-// Status: WIP // "WIP", "Ready"
+// Status: Ready
 // Twitter: @solarise_webdev
 // Fxhash: https://www.fxhash.xyz/u/Robin
 // Wallet: tz1a3ZWW7sdgX3JGp3h316TvsgpiVGWFYihe
@@ -45,7 +45,6 @@ const palettes = [
   ["#d6d6d6","#ffee32","#ffd100","#202020","#333533"],
   ["#ffe45c","#ffd60a","#e57824","#cc3333","#932525"],
   ["#ff5400","#ff6d00","#ff8500","#ff9100","#ff9e00","#0096c7","#0077b6","#023e8a","#03147e"],
-  ["#7400b8","#6930c3","#5e60ce","#5390d9","#4ea8de","#48bfe3","#56cfe1"],
   ["#04479f","#1368aa","#4091c9","#9dcee2","#fedfd4","#f0876a","#f36e53","#f15041","#e72923","#b60217"],
   ["#1b191a","#363a3d","#660708","#a4161a","#ba181b","#e5383b","#b1a7a6","#d3d3d3","#f5f3f4","#ffffff"],
   ["#23233b","#2c4268","#007bba","#00a9e2","#7ccdf4","#bce3fa","#9b9c9b","#b2b0b0","#c5c6c6"],
@@ -54,10 +53,6 @@ const palettes = [
 ]
 
 let chosenPalette = FXRandomIntBetween(0, palettes.length)
-// make monochrome less likely
-if(chosenPalette == 6 && fxrand() < 0.5) {
-  chosenPalette = FXRandomIntBetween(0, palettes.length)
-}
 let pal = chroma.scale(palettes[chosenPalette])
 console.log(`Selected palette = ${chosenPalette}`)
 
