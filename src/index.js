@@ -5,7 +5,6 @@
 import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
-const FXR = require('fxrandomjs')
 
 import BoilerplateStyle from './styles/boilerplate'
 import ShuhblamStyle from './styles/shuhblam'
@@ -20,6 +19,8 @@ import AnaglyphicStyle from './styles/anaglyphic'
 import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
+
+const FXR = require('fxrandomjs')
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
