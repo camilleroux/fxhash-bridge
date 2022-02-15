@@ -119,7 +119,8 @@ export default class ElsifStyle extends Style {
         let saturation = pg.saturation(color);
 
         pg.rotateX(pg.PI / 3);
-        pg.translate(-this._s / 2, Math.max(this.far[1] - this._s / 2 + 2 * maxZ, 0));
+        const yoffset = this.config.wormhole == 0 ? 1.5 : 2;
+        pg.translate(-this._s / 2, Math.max(this.far[1] - this._s / 2 + yoffset * maxZ, 0));
         pg.pointLight(0, 0, 100, maxZ / 2, -maxZ, maxZ);
         let getZ = function (x, y) {
             return maxZ - pg.noise(x * noiseStep, y * noiseStep) * maxZ * 2;
