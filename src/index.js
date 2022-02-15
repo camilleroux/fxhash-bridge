@@ -19,6 +19,7 @@ import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
 import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
+import EstienneStyle from './styles/estienne'
 
 // note about the fxrand() function
 // when the "fxhash" is always the same, it will generate the same sequence of
@@ -46,6 +47,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  EstienneStyle,
   frederativeStyle,
   DavidEsqStyle,
   ShuhblamStyle,
@@ -121,6 +123,14 @@ const sketch = function (p5) {
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
 
     p5.push()
+
+    // restore default p5 modes to prevent changes across styles
+    p5.colorMode(p5.RGB)
+    p5.ellipseMode(p5.CENTER)
+    p5.rectMode(p5.CORNER)
+    p5.blendMode(p5.BLEND)
+    p5.imageMode(p5.CORNER)
+    p5.angleMode(p5.RADIANS)
 
     currentStyle.beforeDraw()
 
