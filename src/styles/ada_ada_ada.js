@@ -10,8 +10,9 @@ const fettepalette = (() => { const y = Object.defineProperty; const C = Math.po
 console.log(fettepalette)
 
 const words = ['BRIDGE', 'PONT', 'BRO', 'BRÜCKE', 'BRUG', 'PUENTE', 'МОСТ', '橋', '다리', 'PONTE', 'पुल']
+
 let word = 'BRIDGE'
-let letterCount = 0
+const letterCount = 0
 const palette = fettepalette.generateRandomColorRamp({
   total: 9,
   centerHue: fxrand() * 360,
@@ -35,10 +36,6 @@ export default class AdaAdaAdaStyle extends Style {
       [-this._gridSizeX / 2, this._gridSizeY, 0]).map(x => x * s)
     this.farSize = this.far[0] - farLeft[0]
     this.focal = [this.far[0], this.far[1] - this.farSize]
-    console.log('this.focal', this.focal)
-    // const wormhole = Math.floor(p5.random() * 4)
-    // const palette = p5.random([0, 0, 0, 1, 2])
-    // this.colors = createCols(palettes[palette])
   }
 
   beforeDraw () {
@@ -57,10 +54,10 @@ export default class AdaAdaAdaStyle extends Style {
     this.drawDisc(bgRadius, bgStroke, palette.dark[1], palette.dark[3], sunEdges)
 
     const circleRadius = this._s / 4
-    const circleStroke = 5
+    const circleStroke = circleRadius / (Math.PI * 3)
     // Draw sun
     this._p5.colorMode(this._p5.HSL, 360, 100, 100)
-    this.drawDisc(circleRadius, circleStroke, palette.dark[4], palette.dark[8], sunEdges)
+    this.drawDisc(circleRadius, circleStroke, palette.dark[4], palette.dark[6], sunEdges)
   }
 
   drawDisc (circleRadius, circleStroke, fetteDiscStart, fetteDiscEnd, edges) {
@@ -94,27 +91,113 @@ export default class AdaAdaAdaStyle extends Style {
 
     this._p5.fill(fillColor)
     this._p5.noStroke()
-    // this._p5.textFont(font)
-    this._p5.textSize(5)
-    const middleX = tilePoints[0].x + (tilePoints[2].x - tilePoints[0].x) / 2
-    const middleY = tilePoints[2].y + (tilePoints[0].y - tilePoints[2].y) / 2
-    this._p5.push()
-    this._p5.translate(middleX * this._s, middleY * this._s)
-    const matrix = [
-      1, 0.5 - middleX, // X
-      0, 0.5 - middleY, // Y
-      0, 0 // Z
-    ]
-    // this._p5.applyMatrix(matrix)
-    const letter = word === 'पुल' ? 'पुल' : word.charAt(letterCount)
-    this._p5.text(word, 0, 0)
-    this._p5.pop()
 
-    letterCount++
-    letterCount = letterCount % word.length
+    const BLVector = this._p5.createVector(tilePoints[0].x * this._s, tilePoints[0].y * this._s)
+    const TLVector = this._p5.createVector(tilePoints[1].x * this._s, tilePoints[1].y * this._s)
+    const TRVector = this._p5.createVector(tilePoints[2].x * this._s, tilePoints[2].y * this._s)
+    const BRVector = this._p5.createVector(tilePoints[3].x * this._s, tilePoints[3].y * this._s)
+
+    const halfwayBottomPos = BLVector.copy().lerp(BRVector, 0.5)
+    const halfwayTopPos = TLVector.copy().lerp(TRVector, 0.5)
+    this._p5.stroke(fillColor)
+    this._p5.strokeWeight(1)
+    this._p5.line(TLVector.x, TLVector.y, BLVector.x, BLVector.y)
+    this._p5.line(TRVector.x, TRVector.y, BRVector.x, BRVector.y)
+
+    this._p5.fill(fillColor)
+    this._p5.noStroke()
+    const textSize = this._p5.map(tilePoints[0].y, 0, 1, 0.1, 10)
+    this._p5.textSize(Math.floor(textSize))
+
+    const wordCount = word.length
+    for (let i = 0; i <= wordCount; i++) {
+      const mappedPos = halfwayBottomPos.copy().lerp(halfwayTopPos, i / wordCount)
+      this._p5.push()
+      this._p5.translate(mappedPos.x, mappedPos.y)
+      this._p5.applyMatrix([
+        1, 0,
+        (mappedPos.x / this._s) - 0.5, 1,
+        0, 0
+      ])
+      this._p5.text(word.charAt(wordCount - i), 0, 0)
+      this._p5.pop()
+    }
   }
 
-  afterDraw () {}
+  dither (type, threshold) {
+    // source adapted from: https://github.com/meemoo/meemooapp/blob/44236a29574812026407c0288ab15390e88b556a/src/nodes/image-monochrome-worker.js
+
+    if (threshold === undefined) threshold = 128
+
+    const w = this._p5.width
+    let newPixel, err
+
+    const bayerThresholdMap = [
+      [15, 135, 45, 165],
+      [195, 75, 225, 105],
+      [60, 180, 30, 150],
+      [240, 120, 210, 90]
+    ]
+
+    const lumR = []
+    const lumG = []
+    const lumB = []
+
+    this._p5.loadPixels()
+
+    for (let i = 0; i < 256; i++) {
+      lumR[i] = i * 0.299
+      lumG[i] = i * 0.587
+      lumB[i] = i * 0.114
+    }
+
+    for (let i = 0; i <= this._p5.pixels.length; i += 4) {
+      this._p5.pixels[i] = Math.floor(lumR[this._p5.pixels[i]] + lumG[this._p5.pixels[i + 1]] + lumB[this._p5.pixels[i + 2]])
+    }
+
+    for (let i = 0; i <= this._p5.pixels.length; i += 4) {
+      if (type === 'none') {
+        // No dithering
+        this._p5.pixels[i] = this._p5.pixels[i] < threshold ? 0 : 255
+      } else if (type === 'bayer') {
+        // 4x4 Bayer ordered dithering algorithm
+        const x = i / 4 % w
+        const y = Math.floor(i / 4 / w)
+        const map = Math.floor((this._p5.pixels[i] + bayerThresholdMap[x % 4][y % 4]) / 2)
+        this._p5.pixels[i] = (map < threshold) ? 0 : 255
+      } else if (type === 'floydsteinberg') {
+        // Floyd–Steinberg dithering algorithm
+        newPixel = this._p5.pixels[i] < 129 ? 0 : 255
+        err = Math.floor((this._p5.pixels[i] - newPixel) / 16)
+        this._p5.pixels[i] = newPixel
+        this._p5.pixels[i + 4] += err * 7
+        this._p5.pixels[i + 4 * w - 4] += err * 3
+        this._p5.pixels[i + 4 * w] += err * 5
+        this._p5.pixels[i + 4 * w + 4] += err * 1
+      } else {
+        // Bill Atkinson's dithering algorithm
+        newPixel = this._p5.pixels[i] < 129 ? 0 : 255
+        err = Math.floor((this._p5.pixels[i] - newPixel) / 8)
+        this._p5.pixels[i] = newPixel
+
+        this._p5.pixels[i + 4] += err
+        this._p5.pixels[i + 8] += err
+        this._p5.pixels[i + 4 * w - 4] += err
+        this._p5.pixels[i + 4 * w] += err
+        this._p5.pixels[i + 4 * w + 4] += err
+        this._p5.pixels[i + 8 * w] += err
+      }
+
+      // Set g and b pixels equal to r
+      // this._p5.pixels[i + 1] = this._p5.pixels[i + 2] = this._p5.pixels[i]
+    }
+    this._p5.updatePixels()
+    // return out
+  }
+
+  afterDraw () {
+    this.dither('floydsteinberg')
+  }
 
   static author () { return 'Ada Ada Ada' }
 
