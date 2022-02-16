@@ -19,6 +19,7 @@ import AnaglyphicStyle from './styles/anaglyphic'
 import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
+import Makio64Style from './styles/makio64'
 
 const FXR = require('fxrandomjs')
 
@@ -60,7 +61,8 @@ const stylesClasses = [
   CamilleRoux2Style,
   CamilleRouxStyle,
   BoilerplateStyle,
-  DemoStyle
+  DemoStyle,
+  Makio64Style
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
