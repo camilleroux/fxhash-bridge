@@ -20,6 +20,7 @@ import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import ElsifStyle from './styles/elsif'
+import AdaAdaAdaStyle from './styles/ada_ada_ada'
 
 const FXR = require('fxrandomjs')
 
@@ -49,6 +50,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  AdaAdaAdaStyle,
   ElsifStyle,
   EstienneStyle,
   frederativeStyle,
@@ -64,7 +66,8 @@ const stylesClasses = [
   BoilerplateStyle,
   DemoStyle
 ]
-let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
+// let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
+let styleClassId = 0
 let currentStyle
 
 // defining features
