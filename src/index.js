@@ -20,6 +20,7 @@ import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import ElsifStyle from './styles/elsif'
+import MandyBrigwellStyle from './styles/mandybrigwell'
 
 const FXR = require('fxrandomjs')
 
@@ -62,8 +63,9 @@ const stylesClasses = [
   CamilleRoux2Style,
   CamilleRouxStyle,
   BoilerplateStyle,
-  DemoStyle
-]
+  DemoStyle,
+  MandyBrigwellStyle
+  ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
