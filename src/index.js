@@ -122,6 +122,7 @@ const sketch = function (p5) {
   }
 
   p5.draw = function () {
+    p5.resizeCanvas(s, s, true);
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
     rnd.setSeed(fxhash, true)
