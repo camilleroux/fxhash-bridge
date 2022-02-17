@@ -22,6 +22,7 @@ import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
+import AzeemStyle from './styles/azeem'
 
 const FXR = require('fxrandomjs')
 
@@ -65,6 +66,7 @@ const stylesClasses = [
   CamilleRouxStyle,
   BoilerplateStyle,
   DemoStyle,
+  AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle
 ]

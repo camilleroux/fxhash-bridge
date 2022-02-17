@@ -6,7 +6,7 @@
 
 import Style from './style'
 
-export default class BoilerplateStyle extends Style {
+export default class AzeemStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.xc=0
