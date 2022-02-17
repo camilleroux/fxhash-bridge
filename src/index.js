@@ -65,9 +65,9 @@ const stylesClasses = [
   CamilleRouxStyle,
   BoilerplateStyle,
   DemoStyle,
-  Makio64Style
+  Makio64Style,
   MandyBrigwellStyle
-  ]
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
