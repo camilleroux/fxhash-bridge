@@ -46,7 +46,58 @@ export default class GorikStyle extends Style {
         this._p5.rect(i, j, 2)
       }
     }
+    this._p5.noStroke()
+    this.drawMist(this.createShapes(300))
+    this.drawMist(this.createShapes(150))
+    this.drawMist(this.createShapes(0))
     this._p5.pop()
+  }
+
+  createShapes (f) {
+    const offset = this._p5.random(-400, 400)
+    const stretchedPentagon = [
+      this._p5.createVector(this._p5.width * 0.85 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
+      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
+      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.85 + offset),
+      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
+      this._p5.createVector(this._p5.width * 0.3 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
+      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset),
+      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.1 + offset),
+      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset)
+    ]
+    return stretchedPentagon
+  }
+
+  drawMist (arr) {
+    for (let j = 0; j < 80; j += 1) {
+      const shape = this.polygon(arr, 1)
+      this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 5))
+      this._p5.beginShape()
+      for (const i of shape) {
+        this._p5.vertex(i.x, i.y)
+      }
+      this._p5.endShape(this._p5.CLOSE)
+    }
+  }
+
+  polygon (shape, depth) {
+    if (depth >= 7) {
+      return shape
+    } else {
+      const nextShape = []
+      for (const i in shape) {
+        nextShape.push(shape[i])
+        let next = this._p5.int(i) + 1
+        if (next > shape.length - 1) next = 0
+        const middle = this._p5.createVector((shape[next].x + shape[i].x) / 2
+          , (shape[next].y + shape[i].y) / 2)
+        const dx = this._p5.randomGaussian(0, 100)
+        const dy = this._p5.randomGaussian(0, 100)
+        middle.add(dx, dy)
+        nextShape.push(middle)
+      }
+      return this.polygon(nextShape, depth + 1)
+    }
   }
 
   drawBgPoly (cx, cy, w) {
@@ -110,9 +161,9 @@ export default class GorikStyle extends Style {
       const nextY = pointA.y + percentage * diffY
 
       nextPoints.push({
-        x: nextX,
-        y: nextY
-      }
+          x: nextX,
+          y: nextY
+        }
       )
     }
 
@@ -209,10 +260,10 @@ export default class GorikStyle extends Style {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
     return result
       ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      }
       : null
   }
 
