@@ -16,7 +16,7 @@ import WilkeStyle from './styles/wilke'
 import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
-import frederativeStyle from './styles/frederative'
+import FrederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
@@ -53,7 +53,7 @@ const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 const stylesClasses = [
   ElsifStyle,
   EstienneStyle,
-  frederativeStyle,
+  FrederativeStyle,
   DavidEsqStyle,
   ShuhblamStyle,
   GorikStyle,

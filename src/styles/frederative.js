@@ -13,7 +13,7 @@
 
 import Style from './style'
 
-export default class frederativeStyle extends Style {
+export default class FrederativeStyle extends Style {
   constructor(gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.backgroundColor = 0;//this.colors.pop()
