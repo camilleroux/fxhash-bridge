@@ -3,7 +3,16 @@
 // Twitter: @rvig_art
 // Fxhash: https://www.fxhash.xyz/u/rvig
 // Wallet: tz1LBs6F9tZ4Qdf4vvCF9ikjeyHaQmmAW3Yu
+/*
+ The code for RVigStyle is Copyright (C) 2022 by Richard Vigniel.
 
+ I grant Camille Roux a permanent, irrevocable, non-exclusive,
+ license to release this code as part of the BRIDGE project under
+ the licensing terms of the entire project.
+
+ For all other uses, the code for RVigStyle is released under
+ CC-BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*/
 import Style from './style'
 import { FXRandomBetween, FXRandomIntBetween } from '@liamegan1/fxhash-helpers'
 

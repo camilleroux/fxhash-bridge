@@ -69,7 +69,6 @@ const stylesClasses = [
   MandyBrigwellStyle
   ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
-
 let currentStyle
 
 // defining features
