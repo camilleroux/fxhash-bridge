@@ -6,18 +6,50 @@
 
 import Style from './style'
 
+// Fettepalette doesn't import well in this project, so I had to copy the minified version
+// Source: https://meodai.github.io/fettepalette/
 const fettepalette = (() => { const y = Object.defineProperty; const C = Math.pow; const I = e => y(e, '__esModule', { value: !0 }); const F = (e, r) => { I(e); for (const o in r)y(e, o, { get: r[o], enumerable: !0 }) }; const O = {}; F(O, { generateRandomColorRamp: () => G, generateRandomColorRampParams: () => N, hsv2hsl: () => R, hsv2hsx: () => c, pointOnCurve: () => M }); var R = (e, r, o, t = o - o * r / 2, p = Math.min(t, 1 - t)) => [e, p ? (o - t) / p : 0, t]; var c = (e, r, o, t) => t === 'hsl' ? R(e, r, o) : [e, r, o]; var M = (e, r, o, t, p = [0, 0], m = [1, 1]) => { const x = Math.PI / 2; const u = x / o; const s = r / o; let a = 0; let n = 0; if (e === 'lam\xE9') { const l = s * x; const i = 2 / (2 + 20 * t); const h = Math.cos(l); const f = Math.sin(l); a = Math.sign(h) * C(Math.abs(h), i), n = Math.sign(f) * C(Math.abs(f), i) } else if (e === 'arc')n = Math.cos(-Math.PI / 2 + r * u + t), a = Math.sin(Math.PI / 2 + r * u - t); else if (e === 'pow')a = Math.pow(1 - s, 1 - t), n = Math.pow(s, 1 - t); else if (e === 'powY')a = Math.pow(1 - s, t), n = Math.pow(s, 1 - t); else if (e === 'powX')a = Math.pow(s, t), n = Math.pow(s, 1 - t); else if (typeof e === 'function')a = e(s)[0], n = e(s)[1]; else throw new Error(`pointOnCurve() curveAccent parameter is expected to be "lam\xE9" | "arc" | "pow" | "powY" | "powX" or a function but \`${e}\` given.`); return a = p[0] + Math.min(Math.max(a, 0), 1) * (m[0] - p[0]), n = p[1] + Math.min(Math.max(n, 0), 1) * (m[1] - p[1]), [a, n] }; function G ({ total: e = 3, centerHue: r = 0, hueCycle: o = 0.3, offsetTint: t = 0.1, offsetShade: p = 0.1, curveAccent: m = 0, tintShadeHueShift: x = 0.1, curveMethod: u = 'arc', offsetCurveModTint: s = 0.03, offsetCurveModShade: a = 0.03, minSaturationLight: n = [0, 0], maxSaturationLight: l = [1, 1], colorModel: i = 'hsl' } = {}) { const h = []; const f = []; const w = []; for (let b = 1; b < e + 1; b++) { const [S, T] = M(u, b, e + 1, m, n, l); const d = (360 + (-180 * o + (r + b * (360 / (e + 1)) * o))) % 360; const k = c(d, S, T, i); h.push(k); const [P, X] = M(u, b, e + 1, m + s, n, l); const V = c(d, P, X, i); f.push([(d + 360 * x) % 360, V[1] - t, V[2] + t]); const [Y, H] = M(u, b, e + 1, m - a, n, l); const g = c(d, Y, H, i); w.push([(360 + (d - 360 * x)) % 360, g[1] - p, g[2] - p]) } return { light: f, dark: w, base: h, all: [...f, ...h, ...w] } } var N = { curveMethod: { default: 'lam\xE9', props: { options: ['lam\xE9', 'arc', 'pow', 'powY', 'powX'] } }, curveAccent: { default: 0, props: { min: -0.095, max: 1, step: 0.001 } }, total: { default: 9, props: { min: 3, max: 35, step: 1 } }, centerHue: { default: 0, props: { min: 0, max: 360, step: 0.1 } }, hueCycle: { default: 0.3, props: { min: -1.25, max: 1.5, step: 0.001 } }, offsetTint: { default: 0.01, props: { min: 0, max: 0.4, step: 0.001 } }, offsetShade: { default: 0.01, props: { min: 0, max: 0.4, step: 0.001 } }, tintShadeHueShift: { default: 0.01, props: { min: 0, max: 1, step: 0.001 } }, offsetCurveModTint: { default: 0.03, props: { min: 0, max: 0.4, step: 1e-4 } }, offsetCurveModShade: { default: 0.03, props: { min: 0, max: 0.4, step: 1e-4 } }, minSaturation: { default: 0, props: { min: 0, max: 1, step: 0.001 } }, minLight: { default: 0, props: { min: 0, max: 1, step: 0.001 } }, maxSaturation: { default: 1, props: { min: 0, max: 1, step: 0.001 } }, maxLight: { default: 1, props: { min: 0, max: 1, step: 0.001 } } }; return O })()
 console.log(fettepalette)
 
-const words = ['BRIDGE', 'PONT', 'BRO', 'BRÜCKE', 'BRUG', 'PUENTE', 'МОСТ', '橋', '다리', 'PONTE', 'पुल']
+const words = [
+  // Germanic
+  'BRIDGE',
+  'BRO',
+  'BRÜCKE',
+  'BRUG',
+  'BRÉCK',
+  // Latin
+  'PONT',
+  'PONTE',
+  'PUENTE',
+  // Greek
+  'ΓΕΦΥΡΑ',
+  // Uralic
+  'HÍD',
+  'SILTA',
+  // Turkic
+  'KÖPRÜ',
+  // Slavic
+  'MOST',
+  'МОСТ',
+  'МІСТ',
+  'КҮПЕР',
+  // Chinese
+  '橋',
+  // Korean
+  '다리',
+  // Malay
+  'JEMBATAN',
+  // Dravidian
+  'പാലം'
+]
 
-let word = 'BRIDGE'
-const letterCount = 0
+let word = 'SILTA'
 const palette = fettepalette.generateRandomColorRamp({
   total: 9,
   centerHue: fxrand() * 360,
   hueCycle: 0.3,
-  curveMethod: 'lamé',
+  curveMethod: 'arc',
   curveAccent: 0,
   offsetTint: 0.01,
   offsetShade: 0.01,
@@ -106,12 +138,21 @@ export default class AdaAdaAdaStyle extends Style {
 
     this._p5.fill(fillColor)
     this._p5.noStroke()
-    const textSize = this._p5.map(tilePoints[0].y, 0, 1, 0.1, 10)
+    const minTextSize = 0.1
+    const maxTextSize = window.innerHeight * 0.0125
+    const textSize = this._p5.map(tilePoints[0].y, 0, 1, minTextSize, maxTextSize)
     this._p5.textSize(Math.floor(textSize))
 
+    // word = 'പാലം'
+    // word = 'puente'
     const wordCount = word.length
-    for (let i = 0; i <= wordCount; i++) {
-      const mappedPos = halfwayBottomPos.copy().lerp(halfwayTopPos, i / wordCount)
+    let letterJump = 1
+    // These letters are composites, so we need two letters at a time for it to look nice
+    if (word === 'പാലം') letterJump = 2
+    for (let i = 0; i <= wordCount; i += letterJump) {
+      const lerpVal = (i + 1) / (wordCount + 1)
+      console.log('lerpval', lerpVal)
+      const mappedPos = halfwayTopPos.copy().lerp(halfwayBottomPos, lerpVal)
       this._p5.push()
       this._p5.translate(mappedPos.x, mappedPos.y)
       this._p5.applyMatrix([
@@ -119,11 +160,16 @@ export default class AdaAdaAdaStyle extends Style {
         (mappedPos.x / this._s) - 0.5, 1,
         0, 0
       ])
-      this._p5.text(word.charAt(wordCount - i), 0, 0)
+      let letter = word.charAt(i)
+      for (let j = 1; j < letterJump; j++) {
+        letter += word.charAt(i + j)
+      }
+      this._p5.text(letter, 0, 0)
       this._p5.pop()
     }
   }
 
+  // Adapted (poorly with great glitchy effect) from p5.riso's dither implementation: https://github.com/antiboredom/p5.riso
   dither (type, threshold) {
     // source adapted from: https://github.com/meemoo/meemooapp/blob/44236a29574812026407c0288ab15390e88b556a/src/nodes/image-monochrome-worker.js
 
