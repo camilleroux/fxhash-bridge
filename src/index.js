@@ -16,12 +16,15 @@ import WilkeStyle from './styles/wilke'
 import PhilosophieStyle from './styles/phil_osophie'
 import RobinMetcalfeStyle from './styles/robinmetcalfe'
 import AnaglyphicStyle from './styles/anaglyphic'
-import frederativeStyle from './styles/frederative'
+import FrederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
+import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import RVigStyle from './styles/rvig'
+import AzeemStyle from './styles/azeem'
+import BridgeTunnelStyle from './styles/bridgetunnel'
 
 const FXR = require('fxrandomjs')
 
@@ -54,7 +57,7 @@ const stylesClasses = [
   RVigStyle,
   ElsifStyle,
   EstienneStyle,
-  frederativeStyle,
+  FrederativeStyle,
   DavidEsqStyle,
   ShuhblamStyle,
   GorikStyle,
@@ -66,8 +69,11 @@ const stylesClasses = [
   CamilleRouxStyle,
   BoilerplateStyle,
   DemoStyle,
-  MandyBrigwellStyle
-  ]
+  AzeemStyle,
+  Makio64Style,
+  MandyBrigwellStyle,
+  BridgeTunnelStyle,
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
@@ -122,6 +128,7 @@ const sketch = function (p5) {
   }
 
   p5.draw = function () {
+    p5.resizeCanvas(s, s, true)
     p5.randomSeed(seed)
     p5.noiseSeed(seed)
     rnd.setSeed(fxhash, true)
