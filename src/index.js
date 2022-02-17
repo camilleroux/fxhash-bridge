@@ -19,6 +19,7 @@ import AnaglyphicStyle from './styles/anaglyphic'
 import frederativeStyle from './styles/frederative'
 import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
+import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 
@@ -64,8 +65,9 @@ const stylesClasses = [
   CamilleRouxStyle,
   BoilerplateStyle,
   DemoStyle,
+  Makio64Style,
   MandyBrigwellStyle
-  ]
+]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
