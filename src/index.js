@@ -22,6 +22,7 @@ import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
+import RVigStyle from './styles/rvig'
 import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
 
@@ -53,6 +54,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  RVigStyle,
   ElsifStyle,
   EstienneStyle,
   FrederativeStyle,
