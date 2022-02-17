@@ -23,6 +23,7 @@ import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import AzeemStyle from './styles/azeem'
+import BridgeTunnelStyle from './styles/bridgetunnel'
 
 const FXR = require('fxrandomjs')
 
@@ -68,7 +69,8 @@ const stylesClasses = [
   DemoStyle,
   AzeemStyle,
   Makio64Style,
-  MandyBrigwellStyle
+  MandyBrigwellStyle,
+  BridgeTunnelStyle,
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
