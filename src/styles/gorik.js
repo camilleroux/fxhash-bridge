@@ -24,6 +24,7 @@ export default class GorikStyle extends Style {
     const colorMap = this.getColorMap()
     const keys = Array.from(colorMap.keys())
     this.randomColor = FXRandomOption(keys)
+    console.log(this.randomColor)
     this.randomArray = colorMap.get(this.randomColor)
   }
 
@@ -226,7 +227,6 @@ export default class GorikStyle extends Style {
     colorMap.set('Gold', ['#F90716', '#FF5403', '#FFCA03', '#FFF323'])
     colorMap.set('Gold2', ['#781D42', '#A3423C', '#DE834D', '#F0D290'])
     colorMap.set('Neon', ['#FBF46D', '#B4FE98', '#77E4D4', '#998CEB'])
-    colorMap.set('Neon2', ['#FF4848', '#FFD371', '#C2FFD9', '#9DDAC6'])
     colorMap.set('Neon3', ['#F1F1F1', '#FDB827', '#21209C', '#23120B'])
     colorMap.set('Space', ['#161853', '#292C6D', '#FAEDF0', '#EC255A'])
     colorMap.set('Space2', ['#370665', '#35589A', '#F14A16', '#FC9918'])
@@ -241,10 +241,8 @@ export default class GorikStyle extends Style {
     colorMap.set('Cold', ['#009DAE', '#71DFE7', '#C2FFF9', '#FFE652'])
     colorMap.set('Dark', ['#041C32', '#04293A', '#064663', '#ECB365'])
     colorMap.set('Summer', ['#125C13', '#3E7C17', '#F4A442', '#E8E1D9'])
-    colorMap.set('Spring', ['#D54062', '#FFA36C', '#EBDC87', '#799351'])
     colorMap.set('Nature', ['#483434', '#6B4F4F', '#EED6C4', '#FFF3E4'])
     colorMap.set('Nature2', ['#C5D7BD', '#9FB8AD', '#383E56', '#FB743E'])
-    colorMap.set('Rainbow', ['#F47C7C', '#F7F48B', '#A1DE93', '#70A1D7'])
     colorMap.set('Night', ['#000000', '#150050', '#3F0071', '#610094'])
     colorMap.set('Skin', ['#D77FA1', '#BAABDA', '#D6E5FA', '#FFF9F9'])
     colorMap.set('Skin2', ['#9D5C0D', '#E5890A', '#F7D08A', '#FAFAFA'])
