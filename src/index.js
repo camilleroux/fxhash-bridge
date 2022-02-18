@@ -79,6 +79,8 @@ const stylesClasses = [
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
+let fxpreviewDone = false
+
 // defining features
 window.$fxhashFeatures = {
   styleCreator: stylesClasses[styleClassId].author(),
@@ -172,8 +174,11 @@ const sketch = function (p5) {
     currentStyle.afterDraw()
     p5.pop()
 
-    // eslint-disable-next-line no-undef
-    fxpreview()
+    if (!fxpreviewDone) {
+      // eslint-disable-next-line no-undef
+      fxpreview()
+      fxpreviewDone = true
+    }
   }
 
   p5.windowResized = function () {
@@ -184,6 +189,10 @@ const sketch = function (p5) {
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
+      console.table({
+        styleCreator: stylesClasses[styleClassId].author(),
+        styleName: stylesClasses[styleClassId].name()
+      })
       this.draw()
       return false
     }
