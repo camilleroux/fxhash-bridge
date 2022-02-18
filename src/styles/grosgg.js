@@ -17,7 +17,7 @@ export default class GrosggStyle extends Style {
     this.heightFactor = 1; //this._p5.random(1, 2);
     this.wallHeight = 0.3 * this.heightFactor;
     this.lineRes = this._p5.random([2, 5, 10]);
-    this.lineThickness = this._p5.random([0.25, 0.5, 0.75]);
+    this.lineThickness = this._p5.random([0.2, 0.3, 0.4, 0.5]);
     // console.log("center", this.centerPoint);
     // console.log("lineRes", this.lineRes);
     // console.log("lineThickness", this.lineThickness);
@@ -271,7 +271,7 @@ export default class GrosggStyle extends Style {
       ])[1] * this._s
     );
 
-    this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.25, 0.75, 0.5, 1));
+    this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.2, 0.5, 0.5, 1));
     this._p5.stroke(this.palette.stroke);
     const groundDotSpacing = this._p5.random(0.1, 0.3);
     for (let y = 0; y < this.gridSize.y; y += groundDotSpacing) {
