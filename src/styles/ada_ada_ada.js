@@ -4,6 +4,15 @@
 // Fxhash: https://www.fxhash.xyz/u/Ada%20Ada%20Ada
 // Wallet: tz1VvQf92Ni54LbTqJdCn2P9wQjS3LDHycbk
 
+/*
+ The code for AdaAdaAdaStyle is Copyright (C) 2022 by Ada Hyldahl Fogh.
+ I grant Camille Roux a permanent, irrevocable, non-exclusive,
+ license to release this code as part of the BRIDGE project under
+ the licensing terms of the entire project.
+ For all other uses, the code for AdaAdaAdaStyle is released under
+ CC-BY-NC-SA 4.0: https://creativecommons.org/licenses/by-nc-sa/4.0/
+*/
+
 import Style from './style'
 
 // Fettepalette doesn't import well in this project, so I had to copy the minified version
