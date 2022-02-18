@@ -1,3 +1,9 @@
+// lunarean
+// Status: Ready
+// Twitter: @lunarean
+// Fxhash: https://www.fxhash.xyz/u/lunarean
+// Wallet: tz1Rakav1r6xMmrvYiXZjdvz3T1wNU4igoQM
+
 // Strange entities travel through space. In the distance is a star. Nothing else is known.
 
 
