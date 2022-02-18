@@ -117,7 +117,7 @@ export default class GorikStyle extends Style {
         this.line15(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s, 50)
       }
     } else {
-      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 15) {
+      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 25) {
         this.tLine(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s)
       }
     }
@@ -139,7 +139,8 @@ export default class GorikStyle extends Style {
   }
 
   drawPolygon (points) {
-    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
+    this._p5.noStroke()
+    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 100))
     this._p5.beginShape()
     for (const point of points) {
       this._p5.vertex(point.x, point.y)
@@ -170,7 +171,7 @@ export default class GorikStyle extends Style {
   }
 
   tLine (x1, y1, x2, y2) {
-    this._p5.strokeWeight(5)
+    this._p5.strokeWeight(0.5)
     this._p5.noFill()
     this._p5.stroke(this.addAlpha(this.getRandomColour(this.randomArray), 150))
     this._p5.line(x1, y1, x2, y2)
