@@ -16,24 +16,52 @@ export default class GrosggStyle extends Style {
     this.centerPoint = this.prj.getProjectedPoint([0, this.gridSize.y, 0]);
     this.heightFactor = 1; //this._p5.random(1, 2);
     this.wallHeight = 0.3 * this.heightFactor;
-    this.lineRes = this._p5.random([1, 5, 10]);
-    this.lineThickness = this._p5.random([0.1, 0.25]);
+    this.lineRes = this._p5.random([2, 5, 10]);
+    this.lineThickness = this._p5.random([0.1, 0.25, 0.5]);
     // console.log("center", this.centerPoint);
-    // console.log("lineRes", this.lineRes);
-    // console.log("lineThickness", this.lineThickness);
+    console.log("lineRes", this.lineRes);
+    console.log("lineThickness", this.lineThickness);
+
+    this.palette = this._p5.random([
+      {
+        mountain: this._p5.random(["#333", "#444", "#555"]),
+        mid: ["#777", "#888", "#999", "#aaa"],
+        bright: ["#ccc", "#ddd", "#eee", "#fff"],
+        stroke: "#111",
+        background: "#111",
+      },
+      {
+        mountain: this._p5.random(["#774936", "#8a5a44", "#9d6b53"]),
+        mid: ["#b07d62", "#c38e70", "#cd9777"],
+        bright: ["#d69f7e", "#deab90", "#e6b8a2", "#edc4b3"],
+        stroke: "#111",
+        background: "#111",
+      },
+      // {
+      //   mountain: this._p5.random(["#641220", "#6e1423", "#85182a"]),
+      //   bright: ["#777", "#888", "#999", "#aaa"],
+      //   // mid: ["#222", "#333", "#444", "#555"],
+
+      //   mid: ["#641220", "#6e1423", "#85182a"],
+      //   // mid: ["#a11d33", "#a71e34", "#b21e35"],
+      //   // bright: ["#bd1f36", "#c71f37", "#e01e37"],
+      //   stroke: "#111",
+      //   background: "#111",
+      // },
+    ]);
   }
 
   beforeDraw() {
-    this._p5.background("#333");
+    this._p5.background(this.palette.mountain);
     this._p5.noStroke();
     this._p5.strokeWeight(this.lineThickness);
-    this._p5.fill("#111");
+    this._p5.fill(this.palette.background);
     this._p5.rect(0, 0, this._s, this.centerPoint[1] * this._s);
 
     for (let y = 0; y < this.centerPoint[1] * this._s; y += 2) {
       const skyColor = this._p5.lerpColor(
-        this._p5.color("#111"),
-        this._p5.color("#333"),
+        this._p5.color(this.palette.background),
+        this._p5.color(this.palette.mountain),
         y / (this.centerPoint[1] * this._s)
       );
       this._p5.fill(skyColor);
@@ -51,9 +79,8 @@ export default class GrosggStyle extends Style {
       this._p5.TWO_PI
     );
 
-    this._p5.stroke("#111");
-    this._p5.fill("#ff00ff");
-    this._p5.fill(this._p5.random(["#222", "#333", "#444", "#555"]));
+    this._p5.stroke(this.palette.stroke);
+    this._p5.fill(this.palette.mountain);
 
     const mainMountainSize = this._p5.createVector(
       this._p5.random(30, 60),
@@ -118,89 +145,94 @@ export default class GrosggStyle extends Style {
     }
 
     // Tunnel
-    this._p5.fill("#777");
     this._penQuad(
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2 - 0.5,
+        -this.gridSize.x / 2 - 1,
         this.gridSize.y,
         0,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2 - 0.5,
-        this.gridSize.y,
-        0,
-      ])[1] * this._s,
-      this.prj.getProjectedPoint([
-        this.gridSize.x / 2 + 1,
-        this.gridSize.y,
-        0,
-      ])[0] * this._s,
-      this.prj.getProjectedPoint([
-        this.gridSize.x / 2 + 1,
+        -this.gridSize.x / 2 - 1,
         this.gridSize.y,
         0,
       ])[1] * this._s,
       this.prj.getProjectedPoint([
         this.gridSize.x / 2 + 1,
         this.gridSize.y,
-        this.wallHeight + 0.1,
+        0,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
         this.gridSize.x / 2 + 1,
         this.gridSize.y,
-        this.wallHeight + 0.1,
+        0,
       ])[1] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2 - 0.5,
+        this.gridSize.x / 2 + 1,
         this.gridSize.y,
-        this.wallHeight + 0.1,
+        this.wallHeight + 0.2,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2 - 0.5,
+        this.gridSize.x / 2 + 1,
         this.gridSize.y,
-        this.wallHeight + 0.1,
+        this.wallHeight + 0.2,
+      ])[1] * this._s,
+      this.prj.getProjectedPoint([
+        -this.gridSize.x / 2 - 1,
+        this.gridSize.y,
+        this.wallHeight + 0.2,
+      ])[0] * this._s,
+      this.prj.getProjectedPoint([
+        -this.gridSize.x / 2 - 1,
+        this.gridSize.y,
+        this.wallHeight + 0.2,
       ])[1] * this._s
     );
     this._p5.fill("#000");
     this._penQuad(
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2,
+        -this.gridSize.x / 2 - 0.5,
         this.gridSize.y,
         0,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2,
+        -this.gridSize.x / 2 - 0.5,
         this.gridSize.y,
         0,
       ])[1] * this._s,
-      this.prj.getProjectedPoint([this.gridSize.x / 2, this.gridSize.y, 0])[0] *
-        this._s,
-      this.prj.getProjectedPoint([this.gridSize.x / 2, this.gridSize.y, 0])[1] *
-        this._s,
       this.prj.getProjectedPoint([
-        this.gridSize.x / 2,
+        this.gridSize.x / 2 + 0.5,
         this.gridSize.y,
-        this.wallHeight,
+        0,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
-        this.gridSize.x / 2,
+        this.gridSize.x / 2 + 0.5,
         this.gridSize.y,
-        this.wallHeight,
+        0,
       ])[1] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2,
+        this.gridSize.x / 2 - 2,
         this.gridSize.y,
-        this.wallHeight,
+        this.wallHeight + 0.1,
       ])[0] * this._s,
       this.prj.getProjectedPoint([
-        -this.gridSize.x / 2,
+        this.gridSize.x / 2 - 2,
         this.gridSize.y,
-        this.wallHeight,
+        this.wallHeight + 0.1,
+      ])[1] * this._s,
+      this.prj.getProjectedPoint([
+        -this.gridSize.x / 2 + 2,
+        this.gridSize.y,
+        this.wallHeight + 0.1,
+      ])[0] * this._s,
+      this.prj.getProjectedPoint([
+        -this.gridSize.x / 2 + 2,
+        this.gridSize.y,
+        this.wallHeight + 0.1,
       ])[1] * this._s
     );
 
     // Ground
-    this._p5.fill(this._p5.random(["#777", "#888", "#999", "#aaa"]));
+    this._p5.fill(this._p5.random(this.palette.mid));
     this._penQuad(
       this.prj.getProjectedPoint([-this.gridSize.x / 2, 0, 0])[0] * this._s,
       this.prj.getProjectedPoint([-this.gridSize.x / 2, 0, 0])[1] * this._s,
@@ -222,9 +254,9 @@ export default class GrosggStyle extends Style {
       ])[1] * this._s
     );
 
-    this._p5.strokeWeight(0.5);
-    this._p5.stroke("#111");
-    const groundDotSpacing = this._p5.random(0.05, 0.1);
+    this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.1, 0.5, 0.5, 1));
+    this._p5.stroke(this.palette.stroke);
+    const groundDotSpacing = this._p5.random(0.1, 0.3);
     for (let y = 0; y < this.gridSize.y; y += groundDotSpacing) {
       for (
         let x = -this.gridSize.x / 2;
@@ -311,7 +343,7 @@ export default class GrosggStyle extends Style {
   afterDraw() {
     const borders = window.$fxhashFeatures.borders;
     if (borders != "none") {
-      this._p5.fill(this._p5.random(["#777", "#888", "#999", "#aaa"]));
+      this._p5.fill(this._p5.random(this.palette.mid));
       const borderOffset = borders == "double" ? 2 : 1;
       const leftWallTop = this._p5.createVector(
         -this.gridSize.x / 2,
@@ -323,36 +355,36 @@ export default class GrosggStyle extends Style {
         -4,
         this.wallHeight
       );
-      const domeTopDimensions = this._p5.createVector(
+      const wallTopDimensions = this._p5.createVector(
         borderOffset,
         this.gridSize.y + 4,
         0.01
       );
-      this._drawBox(leftWallTop, domeTopDimensions);
-      this._drawBox(rightWallTop, domeTopDimensions);
+      this._drawBox(leftWallTop, wallTopDimensions);
+      this._drawBox(rightWallTop, wallTopDimensions);
 
       this._drawVerticalLinePatternY(
         this._p5.createVector(
           leftWallTop.x,
           leftWallTop.y,
-          leftWallTop.z + domeTopDimensions.z
+          leftWallTop.z + wallTopDimensions.z
         ),
         this._p5.createVector(
           leftWallTop.x + borderOffset,
-          leftWallTop.y + domeTopDimensions.y,
-          leftWallTop.z + domeTopDimensions.z
+          leftWallTop.y + wallTopDimensions.y,
+          leftWallTop.z + wallTopDimensions.z
         )
       );
       this._drawVerticalLinePatternY(
         this._p5.createVector(
           rightWallTop.x,
           rightWallTop.y,
-          rightWallTop.z + domeTopDimensions.z
+          rightWallTop.z + wallTopDimensions.z
         ),
         this._p5.createVector(
           rightWallTop.x + borderOffset,
-          rightWallTop.y + domeTopDimensions.y,
-          rightWallTop.z + domeTopDimensions.z
+          rightWallTop.y + wallTopDimensions.y,
+          rightWallTop.z + wallTopDimensions.z
         )
       );
     }
@@ -363,11 +395,11 @@ export default class GrosggStyle extends Style {
   }
 
   static name() {
-    return "The Sprawl";
+    return "City Eating Mountain";
   }
 
   _drawPole(tilePos) {
-    this._p5.fill(this._p5.random(["#777", "#888", "#999", "#aaa"]));
+    this._p5.fill(this._p5.random(this.palette.mid));
     const poleDimensions = this._p5.createVector(
       this._p5.random(0.2) + 0.1,
       this._p5.random(0.2) + 0.1,
@@ -379,24 +411,16 @@ export default class GrosggStyle extends Style {
       tilePos.z
     );
 
-    // const turretFactor = this._p5.random(0.1, 0.5);
-    // const turretDimensions = this._p5.createVector(
-    //   turretFactor + poleDimensions.x,
-    //   turretFactor + poleDimensions.y,
-    //   this._p5.random(0.03, 0.07)
-    // );
-    // // console.log(turretDimensions);
-    // const turretPos = this._p5.createVector(
-    //   tilePos.x + 0.5 - turretDimensions.x / 2,
-    //   tilePos.y + 0.5 - turretDimensions.x / 2,
-    //   polePos.z + poleDimensions.z
-    // );
-
     this._drawBox(polePos, poleDimensions);
   }
 
   _drawBuilding(tilePos) {
-    this._p5.fill(this._p5.random(["#ccc", "#ddd", "#eee", "#fff"]));
+    const buildingColor = this._p5.lerpColor(
+      this._p5.color(this._p5.random(this.palette.bright)),
+      this._p5.color("#000"),
+      this._p5.map(tilePos.y, this.gridSize.y * 0.75, this.gridSize.y, 0, 1)
+    );
+    this._p5.fill(buildingColor);
     const dimensions = this._p5.createVector(
       this._p5.random(0.6) + 0.3,
       this._p5.random(0.6) + 0.3,
@@ -415,7 +439,7 @@ export default class GrosggStyle extends Style {
   }
 
   _drawBox(origin, dimensions) {
-    this._p5.stroke("#111");
+    this._p5.stroke(this.palette.stroke);
     this._p5.strokeWeight(this.lineThickness);
 
     // Front
@@ -591,7 +615,7 @@ export default class GrosggStyle extends Style {
   }
 
   _drawBuildingPattern(origin, dimensions) {
-    this._p5.stroke("#111");
+    this._p5.stroke(this.palette.stroke);
     const spacing = this._p5.random(0.01, 0.03);
 
     this._drawHorizontalLinePatternZ(
@@ -691,7 +715,7 @@ export default class GrosggStyle extends Style {
     );
 
     // Side lines
-    this._p5.stroke("#111");
+    this._p5.stroke(this.palette.stroke);
     this._penLine(
       this.prj.getProjectedPoint([
         origin.x - dimensions.x / 2,
@@ -778,7 +802,7 @@ export default class GrosggStyle extends Style {
 
     const dist = v1.dist(v2);
     for (let i = 0; i < dist; i += this.lineRes) {
-      const lineWidth = this._p5.random();
+      const lineWidth = this._p5.map(this._p5.sin(i), -1, 1, 0.2, 0.4);
       for (let j = 0; j < this.lineRes; j++) {
         const v = p5.Vector.lerp(v1, v2, (i + j) / dist);
         this._p5.circle(v.x, v.y, lineWidth);
