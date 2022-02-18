@@ -1,5 +1,6 @@
 // Drey
 // Status: Ready
+// Twitter: @drey_eth
 // Wallet: tz1ScVvkxWGyx1zmozaGSCzD1fSUzSbEQobg
 
 import Style from './style'
