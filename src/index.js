@@ -21,6 +21,7 @@ import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
+import AdaAdaAdaStyle from './styles/ada_ada_ada'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import RVigStyle from './styles/rvig'
 import AzeemStyle from './styles/azeem'
@@ -54,6 +55,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
   EstienneStyle,
@@ -72,7 +74,7 @@ const stylesClasses = [
   AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle,
-  BridgeTunnelStyle,
+  BridgeTunnelStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
