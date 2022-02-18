@@ -23,7 +23,7 @@ If you contribute to the project, you must accept the following rules:
 * For now, I expect there to be about 20-30 editions of each style in the drop. 
 * Dead line: **[February 20th 23:59 CET](https://everytimezone.com/?t=62118480,563)**.
 * I will announce the selected projects on February 21 on my [Twitter account](https://twitter.com/camillerouxart) and I will create a branch (tag? release?) for the project I'll mint.
-* I'll mint the projet on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux), the **[February 22th 18:00 CET](https://everytimezone.com/?t=62118480,f3c)**. For pricing, I'll do a Dutch action.
+* I'll mint the projet on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux), the **[February 22th 18:00 CET](https://everytimezone.com/?t=62118480,f3c)**. For pricing, I'll do a Dutch auction.
 
 ## 🧑‍💻 How to contribute
 
