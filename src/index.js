@@ -24,6 +24,7 @@ import ElsifStyle from './styles/elsif'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
+import DreyStyle from './styles/drey'
 
 const FXR = require('fxrandomjs')
 
@@ -71,6 +72,7 @@ const stylesClasses = [
   Makio64Style,
   MandyBrigwellStyle,
   BridgeTunnelStyle,
+  DreyStyle,
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
@@ -162,7 +164,7 @@ const sketch = function (p5) {
       tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j + 1, height])))
       tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j, height])))
 
-      currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0)
+      currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0, { i, j })
     })
 
     currentStyle.afterDraw()
