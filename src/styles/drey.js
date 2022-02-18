@@ -1,6 +1,7 @@
 // Drey
-// Status: WIP // "WIP", "Ready"
-// Wallet: tz.....
+// Status: Ready
+// Twitter: @drey_eth
+// Wallet: tz1ScVvkxWGyx1zmozaGSCzD1fSUzSbEQobg
 
 import Style from './style'
 import { getWeightedOption } from '@liamegan1/fxhash-helpers'
