@@ -24,7 +24,6 @@ export default class GorikStyle extends Style {
     const colorMap = this.getColorMap()
     const keys = Array.from(colorMap.keys())
     this.randomColor = FXRandomOption(keys)
-    console.log(this.randomColor)
     this.randomArray = colorMap.get(this.randomColor)
   }
 
@@ -141,7 +140,6 @@ export default class GorikStyle extends Style {
 
   drawPolygon (points) {
     this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
-    // this._p5.noFill()
     this._p5.beginShape()
     for (const point of points) {
       this._p5.vertex(point.x, point.y)
@@ -162,9 +160,9 @@ export default class GorikStyle extends Style {
       const nextY = pointA.y + percentage * diffY
 
       nextPoints.push({
-          x: nextX,
-          y: nextY
-        }
+        x: nextX,
+        y: nextY
+      }
       )
     }
 
@@ -252,17 +250,6 @@ export default class GorikStyle extends Style {
 
   getRandomColour (randomArray) {
     return FXRandomOption(randomArray)
-  }
-
-  hexToRgb (hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result
-      ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      }
-      : null
   }
 
   addAlpha (c, a) {
