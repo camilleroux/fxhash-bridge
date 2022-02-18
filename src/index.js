@@ -66,8 +66,7 @@ const stylesClasses = [
   BoilerplateStyle,
   DemoStyle
 ]
-// let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
-let styleClassId = 0
+let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
 // defining features
