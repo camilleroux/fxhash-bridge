@@ -13,7 +13,7 @@
 
 import Style from './style'
 
-export default class frederativeStyle extends Style {
+export default class FrederativeStyle extends Style {
   constructor(gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.backgroundColor = 0;//this.colors.pop()
@@ -21,6 +21,8 @@ export default class frederativeStyle extends Style {
   }
 
   beforeDraw() {
+    // grab user's current density before changing
+    this.currDensity = this._p5.pixelDensity();
     this._p5.pixelDensity(1);
     this.theta = 0.0;
 
@@ -169,7 +171,12 @@ export default class frederativeStyle extends Style {
     this._p5.pop();
   }
 
-  afterDraw() { this.dither(null); }
+  afterDraw() { 
+    this.dither(null); 
+
+    // reset user's density after my dithering is done
+    this._p5._pixelDensity = this.currDensity;
+  }
 
   // FS dithering
   index(g, x, y) {
