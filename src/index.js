@@ -164,7 +164,7 @@ const sketch = function (p5) {
       tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j + 1, height])))
       tilePoints.push(p5.createVector().set(projectionCalculator3d.getProjectedPoint([i + 1, j, height])))
 
-      currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0, { i, j })
+      currentStyle.drawTile(tilePoints, p5.createVector(i, j, height), height !== 0)
     })
 
     currentStyle.afterDraw()

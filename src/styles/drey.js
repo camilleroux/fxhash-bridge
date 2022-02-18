@@ -106,9 +106,7 @@ class DreyStyle extends Style {
 
   beforeDraw () {
     this._p5.background('#060606')
-    this._p5.colorMode(this._p5.HSB)
-    // console.log(this.settings().strategy)
-    console.log(this.settings())
+    this._p5.colorMode(this._p5.HSB, 360, 100, 100, 1)
   }
 
   color (...args) {
@@ -241,7 +239,7 @@ class DreyStyle extends Style {
     this.drawPillarSection(scaledVerts, nextScaledVerts)
   }
 
-  drawTile (tilePoints, _a, _b, { i, j }) {
+  drawTile (tilePoints, { x: i, y: j }) {
     this._p5.strokeWeight(0.5)
     // GROUND
     const groundSpin =
