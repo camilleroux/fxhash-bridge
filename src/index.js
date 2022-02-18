@@ -21,7 +21,9 @@ import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
+import AdaAdaAdaStyle from './styles/ada_ada_ada'
 import MandyBrigwellStyle from './styles/mandybrigwell'
+import RVigStyle from './styles/rvig'
 import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
@@ -54,6 +56,8 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  AdaAdaAdaStyle,
+  RVigStyle,
   ElsifStyle,
   EstienneStyle,
   FrederativeStyle,
@@ -76,6 +80,8 @@ const stylesClasses = [
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
+
+let fxpreviewDone = false
 
 // defining features
 window.$fxhashFeatures = {
@@ -170,8 +176,11 @@ const sketch = function (p5) {
     currentStyle.afterDraw()
     p5.pop()
 
-    // eslint-disable-next-line no-undef
-    fxpreview()
+    if (!fxpreviewDone) {
+      // eslint-disable-next-line no-undef
+      fxpreview()
+      fxpreviewDone = true
+    }
   }
 
   p5.windowResized = function () {
@@ -182,6 +191,10 @@ const sketch = function (p5) {
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
+      console.table({
+        styleCreator: stylesClasses[styleClassId].author(),
+        styleName: stylesClasses[styleClassId].name()
+      })
       this.draw()
       return false
     }

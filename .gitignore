@@ -3,3 +3,4 @@ dist/
 dist-zipped/
 yarn.lock
 .Rproj.user
+.vscode
