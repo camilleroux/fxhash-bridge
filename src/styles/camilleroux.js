@@ -35,6 +35,7 @@ export default class CamilleRouxStyle extends Style {
       this._p5.arc(0.5 * this._s, horizon * this._s, radius * this._s, radius * this._s, Math.max(this._p5.PI, angle - angleDist / 2), Math.min(angle + angleDist / 2, this._p5.TWO_PI))
     }
 
+    // Draw grid
     colorStars.setAlpha(150)
     for (let i = -100.5; i < 101; i++) {
       const coord1 = this._projectionCalculator3d.getProjectedPoint([i, 0, 0])
