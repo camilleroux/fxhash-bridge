@@ -17,16 +17,16 @@ export default class GrosggStyle extends Style {
     this.heightFactor = 1; //this._p5.random(1, 2);
     this.wallHeight = 0.3 * this.heightFactor;
     this.lineRes = this._p5.random([2, 5, 10]);
-    this.lineThickness = this._p5.random([0.1, 0.25, 0.5]);
+    this.lineThickness = this._p5.random([0.25, 0.5, 0.75]);
     // console.log("center", this.centerPoint);
-    console.log("lineRes", this.lineRes);
-    console.log("lineThickness", this.lineThickness);
+    // console.log("lineRes", this.lineRes);
+    // console.log("lineThickness", this.lineThickness);
 
     this.palette = this._p5.random([
       {
         mountain: this._p5.random(["#333", "#444", "#555"]),
         mid: ["#777", "#888", "#999", "#aaa"],
-        bright: ["#ccc", "#ddd", "#eee", "#fff"],
+        bright: ["#ccc", "#ddd", "#eee"],
         stroke: "#111",
         background: "#111",
       },
@@ -37,18 +37,35 @@ export default class GrosggStyle extends Style {
         stroke: "#111",
         background: "#111",
       },
-      // {
-      //   mountain: this._p5.random(["#641220", "#6e1423", "#85182a"]),
-      //   bright: ["#777", "#888", "#999", "#aaa"],
-      //   // mid: ["#222", "#333", "#444", "#555"],
-
-      //   mid: ["#641220", "#6e1423", "#85182a"],
-      //   // mid: ["#a11d33", "#a71e34", "#b21e35"],
-      //   // bright: ["#bd1f36", "#c71f37", "#e01e37"],
-      //   stroke: "#111",
-      //   background: "#111",
-      // },
+      {
+        mountain: this._p5.random(["#641220", "#6e1423", "#85182a"]),
+        bright: ["#641220", "#6e1423", "#85182a"],
+        mid: ["#a11d33"],
+        stroke: "#111",
+        background: "#111",
+      },
+      {
+        mountain: this._p5.random([
+          "#ff595e",
+          "#ffca3a",
+          "#8ac926",
+          "#1982c4",
+          "#6a4c93",
+        ]),
+        bright: ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93"],
+        mid: ["#999", "#aaa", "#bbb"],
+        stroke: "#111",
+        background: "#111",
+      },
     ]);
+  }
+
+  static author() {
+    return "grosgg";
+  }
+
+  static name() {
+    return "Devour";
   }
 
   beforeDraw() {
@@ -254,7 +271,7 @@ export default class GrosggStyle extends Style {
       ])[1] * this._s
     );
 
-    this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.1, 0.5, 0.5, 1));
+    this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.25, 0.75, 0.5, 1));
     this._p5.stroke(this.palette.stroke);
     const groundDotSpacing = this._p5.random(0.1, 0.3);
     for (let y = 0; y < this.gridSize.y; y += groundDotSpacing) {
@@ -388,14 +405,6 @@ export default class GrosggStyle extends Style {
         )
       );
     }
-  }
-
-  static author() {
-    return "grosgg";
-  }
-
-  static name() {
-    return "City Eating Mountain";
   }
 
   _drawPole(tilePos) {
