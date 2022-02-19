@@ -54,7 +54,7 @@ const palettes = [
 
 let chosenPalette = FXRandomIntBetween(0, palettes.length)
 let pal = chroma.scale(palettes[chosenPalette])
-console.log(`Selected palette = ${chosenPalette}`)
+// console.log(`Selected palette = ${chosenPalette}`)
 
 export default class RobinMetcalfeStyle extends Style {
   
