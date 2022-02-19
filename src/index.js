@@ -78,7 +78,7 @@ const stylesClasses = [
   MandyBrigwellStyle,
   BridgeTunnelStyle,
   DreyStyle,
-  LunareanStyle,
+  LunareanStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
