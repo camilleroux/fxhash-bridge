@@ -18,10 +18,12 @@ If you contribute to the project, you must accept the following rules:
 
 * I can mint this project on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux) with any subset of styles. (If you've an idea about what I could do with the unselected styles, let me know!)
 * I'll select the styles I'll mint
-* I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included int that mint (the 2sd market revenue is for me)
+* I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included in that mint (the 2sd market revenue is for me) when the project we'll be sold out.
 * You can't mint/drop it yourself
-* For now, I expect there to be about 30-40 editions of each style in the/each drop and 5-10 styles. 
-* Dead line: **February 20th**. If there are enough participants, I plan to mint to fxhash each time I see enough nice styles to do a drop.
+* For now, I expect there to be about 20-30 editions of each style in the drop. 
+* Dead line: **[February 20th 23:59 CET](https://everytimezone.com/?t=62118480,563)**.
+* I will announce the selected projects on February 21 on my [Twitter account](https://twitter.com/camillerouxart) and I will create a branch (tag? release?) for the project I'll mint.
+* I'll mint the projet on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux), the **[February 22th 18:00 CET](https://everytimezone.com/?t=62118480,f3c)**. For pricing, I'll do a Dutch auction.
 
 ## 🧑‍💻 How to contribute
 
