@@ -29,6 +29,7 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
+import bfosStyle from './styles/bfos'
 
 const FXR = require('fxrandomjs')
 
@@ -80,7 +81,8 @@ const stylesClasses = [
   BridgeTunnelStyle,
   DreyStyle,
   LunareanStyle,
-  GrosggStyle
+  GrosggStyle,
+  bfosStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
