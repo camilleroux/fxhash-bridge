@@ -128,15 +128,18 @@ export default class WilkeStyle extends Style {
     }
   }
   
+  getHaloPoint (x0, y0, radius, sd) {
+    let r = radius * (1 + Math.abs(this._p5.randomGaussian(0, sd)))
+    let phi = 6.283185 * this._p5.random(0, 360) / 360
+    return { x: x0 + r * Math.cos(phi), y: y0 + r * Math.sin(phi) }
+  }
+  
   drawHaloInterior (x0, y0, radius, sd, col, n) {
     this._p5.stroke(col)
-    this._p5.strokeWeight(.5 * this.strokescale)
+    this._p5.strokeWeight(.2 * this.strokescale)
     for (let i = 0; i < n; i++) {
-      let x = this._p5.randomGaussian(x0, sd * radius)
-      let y = this._p5.randomGaussian(y0, sd * radius)
-      if (this._p5.dist(x, y, x0, y0) >= radius) {
-        this.drawPointInterior(x, y)
-      }
+      let {x, y} = this.getHaloPoint (x0, y0, radius, sd)
+      this.drawPointInterior(x, y)
     }
   }
   
@@ -162,8 +165,8 @@ export default class WilkeStyle extends Style {
     let y = -r * Math.sin(theta) + this.centery
     let radius = this._p5.random(.1, .26)
     radius *= radius
-    let n = 200000 * radius
-    this.drawHaloInterior(x, y, radius, .35, this.inthalostipple, n)
+    let n = 10000 * radius
+    this.drawHaloInterior(x, y, radius, .15, this.inthalostipple, n)
   }
   
   beforeDraw () {
@@ -204,10 +207,9 @@ export default class WilkeStyle extends Style {
     
     // halo around center circle
     this._p5.stroke(this.circlestipple)
-    this._p5.strokeWeight(0.5*this.strokescale)
-    for (let i = 0; i < 800000; i++) {
-      let x = this._p5.randomGaussian(this.centerx, 0.3*this.radius)
-      let y = this._p5.randomGaussian(this.centery, 0.3*this.radius)
+    this._p5.strokeWeight(0.2*this.strokescale)
+    for (let i = 0; i < 30000; i++) {
+      let {x, y} = this.getHaloPoint (this.centerx, this.centery, this.radius, 0.1)
       this.drawPointExterior(x, y)
     }
     
