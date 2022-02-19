@@ -1,5 +1,21 @@
-// BRIDGE
-// Camille Roux, 2022
+/**
+ * BRIDGE - JavaScript bundle to produce generative art
+ * 
+ * Copyright (c) 2022, Camille Roux and contributing artists
+ * All rights reserved.
+ * 
+ * This code is released under <add license here>
+ * 
+ * Some code in this bundle was written by third parties
+ * and is distributed under their respective licensing
+ * conditions:
+ * - p5.js (LGPL, https://p5js.org/copyright.html)
+ * - chroma.js (BSD License, https://github.com/gka/chroma.js/blob/master/LICENSE)
+ * - projection-3d-2d (MIT License, https://github.com/Infl1ght/projection-3d-2d/blob/master/LICENSE)
+ * - fxhash-helpers (MIT License, https://github.com/liamegan/fxhash-helpers/blob/main/LICENSE)
+ * - fxrandom.js (MIT License, https://github.com/clauswilke/fxrandomjs/blob/main/LICENSE)
+ * @preserve
+ **/
 
 /* eslint-disable no-undef */
 import p5 from 'p5'
