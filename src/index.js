@@ -148,8 +148,6 @@ const sketch = function (p5) {
     rnd.setSeed(fxhash, true)
     FXInit(rnd.fxrand)
 
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-
     p5.push()
 
     // restore default p5 modes to prevent changes across styles
@@ -159,7 +157,10 @@ const sketch = function (p5) {
     p5.blendMode(p5.BLEND)
     p5.imageMode(p5.CORNER)
     p5.angleMode(p5.RADIANS)
+    p5.pixelDensity(window.devicePixelRatio)
+    p5.strokeWeight(1)
 
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
 
     // draw tiles

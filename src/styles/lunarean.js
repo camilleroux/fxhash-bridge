@@ -349,7 +349,7 @@ export default class LunareanStyle extends Style {
 
     const swMod = p5.randomGaussian();
     const densityMod = isDebris ? 0.1 : 0.8;
-    const skipProb = 0.4 * p5.map(my, this.vanY, 1, 0.1, 1);
+    const skipProb = isBase ? 0.4 * p5.map(my, this.vanY, 1, 0.1, 1) : 0;
     const jumpProb = 0.2 * p5.sq(p5.max(p5.map(my, this.vanY, 1, -0.5, 1), 0.1));
 
     const tileSize = p5.dist(...points[0], ...points[3]);
