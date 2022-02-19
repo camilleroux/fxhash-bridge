@@ -4,7 +4,11 @@
  * Copyright (c) 2022, Camille Roux and contributing artists
  * All rights reserved.
  * 
- * This code is released under <add license here>
+ * The BRIDGE framework code (excluding contributed styles) is released
+ * under CC-BY-NC-SA 4.0:
+ * https://creativecommons.org/licenses/by-nc-sa/4.0/
+ * Each contributing artist holds the copyright to their individual
+ * style implementation and additional restrictions may apply.
  * 
  * Some code in this bundle was written by third parties
  * and is distributed under their respective licensing
