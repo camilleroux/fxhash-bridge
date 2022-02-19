@@ -26,7 +26,7 @@ export default class DevnullStyle extends Style {
     if (value < .6) {
       this.minHeight = 2;
       this.maxHeight = 3;
-    } else if (r < .85) {
+    } else if (value < .85) {
       this.minHeight = 3;
       this.maxHeight = 4;
     } else {
