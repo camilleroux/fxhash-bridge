@@ -80,13 +80,13 @@ export default class LunareanStyle extends Style {
 
     // draw tiles
     for (const tile of this.tiles) {
-      this.drawFragment("base", tile, 0.8, this.modifyAlpha(this.WHITE, 0.9));
+      this.drawFragment("base", tile, 0.7, this.modifyAlpha(this.WHITE, 0.9));
     }
 
     // draw debris
     for (const tile of this.tiles) {
-      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
-      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
+      this.drawFragment("debris", tile, 0.08, this.modifyAlpha(this.BLACK, 0.8));
+      this.drawFragment("debris", tile, 0.08, this.modifyAlpha(this.BLACK, 0.8));
     }
 
     this.drawGrains(24);
@@ -343,7 +343,7 @@ export default class LunareanStyle extends Style {
     })
 
     // add gaussian noise
-    let sdMod = isDebris ? 0.1 : isBase ? p5.map(my, 1, this.vanY, 0.02, 0.1) : 0;
+    let sdMod = isDebris ? 0.1 : isBase ? p5.map(my, 1, this.vanY, 0.02, 0.05) : 0;
     const sd = sdMod * p5.dist(...points[0], ...points[3]);
     points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
@@ -404,7 +404,7 @@ export default class LunareanStyle extends Style {
         p5.stroke(strokeColor)
 
         const ampl = p5.max(p5.pow(p5.map(ty, this.vanY+0.1, 1, 1, 0), 2), 0.1);
-        const sw = isStars ? 0.001 : 0.0005 * p5.exp(0.1 * mod + 0.25 * swMod) * ampl;
+        const sw = isStars ? 0.001 : 0.00042 * p5.exp(0.1 * mod + 0.25 * swMod) * ampl;
         p5.strokeWeight(sw * SIZE);
 
         // draw triangle edges
