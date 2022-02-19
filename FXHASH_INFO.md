@@ -9,7 +9,7 @@
 
 BRIDGE is a collaborative project for fx(hash), conceived by Camille Roux. The project was announced on Twitter on Feb. 7, 2022 [1]. Artists were given two weeks to contribute code that would draw tiles representing a bridge, in their own style. Artists were free to implement their own artistic vision, subject to one simple constraint: Respect the coordinates of the tiles for each iteration of the art. 
 
-Each iteration has a default style determined randomly at mint. This style is named in the features and displayed in the thumbnail. However, each iteration includes all styles, and you can cycle through them by clicking or touching the image. Styles will be shown in the order in which they are listed under INCLUDED STYLES.
+Each iteration has a default style determined randomly at mint. This style is named in the features and displayed in the thumbnail. However, each iteration includes all styles, and you can cycle through them by clicking on or touching the image. Styles will be shown in the order in which they are listed under INCLUDED STYLES.
 
 Press "s" to save a screenshot.
 
@@ -24,6 +24,8 @@ The project has also served as an inspiration for participants to extend and dev
 INCLUDED STYLES
 
 - name, author, twitter, fxhash profile
+
+LINKS
 
 [1] https://twitter.com/camillerouxart/status/1490755105674735621
 [2] https://github.com/camilleroux/fxhash-bridge/
