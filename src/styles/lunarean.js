@@ -45,6 +45,9 @@ export default class LunareanStyle extends Style {
     const p5 = this._p5;
     const SIZE = this._s;
 
+    const pd = p5.pixelDensity();
+    p5.pixelDensity(2);
+
     // precalc
     this.mergeTiles();
     
@@ -82,14 +85,17 @@ export default class LunareanStyle extends Style {
 
     // draw debris
     for (const tile of this.tiles) {
-      this.drawFragment("debris", tile, 0.1, this.modifyAlpha(this.BLACK, 0.8));
-      this.drawFragment("debris", tile, 0.1, this.modifyAlpha(this.BLACK, 0.8));
+      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
+      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
     }
 
     this.drawGrains(24);
 
     // this.drawWireframe();
     // console.log("done");
+
+    // revert pixel density
+    p5._pixelDensity = pd;
   }
 
   // randomly merge adjacent tiles
@@ -318,7 +324,7 @@ export default class LunareanStyle extends Style {
       offsetX = 0.3 * p5.randomGaussian();
       offsetY = -0.3 * p5.abs(p5.randomGaussian());
     } else if (isBase) {
-      const gainY = p5.map(my, 0.25, 1, 0.1, 0);
+      const gainY = p5.map(my, 0.25, 1, 0.07, 0);
       offsetX = 0.15 * p5.sq(1-my) * p5.randomGaussian()
       offsetY = -1 * gainY * p5.abs(p5.randomGaussian());
     }
@@ -337,10 +343,9 @@ export default class LunareanStyle extends Style {
     })
 
     // add gaussian noise
-    if (isDebris) {
-      const sd = 0.1 * p5.dist(...points[0], ...points[3]);
-      points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
-    }
+    let sdMod = isDebris ? 0.1 : isBase ? p5.map(my, 1, this.vanY, 0.02, 0.1) : 0;
+    const sd = sdMod * p5.dist(...points[0], ...points[3]);
+    points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
     const swMod = p5.randomGaussian();
     const densityMod = isDebris ? 0.1 : 0.8;
