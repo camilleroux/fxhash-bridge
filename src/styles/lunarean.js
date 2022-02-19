@@ -45,6 +45,9 @@ export default class LunareanStyle extends Style {
     const p5 = this._p5;
     const SIZE = this._s;
 
+    const pd = p5.pixelDensity();
+    p5.pixelDensity(2);
+
     // precalc
     this.mergeTiles();
     
@@ -90,6 +93,9 @@ export default class LunareanStyle extends Style {
 
     // this.drawWireframe();
     // console.log("done");
+
+    // revert pixel density
+    p5._pixelDensity = pd;
   }
 
   // randomly merge adjacent tiles
@@ -318,7 +324,7 @@ export default class LunareanStyle extends Style {
       offsetX = 0.3 * p5.randomGaussian();
       offsetY = -0.3 * p5.abs(p5.randomGaussian());
     } else if (isBase) {
-      const gainY = p5.map(my, 0.25, 1, 0.1, 0);
+      const gainY = p5.map(my, 0.25, 1, 0.07, 0);
       offsetX = 0.15 * p5.sq(1-my) * p5.randomGaussian()
       offsetY = -1 * gainY * p5.abs(p5.randomGaussian());
     }
