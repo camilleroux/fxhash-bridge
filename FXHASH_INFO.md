@@ -19,6 +19,8 @@ I'm Camille Roux. I planned to do a lot of collab this year with fxhash artists 
 
 Moreover, I love the mutual aid and solidarity between fxhash generative artists. The BRIDGE can be seen as a symbol of the link between us ♥️
 
+The project has also served as an inspiration for participants to extend and develop their coding skills outside their usual areas of interest.
+
 INCLUDED STYLES
 
 - name, author, twitter, fxhash profile
