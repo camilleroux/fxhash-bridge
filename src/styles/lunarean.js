@@ -85,8 +85,8 @@ export default class LunareanStyle extends Style {
 
     // draw debris
     for (const tile of this.tiles) {
-      this.drawFragment("debris", tile, 0.1, this.modifyAlpha(this.BLACK, 0.8));
-      this.drawFragment("debris", tile, 0.1, this.modifyAlpha(this.BLACK, 0.8));
+      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
+      this.drawFragment("debris", tile, 0.12, this.modifyAlpha(this.BLACK, 0.9));
     }
 
     this.drawGrains(24);
@@ -343,10 +343,9 @@ export default class LunareanStyle extends Style {
     })
 
     // add gaussian noise
-    if (isDebris) {
-      const sd = 0.1 * p5.dist(...points[0], ...points[3]);
-      points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
-    }
+    let sdMod = isDebris ? 0.1 : isBase ? p5.map(my, 1, this.vanY, 0.02, 0.1) : 0;
+    const sd = sdMod * p5.dist(...points[0], ...points[3]);
+    points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
     const swMod = p5.randomGaussian();
     const densityMod = isDebris ? 0.1 : 0.8;
