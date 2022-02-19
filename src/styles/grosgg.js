@@ -1,5 +1,5 @@
 // grosgg
-// Status: WIP // "WIP", "Ready"
+// Status: Ready
 // Twitter: @grosgg
 // Fxhash: https://www.fxhash.xyz/u/grosgg
 // Wallet: tz1Lf3aAFLG6omKsqr2ofRGRpJ9xBK1VPt7A
@@ -10,17 +10,12 @@ import Style from "./style";
 export default class GrosggStyle extends Style {
   constructor(gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5);
-    console.log(gridSizeX, gridSizeY, s);
     this.prj = projectionCalculator3d;
     this.gridSize = this._p5.createVector(gridSizeX, gridSizeY);
     this.centerPoint = this.prj.getProjectedPoint([0, this.gridSize.y, 0]);
-    this.heightFactor = 1; //this._p5.random(1, 2);
-    this.wallHeight = 0.3 * this.heightFactor;
+    this.wallHeight = 0.3;
     this.lineRes = this._p5.random([2, 5, 10]);
     this.lineThickness = this._p5.random([0.2, 0.3, 0.4, 0.5]);
-    // console.log("center", this.centerPoint);
-    // console.log("lineRes", this.lineRes);
-    // console.log("lineThickness", this.lineThickness);
 
     this.palette = this._p5.random([
       {
@@ -45,17 +40,18 @@ export default class GrosggStyle extends Style {
         background: "#111",
       },
       {
-        mountain: this._p5.random([
-          "#ff595e",
-          "#ffca3a",
-          "#8ac926",
-          "#1982c4",
-          "#6a4c93",
-        ]),
+        mountain: this._p5.random(["#ccc", "#ddd", "#eee", "#fff"]),
         bright: ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93"],
-        mid: ["#999", "#aaa", "#bbb"],
+        mid: ["#ccc", "#ddd", "#eee", "#fff"],
         stroke: "#111",
         background: "#111",
+      },
+      {
+        mountain: this._p5.random(["#000"]),
+        bright: ["#000"],
+        mid: ["#000"],
+        stroke: "green",
+        background: "#222",
       },
     ]);
   }
@@ -69,6 +65,7 @@ export default class GrosggStyle extends Style {
   }
 
   beforeDraw() {
+    // Background
     this._p5.background(this.palette.mountain);
     this._p5.noStroke();
     this._p5.strokeWeight(this.lineThickness);
@@ -85,6 +82,7 @@ export default class GrosggStyle extends Style {
       this._p5.rect(0, y, this._s, y + 2);
     }
 
+    // Sun
     this._p5.fill("#fff");
     const sunSize = this._s * this._p5.random(0.5, 0.8);
     this._p5.arc(
@@ -96,9 +94,9 @@ export default class GrosggStyle extends Style {
       this._p5.TWO_PI
     );
 
+    // Main mountain
     this._p5.stroke(this.palette.stroke);
     this._p5.fill(this.palette.mountain);
-
     const mainMountainSize = this._p5.createVector(
       this._p5.random(30, 60),
       50,
@@ -161,7 +159,7 @@ export default class GrosggStyle extends Style {
       }
     }
 
-    // Tunnel
+    // Tunnel frame
     this._penQuad(
       this.prj.getProjectedPoint([
         -this.gridSize.x / 2 - 1,
@@ -204,6 +202,8 @@ export default class GrosggStyle extends Style {
         this.wallHeight + 0.2,
       ])[1] * this._s
     );
+
+    // Tunnel entrance
     this._p5.fill("#000");
     this._penQuad(
       this.prj.getProjectedPoint([
@@ -271,6 +271,7 @@ export default class GrosggStyle extends Style {
       ])[1] * this._s
     );
 
+    // Ground pattern
     this._p5.strokeWeight(this._p5.map(this.lineThickness, 0.2, 0.5, 0.5, 1));
     this._p5.stroke(this.palette.stroke);
     const groundDotSpacing = this._p5.random(0.1, 0.3);
@@ -288,7 +289,7 @@ export default class GrosggStyle extends Style {
     }
     this._p5.strokeWeight(this.lineThickness);
 
-    // Wall
+    // Walls
     const borders = window.$fxhashFeatures.borders;
     let leftWallBase, rightWallBase, wallBaseDimensions, borderOffset;
     if (borders != "none") {
@@ -344,13 +345,7 @@ export default class GrosggStyle extends Style {
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
-    // console.log("tilePoints", tilePoints);
-    // console.log("frontLeftCorner3DCoord", frontLeftCorner3DCoord);
-
-    // this._p5.fill(this._p5.random(["#aaa", "#333", "#777", "#fff"]));
-
     if (isBorder) {
-      // console.log(frontLeftCorner3DCoord);
       this._drawPole(frontLeftCorner3DCoord);
     } else {
       this._drawBuilding(frontLeftCorner3DCoord, tilePoints);
@@ -424,6 +419,7 @@ export default class GrosggStyle extends Style {
   }
 
   _drawBuilding(tilePos) {
+    // Fading near tunnel entrance
     const buildingColor = this._p5.lerpColor(
       this._p5.color(this._p5.random(this.palette.bright)),
       this._p5.color("#000"),
@@ -433,15 +429,13 @@ export default class GrosggStyle extends Style {
     const dimensions = this._p5.createVector(
       this._p5.random(0.6) + 0.3,
       this._p5.random(0.6) + 0.3,
-      this._p5.random(0.2) + 0.1 * this.heightFactor
+      this._p5.random(0.2) + 0.1
     );
     const buildingPos = this._p5.createVector(
       tilePos.x + 0.5 - dimensions.x / 2,
       tilePos.y + 0.5 - dimensions.x / 2,
       tilePos.z
     );
-    // console.log("dimensions", dimensions);
-    // console.log("buildingPos", buildingPos);
 
     this._drawBox(buildingPos, dimensions);
     this._drawBuildingPattern(buildingPos, dimensions);
@@ -529,7 +523,7 @@ export default class GrosggStyle extends Style {
       );
     }
 
-    // Top
+    // Top if viewpoint higher
     if (
       this.prj.getProjectedPoint([
         origin.x,
@@ -581,7 +575,7 @@ export default class GrosggStyle extends Style {
       );
     }
 
-    // Bottom
+    // Bottom if view point lower
     if (
       this.prj.getProjectedPoint([origin.x, origin.y, origin.z])[1] <
       this.centerPoint[1]
