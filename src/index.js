@@ -51,6 +51,7 @@ import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
+import Nobody from './styles/nobody'
 
 const FXR = require('fxrandomjs')
 
@@ -105,6 +106,7 @@ const stylesClasses = [
   GrosggStyle,
   bfosStyle,
   DevnullStyle,
+  Nobody,
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
