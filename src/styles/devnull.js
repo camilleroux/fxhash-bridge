@@ -85,13 +85,15 @@ export default class DevnullStyle extends Style {
     let floorCount = isBorder ? (this.maxHeight) : this.minHeight + Math.floor(this.rand() * (1 + this.maxHeight - this.minHeight));
     let width = Math.ceil((tilePoints[3].x - tilePoints[0].x) * this._s);
     let depth = (tilePoints[0].y - tilePoints[1].y) * this._s;
+    let yb = tilePoints[0].y * this._s;
+    let yt = tilePoints[1].y * this._s;
     let b = { 
       xbl: tilePoints[0].x * this._s, 
       xbr: tilePoints[3].x * this._s, 
       xtl: tilePoints[1].x * this._s, 
       xtr: tilePoints[2].x * this._s, 
-      yb: tilePoints[0].y * this._s,
-      yt: tilePoints[1].y * this._s,
+      yb: yb,
+      yt: yb - 3 * (yb - yt) / 4,
       w: count,
       b: isBorder,
       floorHeights: Array.from(Array(floorCount).keys(), p => isBorder ? 1.5 * width / count : Math.ceil(width / count * (1 + Math.floor(this.rand() * 3)) / 2))
