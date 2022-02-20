@@ -22,14 +22,14 @@ export default class BoilerplateStyle extends Style {
   beforeDraw () {
     this._p5.background(1000)
     this._p5.stroke(this.mainCol,60,100)
-    for(let i=0;i<100000;i++)this._p5.point(this._p5.random()*this._s,this._p5.random()*this._s)
+    for(let i=0;i<133*this._s;i++)this._p5.point(this._p5.random()*this._s,this._p5.random()*this._s)
     this.temp= this._projectionCalculator3d.getProjectedPoint([0, this._gridSizeY, 0])
     this.temp1= this._projectionCalculator3d.getProjectedPoint([this._gridSizeX, 0,0])
     this._p5.noFill()
-    let r=0.3
+    let r=0.0004*this._s
     let a1=[]
     this._p5.angleMode(this._p5.DEGREES)
-    for(let i=0;i<10000;i++){
+    for(let i=0;i<13.3*this._s;i++){
       let tempr=r*this._p5.random()
       let tempt=360*this._p5.random()
       a1.push(0.5+tempr*Math.cos(tempt))
@@ -58,7 +58,7 @@ export default class BoilerplateStyle extends Style {
     if(this._p5.random()<0.1){
       let l=this.t.length
       this.t[l]=[]
-      for(let i=0;i<40;i++){
+      for(let i=0;i<0.053*this._s;i++){
         this.t[l].push(tilePoints[0].x+(tilePoints[3].x-tilePoints[0].x)*this._p5.random())
         this.t[l].push(tilePoints[0].y+(tilePoints[0].y-tilePoints[1].y)*10*this._p5.random())
       }
