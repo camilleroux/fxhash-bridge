@@ -52,6 +52,7 @@ import GrosggStyle from './styles/grosgg'
 import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
+import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
 
@@ -110,6 +111,7 @@ const stylesClasses = [
   JuLabatStyle,
   bfosStyle,
   DevnullStyle,
+  JeresStyle,
   Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
