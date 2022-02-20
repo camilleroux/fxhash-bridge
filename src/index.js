@@ -52,6 +52,7 @@ import GrosggStyle from './styles/grosgg'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import Nobody from './styles/nobody'
+import NickDimaStyle from './styles/nickdima'
 
 const FXR = require('fxrandomjs')
 
@@ -81,6 +82,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
