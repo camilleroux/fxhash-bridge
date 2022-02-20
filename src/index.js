@@ -49,6 +49,7 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
+import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import Nobody from './styles/nobody'
@@ -106,6 +107,7 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
+  JuLabatStyle,
   bfosStyle,
   DevnullStyle,
   Nobody
