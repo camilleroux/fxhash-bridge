@@ -1,5 +1,25 @@
-// BRIDGE
-// Camille Roux, 2022
+/**
+ * BRIDGE - JavaScript bundle to produce generative art
+ *
+ * Copyright (c) 2022, Camille Roux and contributing artists
+ * All rights reserved.
+ *
+ * The BRIDGE framework code (excluding contributed styles) is released
+ * under CC-BY-NC-SA 4.0:
+ * https://creativecommons.org/licenses/by-nc-sa/4.0/
+ * Each contributing artist holds the copyright to their individual
+ * style implementation and additional restrictions may apply.
+ *
+ * Some code in this bundle was written by third parties
+ * and is distributed under their respective licensing
+ * conditions:
+ * - p5.js (LGPL, https://p5js.org/copyright.html)
+ * - chroma.js (BSD License, https://github.com/gka/chroma.js/blob/master/LICENSE)
+ * - projection-3d-2d (MIT License, https://github.com/Infl1ght/projection-3d-2d/blob/master/LICENSE)
+ * - fxhash-helpers (MIT License, https://github.com/liamegan/fxhash-helpers/blob/main/LICENSE)
+ * - fxrandom.js (MIT License, https://github.com/clauswilke/fxrandomjs/blob/main/LICENSE)
+ * @preserve
+ **/
 
 /* eslint-disable no-undef */
 import p5 from 'p5'
@@ -30,6 +50,10 @@ import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
 import JuLabatStyle from './styles/julabat'
+import bfosStyle from './styles/bfos'
+import DevnullStyle from './styles/devnull'
+import Nobody from './styles/nobody'
+import NickDimaStyle from './styles/nickdima'
 
 const FXR = require('fxrandomjs')
 
@@ -59,6 +83,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
@@ -82,7 +107,10 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
-  JuLabatStyle
+  JuLabatStyle,
+  bfosStyle,
+  DevnullStyle,
+  Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
@@ -146,8 +174,6 @@ const sketch = function (p5) {
     rnd.setSeed(fxhash, true)
     FXInit(rnd.fxrand)
 
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-
     p5.push()
 
     // restore default p5 modes to prevent changes across styles
@@ -157,7 +183,11 @@ const sketch = function (p5) {
     p5.blendMode(p5.BLEND)
     p5.imageMode(p5.CORNER)
     p5.angleMode(p5.RADIANS)
+    p5.pixelDensity(window.devicePixelRatio)
+    p5.strokeWeight(1)
+    p5.drawingContext.shadowBlur = 0
 
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
 
     // draw tiles
