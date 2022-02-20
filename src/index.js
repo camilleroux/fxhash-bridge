@@ -49,13 +49,14 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
-import JuLabatStyle from './styles/julabat'
+// import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
 import GenerativePenStyle from './styles/generativepen'
+import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
 
 const FXR = require('fxrandomjs')
 
@@ -110,9 +111,11 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
-  JuLabatStyle,
+  // JuLabatStyle,
   bfosStyle,
   DevnullStyle,
+  Nobody,
+  AqwUnderscoreZertStyle,
   JeresStyle,
   Nobody
 ]
@@ -190,6 +193,7 @@ const sketch = function (p5) {
     p5.pixelDensity(window.devicePixelRatio)
     p5.strokeWeight(1)
     p5.drawingContext.shadowBlur = 0
+    p5.drawingContext.filter = 'none'
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
