@@ -57,8 +57,8 @@ export default class DemoStyle extends Style {
 		this._p5.noStroke();
 		
 		// We're going to jiggle the tiles a little with a slight random value
-		this.randomMinimum = 1-fxrand()*0.025;
-		this.randomMaximum = 1+fxrand()*0.025;
+		this.randomMinimum = 1-this._p5.random()*0.025;
+		this.randomMaximum = 1+this._p5.random()*0.025;
 	
 		// And occasionally a larger random value
 		if (this._p5.noise(tilePoints[0].x, tilePoints[0].y) < 0.25) {
