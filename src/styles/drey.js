@@ -97,10 +97,11 @@ class DreyStyle extends Style {
   }
 
   jitterVerts (verts) {
+    const jitterAmount = this._p5.width / 140
     return this.settings().jitterGlitch
       ? verts.map(({ x, y }) => ({
-        x: x + this._p5.random(-5, 5),
-        y: y + this._p5.random(-5, 5)
+        x: x + this._p5.random(-jitterAmount, jitterAmount),
+        y: y + this._p5.random(-jitterAmount, jitterAmount)
       }))
       : verts
   }
