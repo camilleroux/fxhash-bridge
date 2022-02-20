@@ -25,7 +25,7 @@ export default class Makio64Style extends Style {
     p5.background(this.bgColor)
     p5.fill('#f5f5f5')
     const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
-    const radius = FXRandomBetween(100, 200)
+    const radius = FXRandomBetween(0.1, 0.2) * this._s
     p5.circle(v.x, v.y - radius / 5, radius)
     for (let y = 5; y >= 1; y--) {
       this.drawMountain(y, -200, -this._gridSizeX / 2)
@@ -127,9 +127,9 @@ export default class Makio64Style extends Style {
       p5.endShape()
 
       p5.stroke('rgba(255,255,255,1)')
-      p5.circle(vertex1[0], vertex1[1], alpha * 10)
-      p5.circle(vertex2[0], vertex2[1], alpha * 10)
-      p5.circle(vertex3[0], vertex3[1], alpha * 10)
+      p5.circle(vertex1[0], vertex1[1], alpha * 0.015 * this._s)
+      p5.circle(vertex2[0], vertex2[1], alpha * 0.015 * this._s)
+      p5.circle(vertex3[0], vertex3[1], alpha * 0.015 * this._s)
     }
   }
 
