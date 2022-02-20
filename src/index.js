@@ -26,9 +26,7 @@ import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
-import BoilerplateStyle from './styles/boilerplate'
 import ShuhblamStyle from './styles/shuhblam'
-import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
 import CamilleRoux2Style from './styles/camilleroux2'
 import GorikStyle from './styles/gorik'
@@ -102,8 +100,6 @@ const stylesClasses = [
   RobinMetcalfeStyle,
   CamilleRoux2Style,
   CamilleRouxStyle,
-  BoilerplateStyle,
-  DemoStyle,
   AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle,
