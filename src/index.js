@@ -54,6 +54,7 @@ import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
+import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
 
 const FXR = require('fxrandomjs')
 
@@ -110,7 +111,8 @@ const stylesClasses = [
   JuLabatStyle,
   bfosStyle,
   DevnullStyle,
-  Nobody
+  Nobody,
+  AqwUnderscoreZertStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
