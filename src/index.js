@@ -110,7 +110,6 @@ const stylesClasses = [
   // JuLabatStyle,
   bfosStyle,
   DevnullStyle,
-  Nobody,
   AqwUnderscoreZertStyle,
   JeresStyle,
   Nobody
