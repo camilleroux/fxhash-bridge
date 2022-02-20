@@ -245,7 +245,7 @@ class DreyStyle extends Style {
     // GROUND
     const groundSpin =
       0 +
-      (this.settings().pillarColor === 'dynamic'
+      (this.settings().pillarColorStrategy === 'dynamic'
         ? this.settings().pillarHueRange
         : 0) +
       (j * this.settings().rowSpin) / 5
