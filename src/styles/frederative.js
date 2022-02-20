@@ -129,7 +129,7 @@ export default class frederativeStyle extends Style {
     }
 
     // poly-moon
-    let _moon_d = this._p5.random(50, 200);
+    let _moon_d = this._p5.width * this._p5.random(0.3, 0.05);
     let _moon_c = this._p5.color(this._p5.random(_starColors));
     _moon_c._array[3] = this._p5.random(0.1, 0.5);
     let _x = this._p5.random(_moon_d, this._p5.width - _moon_d);
