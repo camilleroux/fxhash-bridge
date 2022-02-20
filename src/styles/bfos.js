@@ -44,7 +44,7 @@ export default class bfosStyle extends Style {
 
     switch(brickColorIndex){
       case 0:
-        brickColor.setAlpha(60)
+        brickColor.setAlpha(150)
         this._p5.stroke(brickColor)
         for(let ix = 0; ix<=1; ix+=this._p5.random(0.01)) {
           this._p5.point(this._p5.lerp(tilePoints[0].x * this._s,this._s * 0.85,ix),this._p5.lerp(tilePoints[0].y * this._s,this._s * 0.25,ix) + this._p5.random(0,1));
@@ -63,7 +63,7 @@ export default class bfosStyle extends Style {
         this._p5.ellipse(this._s * 0.15, this._s * 0.25,2.5)
         break;
       case 1:
-        brickColor.setAlpha(55)
+        brickColor.setAlpha(125)
         this._p5.stroke(brickColor)
         for(let ix = 0; ix<=1; ix+=this._p5.random(0.02)) {
           this._p5.point(this._p5.lerp(tilePoints[0].x * this._s,this._s * 0.25,ix),this._p5.lerp(tilePoints[0].y * this._s,this._s * 0.10,ix) + this._p5.random(0,1));
@@ -76,7 +76,7 @@ export default class bfosStyle extends Style {
         break;
         
       case 2:
-        brickColor.setAlpha(45)
+        brickColor.setAlpha(115)
         this._p5.stroke(brickColor)
         for(let ix = 0; ix<=1; ix+=this._p5.random(0.03)) {
           this._p5.point(this._p5.lerp(tilePoints[0].x * this._s,this._s * 0.45,ix),this._p5.lerp(tilePoints[0].y * this._s,this._s * 0.12,ix) + this._p5.random(0,1));
@@ -88,7 +88,7 @@ export default class bfosStyle extends Style {
         this._p5.ellipse(this._s * 0.55, this._s * 0.12,1.5)
         break;
       case 3:
-        brickColor.setAlpha(35)
+        brickColor.setAlpha(100)
         this._p5.stroke(brickColor)
         for(let ix = 0; ix<=1; ix+=this._p5.random(0.03)) {
           this._p5.point(this._p5.lerp(tilePoints[0].x * this._s,this._s * 0.50,ix),this._p5.lerp(tilePoints[0].y * this._s,this._s * 0.08,ix) + this._p5.random(0,1));
