@@ -85,5 +85,5 @@ export default class GenPenStyle extends Style {
 
   static author () { return 'Generative Pen' }
 
-  static name () { return 'PLACEHOLDER' }
+  static name () { return 'Blackboard' }
 }
