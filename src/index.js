@@ -55,6 +55,7 @@ import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
+import GenerativePenStyle from './styles/generativepen'
 import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
 
 const FXR = require('fxrandomjs')
@@ -85,6 +86,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  GenerativePenStyle,
   NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
