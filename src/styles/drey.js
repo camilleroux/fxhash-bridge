@@ -52,9 +52,9 @@ class DreyStyle extends Style {
       this._settings.maxAlpha = (() => {
         switch (this._settings.strategy) {
           case 'tiles':
-            return this._p5.random(0.55, 1)
+            return this._p5.random(0.7, 1)
           case 'scaffold':
-            return this._p5.random(0.55, 1)
+            return this._p5.random(0.7, 1)
           case 'wire':
             return this._p5.random(0.55, 1)
           default:
@@ -194,7 +194,7 @@ class DreyStyle extends Style {
 
   drawGround ({ color, verts }) {
     this._p5.noStroke()
-    this._p5.fill(color.setAlpha(0.07).toString())
+    this._p5.fill(color.setAlpha(0.15).toString())
     const scaledVerts = this.scaleVerts(verts, this._s)
     this._p5.quad(...scaledVerts.reduce((acc, { x, y }) => [...acc, x, y], []))
   }
