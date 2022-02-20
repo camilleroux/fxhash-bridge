@@ -177,7 +177,7 @@ export default class frederativeStyle extends Style {
   }
 
   afterDraw() { 
-    // this.dither(null); 
+    this.dither(null); 
 
     // reset user's density after my dithering is done
     this._p5._pixelDensity = this.currDensity;
