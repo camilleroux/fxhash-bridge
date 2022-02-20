@@ -124,7 +124,6 @@ export default class s extends Style {
     this._p5.stroke(this.my_palette[1])
 
     // draw top
-    //  this._p5.fill(this.my_palette[0])
     this._p5.quad(tilePoints[0].x * this._s, tilePoints[0].y * this._s,
       tilePoints[1].x * this._s, tilePoints[1].y * this._s,
       tilePoints[2].x * this._s, tilePoints[2].y * this._s,
