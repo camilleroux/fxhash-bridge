@@ -108,7 +108,7 @@ const stylesClasses = [
   bfosStyle,
   DevnullStyle,
   JeresStyle,
-  Nobody,
+  Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
