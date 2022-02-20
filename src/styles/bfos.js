@@ -8,7 +8,7 @@ import Style from './style'
 export default class bfosStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    this.colors = ["#6a0136", "#618b25", "#aa767c", "#026c7c"];
+    this.colors = ["#92014a", "#7adc38", "#b18388", "#028ea3"];
     this.bgColor = "#000000"
   }
 
@@ -20,12 +20,14 @@ export default class bfosStyle extends Style {
     
     this._p5.background(this.bgColor)
     
-    let backColor = this._p5.color("#333333")
+    let backColor = (this._p5.color("#111111"))
+    backColor.setAlpha(100)
+    console.log(this._s)
     this._p5.stroke(backColor)
     this._p5.fill(backColor)
-    for (let iy=0; iy < this._s; iy+=4){
-      for (let ix=0; ix < this._s;ix+=4) {
-        this._p5.point(ix,iy)
+    for (let iy=0; iy < this._s; iy+=this._s/200){
+      for (let ix=0; ix < this._s; ix+=this._s/200) {
+        this._p5.rect(ix,iy,this._s/800,this._s/800)
       }
     }
   }
@@ -106,7 +108,7 @@ export default class bfosStyle extends Style {
       xStartPositionBasedOnY = this._p5.lerp(tilePoints[0].x * this._s, tilePoints[1].x * this._s, yPositionofY)
       xEndPositionBasedOnY = this._p5.lerp(tilePoints[3].x * this._s, tilePoints[2].x * this._s, yPositionofY)
       for(let ix = xStartPositionBasedOnY + this._p5.random(0,2); ix <= xEndPositionBasedOnY; ix+=this._p5.random(1,2)) {
-        this._p5.point(ix,iy + this._p5.random(-2,2))
+         this._p5.point(ix,iy + this._p5.random(-2,2))
       }
     }
   }
