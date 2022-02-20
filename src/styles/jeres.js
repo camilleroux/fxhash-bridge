@@ -17,11 +17,6 @@ export default class JeresStyle extends Style {
 
   WIND = 0;
 
-  constructor(gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
-    super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    console.log(`y: ${gridSizeY}`);
-  }
-
   randomWaterColor() {
     return this.WATERCOLORS[this._p5.floor(this._p5.random() * this.WATERCOLORS.length)];
   }
@@ -44,9 +39,6 @@ export default class JeresStyle extends Style {
     this._p5.background(this.randomSkyColor())
     const horizonPercent = this._projectionCalculator3d.getProjectedPoint([0, this._gridSizeY, 0])[1]
     const horizon = horizonPercent * this._s
-    console.log(`horizon: ${horizon}`);
-    console.log(`SHAKE_LEVEL: ${this.SHAKE_LEVEL}`);
-    console.log(`WIND: ${this.WIND}`);
 
     this._p5.fill(this.randomWaterColor())
     this._p5.strokeWeight(0)
