@@ -46,16 +46,13 @@ import MandyBrigwellStyle from './styles/mandybrigwell'
 import RVigStyle from './styles/rvig'
 import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
-<<<<<<< HEAD
-import NickDimaStyle from './styles/nickdima'
-=======
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import Nobody from './styles/nobody'
->>>>>>> 72c11e85bda6366a778be8911a1cee7d95178b72
+import NickDimaStyle from './styles/nickdima'
 
 const FXR = require('fxrandomjs')
 
@@ -85,6 +82,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
@@ -105,16 +103,12 @@ const stylesClasses = [
   Makio64Style,
   MandyBrigwellStyle,
   BridgeTunnelStyle,
-<<<<<<< HEAD
-  NickDimaStyle
-=======
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
   bfosStyle,
   DevnullStyle,
   Nobody
->>>>>>> 72c11e85bda6366a778be8911a1cee7d95178b72
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 // let styleClassId = FXRandomIntBetween(stylesClasses.length - 1, stylesClasses.length)
