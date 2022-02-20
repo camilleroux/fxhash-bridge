@@ -98,7 +98,7 @@ const stylesClasses = [
   BoilerplateStyle,
   DemoStyle,
   AzeemStyle,
-  Makio64Style
+  Makio64Style,
   MandyBrigwellStyle,
   BridgeTunnelStyle,
   DreyStyle,
@@ -106,7 +106,7 @@ const stylesClasses = [
   GrosggStyle,
   bfosStyle,
   DevnullStyle,
-  Nobody,
+  Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
