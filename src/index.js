@@ -1,15 +1,15 @@
 /**
  * BRIDGE - JavaScript bundle to produce generative art
- * 
+ *
  * Copyright (c) 2022, Camille Roux and contributing artists
  * All rights reserved.
- * 
+ *
  * The BRIDGE framework code (excluding contributed styles) is released
  * under CC-BY-NC-SA 4.0:
  * https://creativecommons.org/licenses/by-nc-sa/4.0/
  * Each contributing artist holds the copyright to their individual
  * style implementation and additional restrictions may apply.
- * 
+ *
  * Some code in this bundle was written by third parties
  * and is distributed under their respective licensing
  * conditions:
@@ -81,32 +81,32 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
-  AdaAdaAdaStyle,
-  RVigStyle,
-  ElsifStyle,
-  EstienneStyle,
-  FrederativeStyle,
-  DavidEsqStyle,
-  ShuhblamStyle,
-  GorikStyle,
-  AnaglyphicStyle,
-  PhilosophieStyle,
-  WilkeStyle,
-  RobinMetcalfeStyle,
-  CamilleRoux2Style,
-  CamilleRouxStyle,
-  BoilerplateStyle,
-  DemoStyle,
-  AzeemStyle,
-  Makio64Style,
-  MandyBrigwellStyle,
-  BridgeTunnelStyle,
-  DreyStyle,
-  LunareanStyle,
-  GrosggStyle,
-  bfosStyle,
-  DevnullStyle,
-  Nobody,
+  // AdaAdaAdaStyle,
+  // RVigStyle,
+  // ElsifStyle,
+  // EstienneStyle,
+  // FrederativeStyle,
+  // DavidEsqStyle,
+  // ShuhblamStyle,
+  // GorikStyle,
+  // AnaglyphicStyle,
+  // PhilosophieStyle,
+  // WilkeStyle,
+  // RobinMetcalfeStyle,
+  // CamilleRoux2Style,
+  // CamilleRouxStyle,
+  // BoilerplateStyle,
+  // DemoStyle,
+  // AzeemStyle,
+  Makio64Style
+  // MandyBrigwellStyle,
+  // BridgeTunnelStyle,
+  // DreyStyle,
+  // LunareanStyle,
+  // GrosggStyle,
+  // bfosStyle,
+  // DevnullStyle,
+  // Nobody,
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle

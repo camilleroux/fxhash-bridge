@@ -7,67 +7,129 @@
 import Style from './style'
 import { createCols } from '../utils'
 import { FXRandomBetween } from '@liamegan1/fxhash-helpers'
+import Delaunator from 'delaunator'
+import classifyPoint from 'robust-point-in-polygon'
 
 function smoothstep (min, max, value) {
   return Math.max(0, Math.min(1, (value - min) / (max - min)))
 }
 
-const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
 export default class Makio64Style extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    const palette = this._p5.random([0, 0, 0, 1])
-    this.colors = createCols(palettes[palette])
-    this.backgroundColor = this.colors.pop()
-    this.defaultColor = this.colors[0]
+    this.bgColor = '#000' // '#1c171d'
   }
 
   beforeDraw () {
     const p5 = this._p5
-    p5.background('rgb(0,0,0)')
+    p5.background(this.bgColor)
     p5.fill('#f5f5f5')
     const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
     const radius = FXRandomBetween(100, 200)
     p5.circle(v.x, v.y - radius / 5, radius)
-    this.drawMountain(1, -200, -this._gridSizeX / 2)
-    this.drawMountain(-1, this._gridSizeX / 2, 200)
+    for (let y = 5; y >= 1; y--) {
+      this.drawMountain(y, -200, -this._gridSizeX / 2)
+      this.drawMountain(y, this._gridSizeX / 2, 200)
+    }
   }
 
-  drawMountain (factor, min, max) {
+  drawMountain (y, min, max) {
     const p5 = this._p5
     const noiseScale = 0.1
     const noiseScale2 = 0.01
-    for (let y = 5; y >= 0; y--) {
-      p5.strokeWeight(2)
-      p5.stroke('#f5f5f5')
-      let prev = null
-      const paths = []
-      for (let x = min; x < max; x++) {
-        let noiseVal = p5.noise((x + y * 100) * noiseScale, 0) * 0.5
-        noiseVal += p5.noise((x + y * 100) * noiseScale2, y) * 0.15 * (y * 0.4 + 1)
+    p5.strokeWeight(2)
+    p5.stroke('#f5f5f5')
+    let prev = null
+    const paths = []
+    let maxY = -100000
+    let stroke = 1000
+    for (let x = min; x < max; x += 2) {
+      let noiseVal = p5.noise((x + y * 100) * noiseScale, 0) * 0.5
+      noiseVal += p5.noise((x + y * 100) * noiseScale2, y) * 0.15 * (y * 0.4 + 1)
 
-        const x1 = x
-        const y1 = this._gridSizeY + y * 15 - 30
-        const z1 = ((Math.sin(x * 0.05 + y) + 1) * 0.3 + (0.05 + (y * 0.6 + 1) * noiseVal + y * 0.2)) * smoothstep(10, 50, Math.abs(x))// + smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * 0.5
-        const v = this.projectedPoint(x1, y1, z1)
-        if (prev) {
-          p5.strokeWeight(smoothstep(0, 5, z1) * 3.5)
-          // p5.stroke(`rgba(255,255,255,${smoothstep(-1, 6, z1)})`)
-          p5.line(prev.x, prev.y, v.x, v.y)
+      const x1 = x
+      const y1 = this._gridSizeY + y * 15 - 30
+      const z1 = ((Math.sin(x * 0.05 + y) + 1) * 0.3 + (0.05 + (y * 0.6 + 1) * noiseVal + y * 0.2)) * smoothstep(10, 50, Math.abs(x))// + smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * 0.5
+      const v = this.projectedPoint(x1, y1, z1)
+      if (prev) {
+        stroke = smoothstep(0, 5, z1) * 4.5
+        p5.strokeWeight(stroke)
+        // p5.stroke(`rgba(255,255,255,${smoothstep(-1, 6, z1)})`)
+        p5.line(prev.x, prev.y, v.x, v.y)
+      }
+      prev = v
+      maxY = Math.max(maxY, v.y)
+      paths.push(v)
+    }
+    const points = []
+    for (let i = 0; i < paths.length; i++) {
+      for (let y2 = 0; y2 < 20; y2++) {
+        if (paths[i].y + y2 * 30 > maxY) {
+          continue
         }
-        prev = v
-        paths.push(v)
+        const jizz = y2 === 0 ? 0 : 10
+        points.push([paths[i].x + FXRandomBetween(-1, 1) * jizz, paths[i].y + y2 * 30 + FXRandomBetween(-1, 1) * jizz])
+        // y2 += FXRandomBetween(10, 40)
       }
-      paths.push(this.projectedPoint(max, this._gridSizeY + y * 20, -50))
-      paths.push(this.projectedPoint(min, this._gridSizeY + y * 20, -50))
-      // paths.push(p5.createVector(min, 300))
-      p5.fill('#000')
-      p5.noStroke()
+    }
+
+    paths.push(this.projectedPoint(max, this._gridSizeY + y * 10, -3))
+    paths.push(this.projectedPoint(min, this._gridSizeY + y * 10, -3))
+
+    const polygon = []
+    for (let i = 0; i < paths.length; i++) {
+      polygon.push([paths[i].x, paths[i].y])
+    }
+
+    // paths.push(p5.createVector(min, 300))
+    p5.fill(this.bgColor)
+    p5.noStroke()
+    p5.beginShape()
+    for (const p of paths) {
+      p5.vertex(p.x, p.y)
+    }
+    p5.endShape(p5.CLOSE)
+
+    const delaunay = Delaunator.from(points)
+    const triangles = delaunay.triangles
+    p5.strokeWeight(1)
+    p5.stroke('#f5f5f5')
+
+    // for (const p of points) {
+    //   p5.circle(p[0], p[1], 3)
+    // }
+
+    function triangleCenter (a, b, c) {
+      return [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3]
+    }
+
+    for (let k = 0; k < triangles.length; k += 3) {
+      const id1 = triangles[k]
+      const id2 = triangles[k + 1]
+      const id3 = triangles[k + 2]
+      const vertex1 = points[id1]
+      const vertex2 = points[id2]
+      const vertex3 = points[id3]
+
+      const center = triangleCenter(vertex1, vertex2, vertex3)
+      if (classifyPoint(polygon, center) === 1) {
+        // p5.stroke('#0000ff')
+        // p5.circle(center[0], center[1], 5)
+        continue
+      }
+
+      const alpha = (1 - smoothstep(maxY - 150, maxY - 30, center[1])) * 0.3
+      p5.stroke(`rgba(255,255,255,${alpha})`)
       p5.beginShape()
-      for (const p of paths) {
-        p5.vertex(p.x, p.y)
-      }
-      p5.endShape(p5.CLOSE)
+      p5.vertex(vertex1[0], vertex1[1])
+      p5.vertex(vertex2[0], vertex2[1])
+      p5.vertex(vertex3[0], vertex3[1])
+      p5.endShape()
+
+      p5.stroke('rgba(255,255,255,1)')
+      p5.circle(vertex1[0], vertex1[1], alpha * 10)
+      p5.circle(vertex2[0], vertex2[1], alpha * 10)
+      p5.circle(vertex3[0], vertex3[1], alpha * 10)
     }
   }
 
@@ -88,11 +150,11 @@ export default class Makio64Style extends Style {
     const botRight = this.projectedPoint(p.x + 1, p.y, p.z)
     const topRight = this.projectedPoint(p.x + 1, p.y + 1, p.z)
 
-    const height = 0.015
-    const botLeft2 = this.projectedPoint(p.x, p.y, p.z + height)
-    const topLeft2 = this.projectedPoint(p.x, p.y + 1, p.z + height)
-    const botRight2 = this.projectedPoint(p.x + 1, p.y, p.z + height)
-    const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
+    // const height = 0.015
+    // const botLeft2 = this.projectedPoint(p.x, p.y, p.z + height)
+    // const topLeft2 = this.projectedPoint(p.x, p.y + 1, p.z + height)
+    // const botRight2 = this.projectedPoint(p.x + 1, p.y, p.z + height)
+    // const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
 
     const ratio = (1 - smoothstep(0, 35, p.y))
 
@@ -112,7 +174,7 @@ export default class Makio64Style extends Style {
 
     p5.strokeWeight(ratio * 1.5 + 0.1)
     p5.stroke('#fff')
-    p5.fill('#000')
+    // p5.fill(this.bgColor)
     this.drawQuad(botLeft, botRight, topRight, topLeft)
 
     // // draw left
@@ -129,7 +191,7 @@ export default class Makio64Style extends Style {
     p5.strokeWeight(0)
 
     const movementY = 0.1
-    const movementX = 0.02
+    const movementX = 0.03
     const z = p.z // + height
 
     const jizzPower = 0.01
@@ -145,7 +207,7 @@ export default class Makio64Style extends Style {
           const p1 = this.projectedPoint(jx + x, jy + y, z)
           const p2 = this.projectedPoint(jx + x + movementX / 2, jy + y, z + FXRandomBetween(0.005, 0.04))
           const p3 = this.projectedPoint(jx + x + movementX, jy + y, z)
-          this.drawTriangleGradient(p1, p2, p3, p5.color('#fff'), p5.color('#000'))
+          this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(255,255,255,${0.05 + ratio * 0.95})`), p5.color(`rgba(0,0,0,${0.05 + ratio * 0.45})`))
         }
       }
     }
@@ -153,7 +215,8 @@ export default class Makio64Style extends Style {
 
   afterDraw () {
     const p5 = this._p5
-    p5.stroke(this.colors[0])
+    this.paperVignette()
+    p5.stroke('#fff')
     p5.strokeWeight(0.05 * this._s)
     p5.noFill()
     p5.rect(0, 0, this._s, this._s)
@@ -178,8 +241,8 @@ export default class Makio64Style extends Style {
     const p5 = this._p5
     p5.drawingContext.save()
     const gradient = p5.drawingContext.createLinearGradient(p1.x, p2.y, p1.x, p1.y)
-    gradient.addColorStop(0, 'rgba(255,255,255,.9)')
-    gradient.addColorStop(0.8, 'rgba(0,0,0,.5)')
+    gradient.addColorStop(0, c1)
+    gradient.addColorStop(0.8, c2)
     p5.drawingContext.fillStyle = gradient
     p5.beginShape(p5.TRIANGLES)
     p5.vertex(p1.x, p1.y)
@@ -187,6 +250,29 @@ export default class Makio64Style extends Style {
     p5.vertex(p3.x, p3.y)
     p5.endShape(p5.CLOSE)
     p5.drawingContext.restore()
+  }
+
+  // add slight vigneting, code based on estienne.js
+  paperVignette () {
+    const p5 = this._p5
+    // Creates a radial gradient fill
+    const grad = p5.drawingContext.createRadialGradient(
+      this._s / 2,
+      this._s / 2,
+      0.45 * this._s,
+      this._s / 2,
+      this._s / 2,
+      0.7 * this._s
+    )
+    const col1 = p5.color(this.bgColor)
+    const col2 = p5.color(this.bgColor)
+    col1.setAlpha(0)
+    // col2.setAlpha(1)
+    grad.addColorStop(0, col1)
+    grad.addColorStop(0.4, col2)
+    p5.drawingContext.fillStyle = grad
+    p5.noStroke()
+    p5.circle(this._s / 2, this._s / 2, 2 * this._s)
   }
 
   static author () { return 'Makio64' }
