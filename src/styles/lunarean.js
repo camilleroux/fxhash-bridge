@@ -4,14 +4,14 @@
 // Fxhash: https://www.fxhash.xyz/u/lunarean
 // Wallet: tz1Rakav1r6xMmrvYiXZjdvz3T1wNU4igoQM
 
-// Strange entities travel through space. In the distance is a star. Nothing else is known.
-
 
 import Style from './style'
 
 export default class LunareanStyle extends Style {
   BLACK = "#000000";
   WHITE = "#FFFFFF";
+
+  /*~ Strange entities travel through space. ~*/
 
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5);
@@ -20,15 +20,22 @@ export default class LunareanStyle extends Style {
     this.tiles = [];
 
     // vanishing point
-    [this.vanX, this.vanY] = this.proj.getProjectedPoint([0, 1000000, 0]);
+    const [vanX, vanY] = this.proj.getProjectedPoint([0, 1000000, 0]);
+
+    // set center of flare slightly below vanishing point
+    [this.flareX, this.flareY] = [vanX, vanY + 0.02];
 
     // rotation of rugs
     this.rugAngle = p5.random(0.1, 0.2) * p5.random([-1, 1]);
   }
 
+  /*~ In the distance is a star. ~*/
+
   static author () {
     return "lunarean";
   }
+
+  /*~ Nothing else is known. ~*/
 
   static name () {
     return "/nt/r/t///a/";
@@ -80,13 +87,14 @@ export default class LunareanStyle extends Style {
 
     // draw tiles
     for (const tile of this.tiles) {
-      this.drawFragment("base", tile, 0.7, this.modifyAlpha(this.WHITE, 0.9));
+      this.drawFragment("base", tile, 0.8, this.WHITE, 1);
     }
 
     // draw debris
     for (const tile of this.tiles) {
-      this.drawFragment("debris", tile, 0.08, this.modifyAlpha(this.BLACK, 0.8));
-      this.drawFragment("debris", tile, 0.08, this.modifyAlpha(this.BLACK, 0.8));
+      for (let i = 0; i < 3; i++) {
+        this.drawFragment("debris", tile, 0.08, this.modifyAlpha(this.BLACK, 0.8));
+      }
     }
 
     this.drawGrains(24);
@@ -135,6 +143,8 @@ export default class LunareanStyle extends Style {
     }
   }
 
+  /*~ Are they alive? ~*/
+
   drawBgGradient() {
     const p5 = this._p5;
     const SIZE = this._s;
@@ -142,11 +152,13 @@ export default class LunareanStyle extends Style {
     p5.fill(this.modifyAlpha(this.WHITE, 0.002));
     p5.noStroke();
     for (let i = 1; i < 20; i++) {
-      const s = i * 0.03;
-      const y = this.vanY - s/2;
-      p5.rect(0, y * SIZE, SIZE, s * SIZE);
+      const h = i * 0.03;
+      const y = this.flareY - h/2;
+      p5.rect(0, y * SIZE, SIZE, h * SIZE);
     }
   }
+
+  /*~ Are they sentient? ~*/
 
   drawBgTriangles() {
     const p5 = this._p5;
@@ -168,7 +180,7 @@ export default class LunareanStyle extends Style {
 
       // set stroke wider at bottom and top
       const [mx, my] = this.centroid([a, b, c]);
-      const alpha = p5.max(p5.map(my, this.vanY, 1, 0, 0.12), p5.map(my, 0.5, 0, 0, 0.06), 0.04);
+      const alpha = p5.max(p5.map(my, this.flareY, 1, 0, 0.12), p5.map(my, 0.5, 0, 0, 0.08), 0.04);
       p5.stroke(this.modifyAlpha(this.WHITE, alpha));
 
       // warp
@@ -194,19 +206,15 @@ export default class LunareanStyle extends Style {
     layer.stroke(this.modifyAlpha(this.WHITE, 0.016));
     layer.strokeWeight(0.0003 * SIZE);
 
-    // set flare to be slightly below vanishing point
-    const cx = this.vanX;
-    const cy = this.vanY + 0.04;
-
     // draw radiants
     const numRadiants = 24000;
     for (let i = 0; i < numRadiants; i++) {
       let step = p5.random();
       const theta = p5.random(p5.TWO_PI);
-      const ax = cx - step * p5.cos(theta);
-      const ay = cy - step * p5.sin(theta);
-      const bx = cx + step * p5.cos(theta);
-      const by = cy + step * p5.sin(theta);
+      const ax = this.flareX - step * p5.cos(theta);
+      const ay = this.flareY - step * p5.sin(theta);
+      const bx = this.flareX + step * p5.cos(theta);
+      const by = this.flareY + step * p5.sin(theta);
       layer.line(ax * SIZE, ay * SIZE, bx * SIZE, by * SIZE)
     }
 
@@ -216,7 +224,7 @@ export default class LunareanStyle extends Style {
       const r = i * 0.003;
       const alpha = 0.4 * p5.sq(p5.map(i, 0, n, 1, 0));
       layer.fill(this.modifyAlpha(this.WHITE, alpha));
-      layer.ellipse(cx * SIZE, cy * SIZE, r * SIZE, r * SIZE)
+      layer.ellipse(this.flareX * SIZE, this.flareY * SIZE, r * SIZE, r * SIZE)
     }
     p5.image(layer.get(), 0, 0);
   }
@@ -236,20 +244,20 @@ export default class LunareanStyle extends Style {
     const freqX = p5.random(30, 40);
     const freqY = p5.random(30, 40);
 
-    const minY = isDots ? 0 : this.vanY + 0.2;
+    const minY = isDots ? 0 : this.flareY + 0.1;
     const maxY = isDots ? 1 : 0.9;
 
     const w = sizeMod * (isDots ? p5.random(0.4, 0.5) : p5.random(0.3, 0.4));
     const h = sizeMod * (isDots ? p5.random(0.2, 0.3) : p5.random(0.15, 0.2));
     const x = p5.random(0.1, 0.9-w);
     const y = p5.map(p5.sqrt(p5.random()), 0, 1, minY, maxY-h);
-    const sc = (y + h - this.vanY) / (y - this.vanY);
+    const sc = (y + h - this.flareY) / (y - this.flareY);
 
     let points = [
-      this.lerp2([this.vanX, this.vanY + 0.05], [x, y], sc),
+      this.lerp2([this.flareX, this.flareY], [x, y], sc),
       [x, y],
       [x+w, y],
-      this.lerp2([this.vanX, this.vanY + 0.05], [x+w, y], sc)
+      this.lerp2([this.flareX, this.flareY], [x+w, y], sc)
     ]
 
     // add gaussian noise
@@ -298,6 +306,8 @@ export default class LunareanStyle extends Style {
     p5.pop();
   }
 
+  /*~ Where do they come from? ~*/
+
   drawFragment(fragmentType, points, scaleMod, strokeColor) {
     const p5 = this._p5;
     const SIZE = this._s;
@@ -318,15 +328,20 @@ export default class LunareanStyle extends Style {
     const phaseY = p5.random(p5.TWO_PI);
     const freqY = p5.random(30, 40);
 
+    const liftProb = p5.sqrt(p5.map(my, this.flareY, 1, 1, 0));
+    const isLift = p5.random() < liftProb;
+
     let offsetX = 0;
     let offsetY = 0;
     if (isStars || isDebris) {
       offsetX = 0.3 * p5.randomGaussian();
       offsetY = -0.3 * p5.abs(p5.randomGaussian());
     } else if (isBase) {
-      const gainY = p5.map(my, 0.25, 1, 0.07, 0);
-      offsetX = 0.15 * p5.sq(1-my) * p5.randomGaussian()
-      offsetY = -1 * gainY * p5.abs(p5.randomGaussian());
+      offsetX = isLift ? 0.1 * (1-my) * p5.randomGaussian() : 0;
+      offsetY = isLift ? -0.12 * (1-my) * p5.abs(p5.randomGaussian()) : 0;
+      if (isLift) {
+        scaleMod *= 0.8;
+      }
     }
 
     // convert to 3d and scale
@@ -343,14 +358,14 @@ export default class LunareanStyle extends Style {
     })
 
     // add gaussian noise
-    let sdMod = isDebris ? 0.1 : isBase ? p5.map(my, 1, this.vanY, 0.02, 0.05) : 0;
+    let sdMod = isDebris ? 0.1 : 0;
     const sd = sdMod * p5.dist(...points[0], ...points[3]);
     points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
     const swMod = p5.randomGaussian();
     const densityMod = isDebris ? 0.1 : 0.8;
-    const skipProb = isBase ? 0.4 * p5.map(my, this.vanY, 1, 0.1, 1) : 0;
-    const jumpProb = 0.2 * p5.sq(p5.max(p5.map(my, this.vanY, 1, -0.5, 1), 0.1));
+    const skipProb = isBase ? 0.4 * p5.map(my, this.flareY, 1, 0.1, 1) : 0;
+    const jumpProb = 0.2 * p5.sq(p5.max(p5.map(my, this.flareY, 1, -0.5, 1), 0.1));
 
     const tileSize = p5.dist(...points[0], ...points[3]);
     const isPerturb = tileSize < 0.015 && p5.random() < 0.05;
@@ -383,8 +398,10 @@ export default class LunareanStyle extends Style {
         }
 
         // make vertices glow
-        x = p5.lerp(tx, x, 1.2);
-        y = p5.lerp(ty, y, 1.2);
+        if (!isLift) {
+          x = p5.lerp(tx, x, 1.2);
+          y = p5.lerp(ty, y, 1.2);
+        }
         return [x * SIZE, y * SIZE];
       })
 
@@ -403,8 +420,8 @@ export default class LunareanStyle extends Style {
         const db = p5.random(-2, 2);
         p5.stroke(strokeColor)
 
-        const ampl = p5.max(p5.pow(p5.map(ty, this.vanY+0.1, 1, 1, 0), 2), 0.1);
-        const sw = isStars ? 0.001 : 0.00042 * p5.exp(0.1 * mod + 0.25 * swMod) * ampl;
+        const ampl = isLift ? p5.sq(p5.constrain(p5.map(ty, this.flareY-0.1, 1, 1, 0), p5.sqrt(0.16), 1)) : 0.045;
+        const sw = isStars ? 0.001 : 0.00055 * p5.exp(0.1 * mod + 0.12 * swMod) * ampl;
         p5.strokeWeight(sw * SIZE);
 
         // draw triangle edges
@@ -430,6 +447,8 @@ export default class LunareanStyle extends Style {
     const numPoints = p5.ceil(density * (this.area(a, b, c) + this.area(c, d, a)));
     return this.triangulate(q, numPoints, 0.4);
   }
+
+  /*~ How long have they been drifting through space? ~*/
 
   triangulate(q, numSteps, minSide) {
     const p5 = this._p5;
@@ -531,6 +550,7 @@ export default class LunareanStyle extends Style {
 
     p5.loadPixels();
     for (let i = 0; i < n; i += 4) {
+      // perturb each pixel
       const d = ampl * (p5.random() - p5.random());
       p5.pixels[i] += d; // red
       p5.pixels[i+1] += d; // green
@@ -543,13 +563,6 @@ export default class LunareanStyle extends Style {
     const p5 = this._p5;
     return p5.color(p5.hue(base), p5.saturation(base), p5.brightness(base), a);
   }
+
+  /*~ i//e/s/ell/r ~*/
 }
-
-
-// Are they alive?
-
-// Are they intelligent?
-
-// Where are they from?
-
-// Is that our sun?
