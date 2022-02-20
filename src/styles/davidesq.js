@@ -21,7 +21,7 @@ export default class s extends Style {
       ["#d55d92", "#dd339c", "#ac46a1", "#12000b"],
       ["#822faf", "#973aa8", "#6411ad", "#17000e"]
     ];
-    this.my_palette = this.palettes[getRandomInt(0, this.palettes.length)];
+    this.my_palette = this._p5.random(this.palettes);
     this.bgColor = this.my_palette[this.my_palette.length - 1];
   }
 
@@ -69,9 +69,9 @@ export default class s extends Style {
     this._p5.drawingContext.shadowBlur = 0;
     this._p5.fill(this.my_palette[2]);
     for (let i = 0; i < 60; i++) {
-      this._p5.circle(this._p5.width * fxrand(),
-        horizonY * fxrand(),
-        2.5 * fxrand());
+      this._p5.circle(this._p5.width * this._p5.random(),
+        horizonY * this._p5.random(),
+        2.5 * this._p5.random());
     }
 
     // Draw rectangle to hide half of the sun
@@ -84,9 +84,9 @@ export default class s extends Style {
     this._p5.drawingContext.shadowBlur = 0;
     this._p5.fill(this.my_palette[1]);
     for (let i = 0; i < 60; i++) {
-      this._p5.circle(this._p5.width * fxrand(),
-        this._p5.height * fxrand() + horizonY,
-        2 * fxrand());
+      this._p5.circle(this._p5.width * this._p5.random(),
+        this._p5.height * this._p5.random() + horizonY,
+        2 * this._p5.random());
     }
 
     // Draw horizon shiny line
@@ -115,8 +115,8 @@ export default class s extends Style {
     this._p5.drawingContext.shadowBlur = 40;
     this._p5.drawingContext.shadowColor = this.my_palette[0];
 
-    let chance = fxrand();
-    if (chance > 0.9)
+    let chance = this._p5.random();
+    if (chance > 0.93)
       this._p5.fill(this.my_palette[0]);
     //twinkle side
     else
