@@ -186,6 +186,7 @@ const sketch = function (p5) {
     p5.pixelDensity(window.devicePixelRatio)
     p5.strokeWeight(1)
     p5.drawingContext.shadowBlur = 0
+    p5.drawingContext.filter = 'none'
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
