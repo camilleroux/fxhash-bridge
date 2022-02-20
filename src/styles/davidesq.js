@@ -118,7 +118,6 @@ export default class s extends Style {
     let chance = this._p5.random();
     if (chance > 0.93)
       this._p5.fill(this.my_palette[0]);
-    //twinkle side
     else
       this._p5.noFill();
 
@@ -147,8 +146,6 @@ export default class s extends Style {
       this._p5.quad(tilePoints[2].x * this._s, tilePoints[2].y * this._s,
         tilePoints[2].x * this._s, tilePoints[2].y * this._s + tileHeight,
         tilePoints[3].x * this._s, tilePoints[3].y * this._s);
-
-
 
     // add lines to vanishing point
     let pdfX = this._p5.width / 2;
