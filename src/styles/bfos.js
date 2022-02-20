@@ -102,13 +102,21 @@ export default class bfosStyle extends Style {
     this._p5.stroke(brickColor)
     
     let yPositionofY, xStartPositionBasedOnY, xEndPositionBasedOnY;
+    let topY = tilePoints[1].y * this._s
+    let bottomY = tilePoints[0].y * this._s
 
-    for(let iy = tilePoints[0].y * this._s, topY = tilePoints[1].y * this._s; iy > topY; iy-=this._p5.random(1,2)) {
+    for(let iy = tilePoints[0].y * this._s; iy > topY; iy-=this._p5.random(1,2)) {
       yPositionofY = 1 - ((iy - topY)  / (tilePoints[0].y * this._s - topY))
       xStartPositionBasedOnY = this._p5.lerp(tilePoints[0].x * this._s, tilePoints[1].x * this._s, yPositionofY)
       xEndPositionBasedOnY = this._p5.lerp(tilePoints[3].x * this._s, tilePoints[2].x * this._s, yPositionofY)
-      for(let ix = xStartPositionBasedOnY + this._p5.random(0,2); ix <= xEndPositionBasedOnY; ix+=this._p5.random(1,2)) {
-         this._p5.point(ix,iy + this._p5.random(-2,2))
+      for(let ix = xStartPositionBasedOnY + this._p5.random(0,2); ix <= xEndPositionBasedOnY - ((xEndPositionBasedOnY - xStartPositionBasedOnY) / 5000); ix+=this._p5.random(1,2)) {
+        //this._p5.point(ix,iy + this._p5.random(-2,2))
+
+        let lineLength = (xEndPositionBasedOnY - xStartPositionBasedOnY) / 500
+        let maxStaggerY = (bottomY - topY) / 100
+        let staggerY = this._p5.random(-maxStaggerY,maxStaggerY)
+        
+        this._p5.line(ix,iy+staggerY,ix+lineLength,iy+staggerY)
       }
     }
   }
