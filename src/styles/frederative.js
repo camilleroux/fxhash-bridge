@@ -138,7 +138,7 @@ export default class frederativeStyle extends Style {
     _moon_c._array[3] = this._p5.random(0.1, 0.5);
     let _x = this._p5.random(_moon_d, this._p5.width - _moon_d);
     let _y = this._p5.random(_moon_d, this._p5.height / 4 - _moon_d);
-    this._p5.fill(_moon_d);
+    this._p5.fill(_moon_c);
     this.polygon(_x, _y, _moon_d, this._p5.random(8, 20));
   }
 
@@ -177,7 +177,7 @@ export default class frederativeStyle extends Style {
   }
 
   afterDraw() { 
-    this.dither(null); 
+    // this.dither(null); 
 
     // reset user's density after my dithering is done
     this._p5._pixelDensity = this.currDensity;
