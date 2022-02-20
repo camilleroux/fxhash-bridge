@@ -155,7 +155,7 @@ export default class AdaAdaAdaStyle extends Style {
     this._p5.fill(fillColor)
     this._p5.noStroke()
     const minTextSize = 0.1
-    const maxTextSize = window.innerHeight * 0.0125
+    const maxTextSize = this._s * 0.0125
     const textSize = this._p5.map(tilePoints[0].y, 0, 1, minTextSize, maxTextSize)
     this._p5.textSize(Math.floor(textSize))
 
