@@ -1,5 +1,25 @@
-// BRIDGE
-// Camille Roux, 2022
+/**
+ * BRIDGE - JavaScript bundle to produce generative art
+ *
+ * Copyright (c) 2022, Camille Roux and contributing artists
+ * All rights reserved.
+ *
+ * The BRIDGE framework code (excluding contributed styles) is released
+ * under CC-BY-NC-SA 4.0:
+ * https://creativecommons.org/licenses/by-nc-sa/4.0/
+ * Each contributing artist holds the copyright to their individual
+ * style implementation and additional restrictions may apply.
+ *
+ * Some code in this bundle was written by third parties
+ * and is distributed under their respective licensing
+ * conditions:
+ * - p5.js (LGPL, https://p5js.org/copyright.html)
+ * - chroma.js (BSD License, https://github.com/gka/chroma.js/blob/master/LICENSE)
+ * - projection-3d-2d (MIT License, https://github.com/Infl1ght/projection-3d-2d/blob/master/LICENSE)
+ * - fxhash-helpers (MIT License, https://github.com/liamegan/fxhash-helpers/blob/main/LICENSE)
+ * - fxrandom.js (MIT License, https://github.com/clauswilke/fxrandomjs/blob/main/LICENSE)
+ * @preserve
+ **/
 
 /* eslint-disable no-undef */
 import p5 from 'p5'
@@ -21,11 +41,21 @@ import DavidEsqStyle from './styles/davidesq'
 import EstienneStyle from './styles/estienne'
 import Makio64Style from './styles/makio64'
 import ElsifStyle from './styles/elsif'
+import AdaAdaAdaStyle from './styles/ada_ada_ada'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import RVigStyle from './styles/rvig'
 import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
+<<<<<<< HEAD
 import NickDimaStyle from './styles/nickdima'
+=======
+import DreyStyle from './styles/drey'
+import LunareanStyle from './styles/lunarean'
+import GrosggStyle from './styles/grosgg'
+import bfosStyle from './styles/bfos'
+import DevnullStyle from './styles/devnull'
+import Nobody from './styles/nobody'
+>>>>>>> 72c11e85bda6366a778be8911a1cee7d95178b72
 
 const FXR = require('fxrandomjs')
 
@@ -55,6 +85,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
   EstienneStyle,
@@ -74,11 +105,22 @@ const stylesClasses = [
   Makio64Style,
   MandyBrigwellStyle,
   BridgeTunnelStyle,
+<<<<<<< HEAD
   NickDimaStyle
+=======
+  DreyStyle,
+  LunareanStyle,
+  GrosggStyle,
+  bfosStyle,
+  DevnullStyle,
+  Nobody
+>>>>>>> 72c11e85bda6366a778be8911a1cee7d95178b72
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 // let styleClassId = FXRandomIntBetween(stylesClasses.length - 1, stylesClasses.length)
 let currentStyle
+
+let fxpreviewDone = false
 
 // defining features
 window.$fxhashFeatures = {
@@ -137,8 +179,6 @@ const sketch = function (p5) {
     rnd.setSeed(fxhash, true)
     FXInit(rnd.fxrand)
 
-    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-
     p5.push()
 
     // restore default p5 modes to prevent changes across styles
@@ -148,7 +188,11 @@ const sketch = function (p5) {
     p5.blendMode(p5.BLEND)
     p5.imageMode(p5.CORNER)
     p5.angleMode(p5.RADIANS)
+    p5.pixelDensity(window.devicePixelRatio)
+    p5.strokeWeight(1)
+    p5.drawingContext.shadowBlur = 0
 
+    currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
 
     // draw tiles
@@ -173,8 +217,11 @@ const sketch = function (p5) {
     currentStyle.afterDraw()
     p5.pop()
 
-    // eslint-disable-next-line no-undef
-    fxpreview()
+    if (!fxpreviewDone) {
+      // eslint-disable-next-line no-undef
+      fxpreview()
+      fxpreviewDone = true
+    }
   }
 
   p5.windowResized = function () {
@@ -185,6 +232,10 @@ const sketch = function (p5) {
   p5.mousePressed = function (event) {
     if (event.which === 0 || event.which === 1) { // if touch or left clic
       styleClassId = (styleClassId + 1) % stylesClasses.length
+      console.table({
+        styleCreator: stylesClasses[styleClassId].author(),
+        styleName: stylesClasses[styleClassId].name()
+      })
       this.draw()
       return false
     }

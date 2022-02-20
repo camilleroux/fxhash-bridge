@@ -46,7 +46,58 @@ export default class GorikStyle extends Style {
         this._p5.rect(i, j, 2)
       }
     }
+    this._p5.noStroke()
+    this.drawMist(this.createShapes(300))
+    this.drawMist(this.createShapes(150))
+    this.drawMist(this.createShapes(0))
     this._p5.pop()
+  }
+
+  createShapes (f) {
+    const offset = this._p5.random(-400, 400)
+    const stretchedPentagon = [
+      this._p5.createVector(this._p5.width * 0.85 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
+      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
+      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.85 + offset),
+      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
+      this._p5.createVector(this._p5.width * 0.3 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
+      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset),
+      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.1 + offset),
+      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset)
+    ]
+    return stretchedPentagon
+  }
+
+  drawMist (arr) {
+    for (let j = 0; j < 80; j += 1) {
+      const shape = this.polygon(arr, 1)
+      this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 5))
+      this._p5.beginShape()
+      for (const i of shape) {
+        this._p5.vertex(i.x, i.y)
+      }
+      this._p5.endShape(this._p5.CLOSE)
+    }
+  }
+
+  polygon (shape, depth) {
+    if (depth >= 7) {
+      return shape
+    } else {
+      const nextShape = []
+      for (const i in shape) {
+        nextShape.push(shape[i])
+        let next = this._p5.int(i) + 1
+        if (next > shape.length - 1) next = 0
+        const middle = this._p5.createVector((shape[next].x + shape[i].x) / 2
+          , (shape[next].y + shape[i].y) / 2)
+        const dx = this._p5.randomGaussian(0, 100)
+        const dy = this._p5.randomGaussian(0, 100)
+        middle.add(dx, dy)
+        nextShape.push(middle)
+      }
+      return this.polygon(nextShape, depth + 1)
+    }
   }
 
   drawBgPoly (cx, cy, w) {
@@ -66,7 +117,7 @@ export default class GorikStyle extends Style {
         this.line15(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s, 50)
       }
     } else {
-      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 15) {
+      for (let x = tilePoints[0].x * this._s; x < tilePoints[3].x * this._s; x += w / 25) {
         this.tLine(x, tilePoints[0].y * this._s, x + delta * this._s, tilePoints[1].y * this._s)
       }
     }
@@ -88,8 +139,8 @@ export default class GorikStyle extends Style {
   }
 
   drawPolygon (points) {
-    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 150))
-    // this._p5.noFill()
+    this._p5.noStroke()
+    this._p5.fill(this.addAlpha(this.getRandomColour(this.randomArray), 100))
     this._p5.beginShape()
     for (const point of points) {
       this._p5.vertex(point.x, point.y)
@@ -120,7 +171,7 @@ export default class GorikStyle extends Style {
   }
 
   tLine (x1, y1, x2, y2) {
-    this._p5.strokeWeight(5)
+    this._p5.strokeWeight(0.5)
     this._p5.noFill()
     this._p5.stroke(this.addAlpha(this.getRandomColour(this.randomArray), 150))
     this._p5.line(x1, y1, x2, y2)
@@ -175,7 +226,6 @@ export default class GorikStyle extends Style {
     colorMap.set('Gold', ['#F90716', '#FF5403', '#FFCA03', '#FFF323'])
     colorMap.set('Gold2', ['#781D42', '#A3423C', '#DE834D', '#F0D290'])
     colorMap.set('Neon', ['#FBF46D', '#B4FE98', '#77E4D4', '#998CEB'])
-    colorMap.set('Neon2', ['#FF4848', '#FFD371', '#C2FFD9', '#9DDAC6'])
     colorMap.set('Neon3', ['#F1F1F1', '#FDB827', '#21209C', '#23120B'])
     colorMap.set('Space', ['#161853', '#292C6D', '#FAEDF0', '#EC255A'])
     colorMap.set('Space2', ['#370665', '#35589A', '#F14A16', '#FC9918'])
@@ -190,10 +240,8 @@ export default class GorikStyle extends Style {
     colorMap.set('Cold', ['#009DAE', '#71DFE7', '#C2FFF9', '#FFE652'])
     colorMap.set('Dark', ['#041C32', '#04293A', '#064663', '#ECB365'])
     colorMap.set('Summer', ['#125C13', '#3E7C17', '#F4A442', '#E8E1D9'])
-    colorMap.set('Spring', ['#D54062', '#FFA36C', '#EBDC87', '#799351'])
     colorMap.set('Nature', ['#483434', '#6B4F4F', '#EED6C4', '#FFF3E4'])
     colorMap.set('Nature2', ['#C5D7BD', '#9FB8AD', '#383E56', '#FB743E'])
-    colorMap.set('Rainbow', ['#F47C7C', '#F7F48B', '#A1DE93', '#70A1D7'])
     colorMap.set('Night', ['#000000', '#150050', '#3F0071', '#610094'])
     colorMap.set('Skin', ['#D77FA1', '#BAABDA', '#D6E5FA', '#FFF9F9'])
     colorMap.set('Skin2', ['#9D5C0D', '#E5890A', '#F7D08A', '#FAFAFA'])
@@ -203,17 +251,6 @@ export default class GorikStyle extends Style {
 
   getRandomColour (randomArray) {
     return FXRandomOption(randomArray)
-  }
-
-  hexToRgb (hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        }
-      : null
   }
 
   addAlpha (c, a) {

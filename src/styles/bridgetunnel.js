@@ -5,13 +5,13 @@
 // Wallet: tz1WwNyzXEGvSxZDEvugnDghcsQabxHWcsvn
 
 import Style from './style'
-import { FXRandomOption } from '@liamegan1/fxhash-helpers'
 
 export default class BridgeTunnelStyle extends Style {
   beforeDraw () {
     this._endMode = this._p5.random(['light', 'dark'])
-    this._amplitude = this._p5.random(0.5, 1)
     this._borderMode = this._p5.random(['a', 'b'])
+    this._amplitude = this._p5.random(0.5, 1)
+    this._texture = this._p5.random(0.1, 1)
 
     this._S = this._s * this._p5.pixelDensity()
     this._depth = 4
@@ -63,9 +63,9 @@ export default class BridgeTunnelStyle extends Style {
         (isBorder && this._borderMode === 'b') ?
         0 : (1 - f1) + this._p5.random(- this._amplitude, this._amplitude)
       let c = this._p5.color(
-        Math.floor(256 * f2),
-        Math.floor(256 * f1),
-        255
+        Math.floor(256 * f2), // Color
+        Math.floor(256 * f1), // Light
+        255 // Mask
       )
       this.tilePointsQuad(c, g)
     }
@@ -82,31 +82,33 @@ export default class BridgeTunnelStyle extends Style {
     ])
 
     this._p5.loadPixels()
-    const p1 = this._p5.pixels
-    const p2 = new Uint8ClampedArray(p1)
-    for (let i = 0; i < p1.length; i += 4) {
-      const pf = this._p5.random([
-        [7, 5, 1, 3],
-        [5, 5, 4, 2],
-      ])
-      let v1 = p2[i]
-      let v2 = v1 > 127 ? 255 : 0
-      let e = (v1 - v2) / 16
-      this.propagate(p2, i + 4, e * pf[0])
-      this.propagate(p2, i - 4 + this._S * 4, e * pf[1])
-      this.propagate(p2, i + 0 + this._S * 4, e * pf[2])
-      this.propagate(p2, i + 4 + this._S * 4, e * pf[3])
-      let mask = (p1[i + 2] / 255)
+
+    const p = this._p5.pixels
+    for (let i = 0; i < p.length; i += 4) {
+      let v1 = p[i]
+      if (this._p5.random() < this._texture) {
+        let v2 = v1 > 127 ? 255 : 0
+        let e = (v1 - v2) / 16
+        p[i + 4] += e * 7
+        p[i - 4 + this._S * 4] += e * 5
+        p[i + 0 + this._S * 4] += e * 3
+        p[i + 4 + this._s * 4] += e * 1
+      }
+      let mask = (p[i + 2] / 255)
       let v
       if (this._endMode === 'light') {
-        v = Math.max(v1 * mask, p1[i + 1] * 2)
+        v = Math.max(v1 * mask, p[i + 1] * 2)
       }
       else {
-        let light = (1 - p1[i + 1] / 255)
+        let light = (1 - p[i + 1] / 255)
         v = v1 * mask * light * light
       }
-      this.setPixel(p1, i, v)
+      p[i] = v
+      p[i + 1] = v
+      p[i + 2] = v
+      p[i + 3] = 255
     }
+
     this._p5.updatePixels()
   }
 
@@ -123,19 +125,6 @@ export default class BridgeTunnelStyle extends Style {
                   tilePoints[2].y * this._s,
                   tilePoints[3].x * this._s,
                   tilePoints[3].y * this._s)
-  }
-
-  setPixel (p, i, v) {
-    if (v < p.length) {
-      p[i] = v
-      p[i + 1] = v
-      p[i + 2] = v
-      p[i + 3] = 255
-    }
-  }
-
-  propagate (p, i, e) {
-    this.setPixel(p, i, p[i] + e)
   }
 
   static author () { return 'Laurent Houdard' }

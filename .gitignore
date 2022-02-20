@@ -3,3 +3,6 @@ dist/
 dist-zipped/
 yarn.lock
 .Rproj.user
+.prettierignore
+.vscode
+.DS_Store
