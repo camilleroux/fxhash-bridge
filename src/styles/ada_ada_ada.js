@@ -57,20 +57,7 @@ const words = [
 ]
 
 let word = 'SILTA'
-const palette = fettepalette.generateRandomColorRamp({
-  total: 9,
-  centerHue: fxrand() * 360,
-  hueCycle: fxrand() * 0.6,
-  curveMethod: 'arc',
-  curveAccent: fxrand() * 0.25,
-  offsetTint: 0.01,
-  offsetShade: 0.01,
-  tintShadeHueShift: 0.01,
-  offsetCurveModTint: 0.03,
-  offsetCurveModShade: 0.03,
-  minSaturationLight: [0, 0],
-  maxSaturationLight: [0.5, 1]
-})
+let palette = null
 
 export default class AdaAdaAdaStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
@@ -83,6 +70,20 @@ export default class AdaAdaAdaStyle extends Style {
   }
 
   beforeDraw () {
+    palette = fettepalette.generateRandomColorRamp({
+      total: 9,
+      centerHue: this._p5.random() * 360,
+      hueCycle: this._p5.random() * 0.6,
+      curveMethod: 'arc',
+      curveAccent: this._p5.random() * 0.25,
+      offsetTint: 0.01,
+      offsetShade: 0.01,
+      tintShadeHueShift: 0.01,
+      offsetCurveModTint: 0.03,
+      offsetCurveModShade: 0.03,
+      minSaturationLight: [0, 0],
+      maxSaturationLight: [0.5, 1]
+    })
     this._p5.textAlign(this._p5.CENTER, this._p5.CENTER)
     // Pick a random word
     word = this._p5.random(words)
