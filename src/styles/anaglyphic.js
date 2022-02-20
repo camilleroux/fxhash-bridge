@@ -59,18 +59,18 @@ export default class AnaglyphicStyle extends Style {
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
-    var tileHeight = 10 + parseInt(fxrand() * 10);
+    var tileHeight = 10 + parseInt(this._p5.random() * 10);
 
     var perspectiveShift = 0.003 + (tilePoints[0].y - tilePoints[1].y) * 0.3;
 
-    tilePoints[0].x += fxrand() * perspectiveShift;
-    tilePoints[0].y += fxrand() * perspectiveShift;
-    tilePoints[1].x += fxrand() * perspectiveShift;
-    tilePoints[1].y += fxrand() * perspectiveShift;
-    tilePoints[2].x += fxrand() * perspectiveShift;
-    tilePoints[2].y += fxrand() * perspectiveShift;
-    tilePoints[3].x += fxrand() * perspectiveShift;
-    tilePoints[3].y += fxrand() * perspectiveShift;
+    tilePoints[0].x += this._p5.random() * perspectiveShift;
+    tilePoints[0].y += this._p5.random() * perspectiveShift;
+    tilePoints[1].x += this._p5.random() * perspectiveShift;
+    tilePoints[1].y += this._p5.random() * perspectiveShift;
+    tilePoints[2].x += this._p5.random() * perspectiveShift;
+    tilePoints[2].y += this._p5.random() * perspectiveShift;
+    tilePoints[3].x += this._p5.random() * perspectiveShift;
+    tilePoints[3].y += this._p5.random() * perspectiveShift;
 
     this._p5.stroke("rgb(0,255,235)");
     this._p5.fill("white");
