@@ -1,15 +1,15 @@
 /**
  * BRIDGE - JavaScript bundle to produce generative art
- * 
+ *
  * Copyright (c) 2022, Camille Roux and contributing artists
  * All rights reserved.
- * 
+ *
  * The BRIDGE framework code (excluding contributed styles) is released
  * under CC-BY-NC-SA 4.0:
  * https://creativecommons.org/licenses/by-nc-sa/4.0/
  * Each contributing artist holds the copyright to their individual
  * style implementation and additional restrictions may apply.
- * 
+ *
  * Some code in this bundle was written by third parties
  * and is distributed under their respective licensing
  * conditions:
@@ -106,7 +106,7 @@ const stylesClasses = [
   GrosggStyle,
   bfosStyle,
   DevnullStyle,
-  Nobody,
+  Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
