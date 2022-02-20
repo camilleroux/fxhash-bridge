@@ -97,7 +97,7 @@ class DreyStyle extends Style {
   }
 
   jitterVerts (verts) {
-    const jitterAmount = this._p5.width / 140
+    const jitterAmount = this._s / 170
     return this.settings().jitterGlitch
       ? verts.map(({ x, y }) => ({
         x: x + this._p5.random(-jitterAmount, jitterAmount),
@@ -170,7 +170,7 @@ class DreyStyle extends Style {
 
   drawPillarSection (scaledVerts, nextScaledVerts) {
     if (this.settings().strategy === 'wire') {
-      this._p5.strokeWeight(this._p5.random(0.5, 3))
+      this._p5.strokeWeight(this._s / this._p5.random(220, 1360))
       this._p5.strokeJoin(this._p5.BEVEL)
     }
     const vertPairs = [
@@ -242,7 +242,7 @@ class DreyStyle extends Style {
   }
 
   drawTile (tilePoints, { x: i, y: j }) {
-    this._p5.strokeWeight(0.5)
+    this._p5.strokeWeight(this._s / 1360)
     // GROUND
     const groundSpin =
       0 +
