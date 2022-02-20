@@ -52,9 +52,9 @@ class DreyStyle extends Style {
       this._settings.maxAlpha = (() => {
         switch (this._settings.strategy) {
           case 'tiles':
-            return this._p5.random(0.55, 1)
+            return this._p5.random(0.7, 1)
           case 'scaffold':
-            return this._p5.random(0.55, 1)
+            return this._p5.random(0.7, 1)
           case 'wire':
             return this._p5.random(0.55, 1)
           default:
@@ -97,10 +97,11 @@ class DreyStyle extends Style {
   }
 
   jitterVerts (verts) {
+    const jitterAmount = this._s / 170
     return this.settings().jitterGlitch
       ? verts.map(({ x, y }) => ({
-        x: x + this._p5.random(-5, 5),
-        y: y + this._p5.random(-5, 5)
+        x: x + this._p5.random(-jitterAmount, jitterAmount),
+        y: y + this._p5.random(-jitterAmount, jitterAmount)
       }))
       : verts
   }
@@ -169,7 +170,7 @@ class DreyStyle extends Style {
 
   drawPillarSection (scaledVerts, nextScaledVerts) {
     if (this.settings().strategy === 'wire') {
-      this._p5.strokeWeight(this._p5.random(0.5, 3))
+      this._p5.strokeWeight(this._s / this._p5.random(220, 1360))
       this._p5.strokeJoin(this._p5.BEVEL)
     }
     const vertPairs = [
@@ -194,7 +195,7 @@ class DreyStyle extends Style {
 
   drawGround ({ color, verts }) {
     this._p5.noStroke()
-    this._p5.fill(color.setAlpha(0.07).toString())
+    this._p5.fill(color.setAlpha(0.15).toString())
     const scaledVerts = this.scaleVerts(verts, this._s)
     this._p5.quad(...scaledVerts.reduce((acc, { x, y }) => [...acc, x, y], []))
   }
@@ -241,11 +242,11 @@ class DreyStyle extends Style {
   }
 
   drawTile (tilePoints, { x: i, y: j }) {
-    this._p5.strokeWeight(0.5)
+    this._p5.strokeWeight(this._s / 1360)
     // GROUND
     const groundSpin =
       0 +
-      (this.settings().pillarColor === 'dynamic'
+      (this.settings().pillarColorStrategy === 'dynamic'
         ? this.settings().pillarHueRange
         : 0) +
       (j * this.settings().rowSpin) / 5

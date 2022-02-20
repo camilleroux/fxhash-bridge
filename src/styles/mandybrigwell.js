@@ -30,9 +30,9 @@ export default class DemoStyle extends Style {
 		this._p5.noStroke();
 		// Add some distant darkness; lighter below the horizon
 		for (var i=0; i<1; i+=0.2) {
-		this._p5.fill(0, 8);
+			this._p5.fill(0, 8);
 			this._p5.arc(this._s*0.5, this._s*0.5, 0.9*i*this._s, 0.9*i*this._s, this._p5.PI, 0);
-		this._p5.fill(60, 5);
+			this._p5.fill(60, 5);
 			this._p5.arc(this._s*0.5, this._s*0.5, 0.9*i*this._s, 0.9*i*this._s, 0, this._p5.PI);
 		}
 		// Choose circle-overlay sizes based on the screen resolution
@@ -57,23 +57,17 @@ export default class DemoStyle extends Style {
 		this._p5.noStroke();
 		
 		// We're going to jiggle the tiles a little with a slight random value
-		this.randomMinimum = 1-fxrand()*0.025;
-		this.randomMaximum = 1+fxrand()*0.025;
-	
-		// And occasionally a larger random value
-		if (this._p5.noise(tilePoints[0].x, tilePoints[0].y) < 0.25) {
-			this.randomMinumum = -1.1;
-			this.randomMaximum = 1.1;
-		}
-	
+		this.randomMinumum = -0.01;
+		this.randomMaximum = 0.01;
+			
 		// Use the distance to alter the hue and draw the tile: Bifrost is a rainbow bridge, after all
 		this.distance = this._p5.dist((tilePoints[0].x+tilePoints[1].x)*this._s*0.025, (tilePoints[0].y+tilePoints[2].y)*this._s, this._s/2, this._s/2)/this._s;
 		this._p5.fill(this._p5.map(this.distance, 0.75, 1.25, 0, 360), 360, 300, this._p5.map(this.distance, 0.75, 1.25, 90, 210));
 		this._p5.quad(
-		tilePoints[0].x * this._s * this._p5.random(this.randomMinimum, this.randomMaximum), tilePoints[0].y * this._s * this._p5.random(this.randomMinimum, this.randomMaximum),
-		tilePoints[1].x * this._s * this._p5.random(this.randomMinimum, this.randomMaximum), tilePoints[1].y * this._s * this._p5.random(this.randomMinimum, this.randomMaximum),
-		tilePoints[2].x * this._s * this._p5.random(this.randomMinimum, this.randomMaximum), tilePoints[2].y * this._s * this._p5.random(this.randomMinimum, this.randomMaximum),
-		tilePoints[3].x * this._s * this._p5.random(this.randomMinimum, this.randomMaximum), tilePoints[3].y * this._s * this._p5.random(this.randomMinimum, this.randomMaximum)
+		(tilePoints[0].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[0].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
+		(tilePoints[1].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[1].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
+		(tilePoints[2].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[2].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
+		(tilePoints[3].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[3].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s
 		);
 	
 		// Now, radiative ray type things.

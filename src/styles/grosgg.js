@@ -14,30 +14,33 @@ export default class GrosggStyle extends Style {
     this.gridSize = this._p5.createVector(gridSizeX, gridSizeY);
     this.centerPoint = this.prj.getProjectedPoint([0, this.gridSize.y, 0]);
     this.wallHeight = 0.3;
-    this.lineRes = this._p5.random([2, 5, 10]);
-    this.lineThickness = this._p5.random([0.2, 0.3, 0.4, 0.5]);
+    this.lineRes = (this._p5.random([2, 5, 10]) * this._s) / 1000;
+    this.lineThickness = (this._p5.random([0.2, 0.5]) * this._s) / 1000;
 
     this.palette = this._p5.random([
       {
         mountain: this._p5.random(["#333", "#444", "#555"]),
         mid: ["#777", "#888", "#999", "#aaa"],
         bright: ["#ccc", "#ddd", "#eee"],
-        stroke: "#111",
+        stroke: "#010101",
         background: "#111",
+        sun: "#fff",
       },
       {
         mountain: this._p5.random(["#774936", "#8a5a44", "#9d6b53"]),
         mid: ["#b07d62", "#c38e70", "#cd9777"],
         bright: ["#d69f7e", "#deab90", "#e6b8a2", "#edc4b3"],
-        stroke: "#111",
+        stroke: "#222",
         background: "#111",
+        sun: "#fff",
       },
       {
         mountain: this._p5.random(["#641220", "#6e1423", "#85182a"]),
         bright: ["#641220", "#6e1423", "#85182a"],
         mid: ["#a11d33"],
-        stroke: "#111",
+        stroke: "#000",
         background: "#111",
+        sun: "#fff",
       },
       {
         mountain: this._p5.random(["#ccc", "#ddd", "#eee", "#fff"]),
@@ -45,13 +48,15 @@ export default class GrosggStyle extends Style {
         mid: ["#ccc", "#ddd", "#eee", "#fff"],
         stroke: "#111",
         background: "#111",
+        sun: "#fff",
       },
       {
         mountain: this._p5.random(["#000"]),
         bright: ["#000"],
         mid: ["#000"],
-        stroke: "green",
+        stroke: "#fff",
         background: "#222",
+        sun: this._p5.random(["#ccff33", "#ff0a54", "#ff8500", "#80ffdb"]),
       },
     ]);
   }
@@ -83,7 +88,7 @@ export default class GrosggStyle extends Style {
     }
 
     // Sun
-    this._p5.fill("#fff");
+    this._p5.fill(this.palette.sun);
     const sunSize = this._s * this._p5.random(0.5, 0.8);
     this._p5.arc(
       this.centerPoint[0] * this._s,
@@ -251,10 +256,10 @@ export default class GrosggStyle extends Style {
     // Ground
     this._p5.fill(this._p5.random(this.palette.mid));
     this._penQuad(
-      this.prj.getProjectedPoint([-this.gridSize.x / 2, 0, 0])[0] * this._s,
-      this.prj.getProjectedPoint([-this.gridSize.x / 2, 0, 0])[1] * this._s,
-      this.prj.getProjectedPoint([this.gridSize.x / 2, 0, 0])[0] * this._s,
-      this.prj.getProjectedPoint([this.gridSize.x / 2, 0, 0])[1] * this._s,
+      this.prj.getProjectedPoint([-this.gridSize.x / 2, -1, 0])[0] * this._s,
+      this.prj.getProjectedPoint([-this.gridSize.x / 2, -1, 0])[1] * this._s,
+      this.prj.getProjectedPoint([this.gridSize.x / 2, -1, 0])[0] * this._s,
+      this.prj.getProjectedPoint([this.gridSize.x / 2, -1, 0])[1] * this._s,
       this.prj.getProjectedPoint([this.gridSize.x / 2, this.gridSize.y, 0])[0] *
         this._s,
       this.prj.getProjectedPoint([this.gridSize.x / 2, this.gridSize.y, 0])[1] *

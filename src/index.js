@@ -1,15 +1,15 @@
 /**
  * BRIDGE - JavaScript bundle to produce generative art
- * 
+ *
  * Copyright (c) 2022, Camille Roux and contributing artists
  * All rights reserved.
- * 
+ *
  * The BRIDGE framework code (excluding contributed styles) is released
  * under CC-BY-NC-SA 4.0:
  * https://creativecommons.org/licenses/by-nc-sa/4.0/
  * Each contributing artist holds the copyright to their individual
  * style implementation and additional restrictions may apply.
- * 
+ *
  * Some code in this bundle was written by third parties
  * and is distributed under their respective licensing
  * conditions:
@@ -49,10 +49,12 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
+import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
+import NickDimaStyle from './styles/nickdima'
 
 const FXR = require('fxrandomjs')
 
@@ -82,6 +84,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
   ElsifStyle,
@@ -105,6 +108,7 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
+  JuLabatStyle,
   bfosStyle,
   DevnullStyle,
   JeresStyle,

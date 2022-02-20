@@ -10,6 +10,8 @@ export default class BoilerplateStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.background = 230
+    this.sw = s / 800
+    p5.strokeWeight(this.sw)
     this.colors = p5.random([
       ['pink', 'lightblue', 'yellow', '#666'],
       ['#ef8354', '#136f63', '#4f5d75', '#999'],
@@ -34,8 +36,8 @@ export default class BoilerplateStyle extends Style {
     const p5 = this._p5
     const s = this._s
     const tp = tilePoints.map(p => p.copy().mult(this._s))
-    const h = 10
-    const t = 10
+    const h = 10 * this.sw
+    const t = 10 * this.sw
     const lp = tp.map(p => p.copy().add(p5.createVector(0, h)))
     const tile = () => {
       const dx = p5.random(-t, t)
