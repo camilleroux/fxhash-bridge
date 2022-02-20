@@ -338,5 +338,5 @@ export default class AqwUnderscoreZertStyle extends Style {
 
   static author () { return 'Aqw_Zert' }
 
-  static name () { return 'Sea' }
+  static name () { return 'The Old Woody Dock' }
 }
