@@ -55,6 +55,7 @@ import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
+import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
 
 const FXR = require('fxrandomjs')
 
@@ -111,6 +112,8 @@ const stylesClasses = [
   // JuLabatStyle,
   bfosStyle,
   DevnullStyle,
+  Nobody,
+  AqwUnderscoreZertStyle,
   JeresStyle,
   Nobody
 ]
