@@ -52,7 +52,7 @@ export default class JeresStyle extends Style {
 
     const stepSize = this._p5.height / 64
     const trimSize = this._p5.height / 1024
-    this._p5.fill(this.randomTileColor())
+    this._p5.fill(this.BLACK)
     this._p5.quad(
       tilePoints[0].x * this._s + trimSize,
       tilePoints[0].y * this._s + trimSize,
@@ -144,7 +144,7 @@ export default class JeresStyle extends Style {
 
     for (var j = 0; j < sCount; j++) {
       var c = this._p5.color(_color ?? this.randomColor(p5));
-      c.setAlpha(16);
+      c.setAlpha(8);
       this._p5.fill(c);
       this._p5.strokeWeight(0)
       for (var k = 0; k < points.length; k++) {
