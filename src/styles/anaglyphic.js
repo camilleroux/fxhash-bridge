@@ -16,6 +16,8 @@ export default class AnaglyphicStyle extends Style {
   beforeDraw() {
     this._p5.background("#fff");
 
+    this._p5.strokeWeight(this._s * 0.001);
+
     this._p5.fill("rgba(0,0,0,1)");
 
     const center = this.v().set(
@@ -24,49 +26,31 @@ export default class AnaglyphicStyle extends Style {
 
     const horizon = this._s * center.y;
 
-    this._p5.circle(
-      this._s / 2 - 5,
-      horizon,
-      this._s / 4
-    );
+    this._p5.circle(this._s / 2 - 5, horizon, this._s / 4);
 
     this._p5.circle(this._s / 2, horizon, this._s / 4);
 
     this._p5.fill("rgba(0,0,0,0)");
     for (let i = 0; i < 7; i++) {
       this._p5.stroke("rgb(0,255,235)");
-      this._p5.circle(
-        this._s / 2,
-        horizon,
-        (this._s * (7 - i)) / 4
-      );
+      this._p5.circle(this._s / 2, horizon, (this._s * (7 - i)) / 4);
       this._p5.stroke("rgb(255,0,0)");
-      this._p5.circle(
-        this._s / 2 - 5,
-        horizon,
-        (this._s * (7 - i)) / 4
-      );
+      this._p5.circle(this._s / 2 - 5, horizon, (this._s * (7 - i)) / 4);
     }
 
     for (let i = 0; i <= 18; i++) {
       this._p5.stroke("rgb(0,255,235)");
       this._p5.line(
-        this._s / 2 +
-          this._s * Math.cos((Math.PI / 9) * i), //x1
+        this._s / 2 + this._s * Math.cos((Math.PI / 9) * i), //x1
         horizon + this._s * Math.sin((Math.PI / 9) * i), //y1
-        this._s / 2 +
-          (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
+        this._s / 2 + (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
         horizon + (this._s / 8) * Math.sin((Math.PI / 9) * i) //y1
       );
       this._p5.stroke("rgb(255,0,0)");
       this._p5.line(
-        -5 +
-          this._s / 2 +
-          this._s * Math.cos((Math.PI / 9) * i), //x1
+        -5 + this._s / 2 + this._s * Math.cos((Math.PI / 9) * i), //x1
         horizon + this._s * Math.sin((Math.PI / 9) * i), //y1
-        -5 +
-          this._s / 2 +
-          (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
+        -5 + this._s / 2 + (this._s / 8) * Math.cos((Math.PI / 9) * i), //x1,
         horizon + (this._s / 8) * Math.sin((Math.PI / 9) * i) //y1
       );
     }
@@ -77,18 +61,18 @@ export default class AnaglyphicStyle extends Style {
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
-    var tileHeight = 10 + parseInt(fxrand() * 10);
+    var tileHeight = 10 + parseInt(this._p5.random() * 10);
 
     var perspectiveShift = 0.003 + (tilePoints[0].y - tilePoints[1].y) * 0.3;
 
-    tilePoints[0].x += fxrand() * perspectiveShift;
-    tilePoints[0].y += fxrand() * perspectiveShift;
-    tilePoints[1].x += fxrand() * perspectiveShift;
-    tilePoints[1].y += fxrand() * perspectiveShift;
-    tilePoints[2].x += fxrand() * perspectiveShift;
-    tilePoints[2].y += fxrand() * perspectiveShift;
-    tilePoints[3].x += fxrand() * perspectiveShift;
-    tilePoints[3].y += fxrand() * perspectiveShift;
+    tilePoints[0].x += this._p5.random() * perspectiveShift;
+    tilePoints[0].y += this._p5.random() * perspectiveShift;
+    tilePoints[1].x += this._p5.random() * perspectiveShift;
+    tilePoints[1].y += this._p5.random() * perspectiveShift;
+    tilePoints[2].x += this._p5.random() * perspectiveShift;
+    tilePoints[2].y += this._p5.random() * perspectiveShift;
+    tilePoints[3].x += this._p5.random() * perspectiveShift;
+    tilePoints[3].y += this._p5.random() * perspectiveShift;
 
     this._p5.stroke("rgb(0,255,235)");
     this._p5.fill("white");

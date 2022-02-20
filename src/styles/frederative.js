@@ -26,6 +26,8 @@ export default class FrederativeStyle extends Style {
     this._p5.pixelDensity(1);
     this.theta = 0.0;
 
+    this.sizeVar = this._s / 1000; // thanks Robin!
+
     // sky palette: https://www.schemecolor.com/night-sky-color-palette.php
     this.darkColors = [
       this._p5.color("#070b34"),
@@ -115,8 +117,10 @@ export default class FrederativeStyle extends Style {
       this._p5.color("#b8ffff"),
       this._p5.color("#fff980"),
     ];
+    let w2 = this._p5.width / 200.0
+    let w5 = this._p5.width / 500.0
     for (let i = 0; i < this._p5.random(5000); i++) {
-      let _star_rad = this._p5.random(2.0, 5.0);
+      let _star_rad = this._p5.random(2.0, 5.0) * this.sizeVar;
       let _x = this._p5.random(_star_rad, this._p5.width - _star_rad);
 
       let _mid_offset = this._p5.height * 0.1;
@@ -125,16 +129,16 @@ export default class FrederativeStyle extends Style {
       let star_col = this._p5.color(this._p5.random(_starColors));
       star_col._array[3] = this._p5.random(0.1, 0.5);
       this._p5.fill(star_col);
-      this._p5.ellipse(_x, _y, _star_rad + this._p5.random(-2.0, 2.0), _star_rad + this._p5.random(-2.0, 2.0));
+      this._p5.ellipse(_x, _y, _star_rad + this._p5.random(-w5, w5), _star_rad + this._p5.random(-w5, w5));
     }
 
     // poly-moon
-    let _moon_d = this._p5.random(50, 200);
+    let _moon_d = this._p5.width * this._p5.random(0.3, 0.05);
     let _moon_c = this._p5.color(this._p5.random(_starColors));
     _moon_c._array[3] = this._p5.random(0.1, 0.5);
     let _x = this._p5.random(_moon_d, this._p5.width - _moon_d);
     let _y = this._p5.random(_moon_d, this._p5.height / 4 - _moon_d);
-    this._p5.fill(_moon_d);
+    this._p5.fill(_moon_c);
     this.polygon(_x, _y, _moon_d, this._p5.random(8, 20));
   }
 
@@ -164,7 +168,8 @@ export default class FrederativeStyle extends Style {
     ];
 
     // multiply quads
-    for (let i = 0; i < this._p5.random(1, 150); i++) {
+    let tgt = this._p5.random(1,50) * this.sizeVar;
+    for (let i = 0; i < tgt; i++) {
       this._p5.quad(tilePoints[0].x * this._s, ys[0] - i, tilePoints[1].x * this._s, ys[1] - i, tilePoints[2].x * this._s, ys[2] - i, tilePoints[3].x * this._s, ys[3] - i);
     }
 
