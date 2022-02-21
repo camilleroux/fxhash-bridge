@@ -27,7 +27,7 @@ export default class Makio64Style extends Style {
 
   beforeDraw () {
     this.drawBackground()
-    if (FXRandomBetween(0, 1) > 0.5) {
+    if (FXRandomBetween(0, 1) > 0.3) {
       this.drawMoon()
     } else {
       this.drawMoonSimple()
