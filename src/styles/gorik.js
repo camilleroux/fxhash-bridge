@@ -41,9 +41,11 @@ export default class GorikStyle extends Style {
     this._p5.background(this.addAlpha(cc, 100))
     this._p5.fill(cc2)
 
-    for (let i = 0; i < this._s; i += 3) {
-      for (let j = 0; j < this._s; j += 3) {
-        this._p5.rect(i, j, 2)
+    const step = this._s / 250
+
+    for (let i = 0; i < this._s; i += step) {
+      for (let j = 0; j < this._s; j += step) {
+        this._p5.rect(i, j, step / 2)
       }
     }
     this._p5.noStroke()
