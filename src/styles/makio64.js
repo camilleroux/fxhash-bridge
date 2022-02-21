@@ -83,7 +83,7 @@ export default class Makio64Style extends Style {
       return Math.sqrt(dx * dx + dy * dy)
     }
 
-    const angle = FXRandomBetween(0, Math.PI * 2)
+    const angle = FXRandomBetween(0.5 - Math.PI * 1.5, 0.5)
     const r = radius * 1
     const attractor = [v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r]
 
@@ -99,7 +99,7 @@ export default class Makio64Style extends Style {
       const dist = distance(center[0], center[1], attractor[0], attractor[1])
       let power = (1 - smoothstep(0, radius, dist))
       power *= power
-      power *= FXRandomBetween(100, 500) * this._s * 0.01
+      power *= FXRandomBetween(50, 400) * this._s * 0.01
 
       p5.strokeWeight(0.001 * this._s)
       p5.stroke(this.bgColor)
