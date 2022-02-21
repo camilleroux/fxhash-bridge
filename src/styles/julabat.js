@@ -1,6 +1,6 @@
 // Julien Labat
 // Status: WIP // "WIP", "Ready"
-// Twitter: @julabat
+// Twitter: @julienlabat
 // Fxhash: https://www.fxhash.xyz/u/julabat
 // Wallet: tz1UxPe68iFRp27KqowTo7nF9C6GxAKa2vFj
 
