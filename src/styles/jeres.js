@@ -12,7 +12,7 @@ export default class JeresStyle extends Style {
   BLACK = "#45413C";
   COLORS = ["#CEAC41", "#DAC27C", "#D7AF72", "#EFDEC2", "#A8651E"];
   SKYCOLORS = ["#948f9f", "#3E92CC"];
-  WATERCOLORS = ["#2169BA", "#11489F"];
+  WATERCOLORS = ["#2169BA", "#11489F", "#2A628F", "#2A628F"];
   TILECOLORS = ["#c93b36", "#c85470", "#4c9784", "#41569a", "#948f9f"];
 
   WIND = 0;
@@ -37,51 +37,56 @@ export default class JeresStyle extends Style {
     this.SHAKE_LEVEL = 1/(1 + this._p5.floor(this._p5.random()*3));
     this.WIND = (this._p5.random() - 0.5)*4;
     this._p5.background(this.randomSkyColor())
+
     const horizonPercent = this._projectionCalculator3d.getProjectedPoint([0, this._gridSizeY, 0])[1]
     const horizon = horizonPercent * this._s
-
     this._p5.fill(this.randomWaterColor())
     this._p5.strokeWeight(0)
     this._p5.rect(0, horizon * 1.1, this._s, this._p5.height)
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord, isBorder) {
-    if (isBorder) {
-      return;
-    }
 
-    const stepSize = this._p5.height / 64
-    const trimSize = this._p5.height / 1024
-    this._p5.fill(this.BLACK)
-    this._p5.quad(
-      tilePoints[0].x * this._s + trimSize,
-      tilePoints[0].y * this._s + trimSize,
-      tilePoints[1].x * this._s - trimSize,
-      tilePoints[1].y * this._s - trimSize,
-      tilePoints[2].x * this._s + trimSize,
-      tilePoints[2].y * this._s + trimSize,
-      tilePoints[3].x * this._s - trimSize,
-      tilePoints[3].y * this._s - trimSize)
+    const stepSize = this._p5.height / 128
+    const nudgeMult = stepSize/512*this._s;
+    var tileColor = this._p5.color(this.BLACK);
+
+    for (var i = 0; i < 100; i++) {
+      var shift = i * (isBorder ? 1 : 3)
+      tileColor.setAlpha(255 - 24*shift);
+      this._p5.fill(tileColor);
+      this._p5.quad(
+        tilePoints[0].x * this._s + (this._p5.random() - 0.5)*nudgeMult,
+        tilePoints[0].y * this._s + (this._p5.random() - 0.5)*nudgeMult + nudgeMult*shift,
+        tilePoints[1].x * this._s + (this._p5.random() - 0.5)*nudgeMult,
+        tilePoints[1].y * this._s + (this._p5.random() - 0.5)*nudgeMult + nudgeMult*shift,
+        tilePoints[2].x * this._s + (this._p5.random() - 0.5)*nudgeMult,
+        tilePoints[2].y * this._s + (this._p5.random() - 0.5)*nudgeMult + nudgeMult*shift,
+        tilePoints[3].x * this._s + (this._p5.random() - 0.5)*nudgeMult,
+        tilePoints[3].y * this._s + (this._p5.random() - 0.5)*nudgeMult + nudgeMult*shift)
+    }
 
     const minX = Math.min(Math.min(tilePoints[0].x, tilePoints[1].x), Math.min(tilePoints[2].x, tilePoints[3].x)) * this._s
     const maxX = Math.max(Math.max(tilePoints[0].x, tilePoints[1].x), Math.max(tilePoints[2].x, tilePoints[3].x)) * this._s
     const maxY = Math.max(Math.max(tilePoints[0].y, tilePoints[1].y), Math.max(tilePoints[2].y, tilePoints[3].y)) * this._s
 
-    var color = this._p5.color(this.randomTileColor());
-    color.setAlpha(64)
-    this._p5.fill(color)
-    this._p5.rect(
-      minX,
-      maxY,
-      maxX - minX - trimSize*this._s/8,
-      this._p5.height,
-    )
+    if (!isBorder) {
+      var color = this._p5.color(this.randomTileColor());
+      color.setAlpha(64)
+      this._p5.fill(color)
+      this._p5.rect(
+        minX,
+        maxY,
+        maxX - minX,
+        this._p5.height,
+      )
+    }
 
     if (this._p5.random() > 0.5) {
       var x = (tilePoints[0].x + tilePoints[1].x + tilePoints[2].x + tilePoints[3].x) * this._s / 4
       var y = (tilePoints[0].y + tilePoints[1].y + tilePoints[2].y + tilePoints[3].y) * this._s / 4 - stepSize * this._p5.random(1, 10)
 
-      var fireCount = 30;
+      var fireCount = 26;
 
       for (var i = fireCount; i > fireCount/2; i--) {
         this.drawSplotch(
@@ -94,7 +99,7 @@ export default class JeresStyle extends Style {
         );
       }
 
-      var smokeCount = 20;
+      var smokeCount = 14;
       for (var i = smokeCount; i > 0; i--) {
         this.drawSplotch(
           this.BLACK,
@@ -102,7 +107,8 @@ export default class JeresStyle extends Style {
           y * i / smokeCount,
           this._p5.width / 128,
           24,// + this._p5.floor(i/4),
-          2
+          2,
+          8
         );
       }
     }
@@ -112,7 +118,7 @@ export default class JeresStyle extends Style {
     return this.COLORS[this._p5.floor(this._p5.random() * this.COLORS.length)];
   }
 
-  drawSplotch(_color, _centerX, _centerY, _baseRadius, _radiusMult, _sCount) {
+  drawSplotch(_color, _centerX, _centerY, _baseRadius, _radiusMult, _sCount, _alpha) {
 
     this._p5.push();
 
@@ -144,7 +150,7 @@ export default class JeresStyle extends Style {
 
     for (var j = 0; j < sCount; j++) {
       var c = this._p5.color(_color ?? this.randomColor(p5));
-      c.setAlpha(8);
+      c.setAlpha(_alpha ?? 8);
       this._p5.fill(c);
       this._p5.strokeWeight(0)
       for (var k = 0; k < points.length; k++) {
@@ -186,16 +192,14 @@ export default class JeresStyle extends Style {
 
     this._p5.push();
     this._p5.blendMode(this._p5.SOFT_LIGHT);
-    var matteColor = this.BLACK;//p5.color(DARK_VAPOR ? BLACK : WHITE);
+    var matteColor = this.BLACK;
     var fullFrame = Math.ceil(Math.min(this._p5.width, this._p5.height) / 16);
     this._p5.stroke(matteColor);
     this._p5.noFill();
     this._p5.strokeWeight(fullFrame);
     this._p5.rect(0, 0, this._p5.width, this._p5.height);
     this._p5.pop();
-
   }
-
 
   static author() {
     return 'jeres'
