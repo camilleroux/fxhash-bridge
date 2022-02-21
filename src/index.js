@@ -119,7 +119,7 @@ const stylesClasses = [
   JeresStyle,
   Nobody
 ]
-let styleClassId = stylesClasses.length - 7// FXRandomIntBetween(0, stylesClasses.length)
+let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
 let fxpreviewDone = false
