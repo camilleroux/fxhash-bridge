@@ -2,12 +2,12 @@ BRIDGE collaborative project for fxhash
 ================
 
 BRIDGE is an experimental project for fxhash. Any artist can contribute. 
-The main rule: draw the tiles at the given coordinates. While they are quite visible, you can add everything you want: birds, stars, grass, reflexions, circles... You don't have to draw a real bridge, take the theme as a metaphor.
+The main rule: draw the tiles at the given coordinates. While they are quite visible, you can add everything you want: birds, stars, grass, reflections, circles... You don't have to draw a real bridge, take the theme as a metaphor.
 For each minted edition, there'll be a default style, but you will be able to try all the other styles by clicking/touching the image.
 
 ## ✨ The story
 
-I'm Camille Roux ([@camillerouxart](https://twitter.com/camillerouxart)). I planned to do a lot of collab this year with fxhash artists I like, but it takes too much time (or maybe I like too much artists 🤣). Some days ago, I woke up with this idea in mind: "Hey! What if I make a collaboration with all the artists I like at once!".
+I'm Camille Roux ([@camillerouxart](https://twitter.com/camillerouxart)). I planned to do a lot of collab this year with fxhash artists I like, but it takes too much time (or maybe I like too many artists 🤣). Some days ago, I woke up with this idea in mind: "Hey! What if I make a collaboration with all the artists I like at once!".
 This is how the BRIDGE project was born.
 
 Moreover, I love the mutual aid and solidarity between fxhash generative artists. The BRIDGE can be seen as a symbol of the link between us ♥️
@@ -18,10 +18,10 @@ If you contribute to the project, you must accept the following rules:
 
 * I can mint this project on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux) with any subset of styles. (If you've an idea about what I could do with the unselected styles, let me know!)
 * I'll select the styles I'll mint
-* I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included in that mint (the 2sd market revenue is for me) when the project we'll be sold out.
+* I'll share manually and equitably the primary market revenue of the/each mint with the creators of the styles included in that mint (the secondary market revenue is for me) when the project will be sold out.
 * You can't mint/drop it yourself
 * For now, I expect there to be about 20-30 editions of each style in the drop. 
-* Dead line: **[February 20th 23:59 CET](https://everytimezone.com/?t=62118480,563)**.
+* Deadline: **[February 20th 23:59 CET](https://everytimezone.com/?t=62118480,563)**.
 * I will announce the selected projects on February 21 on my [Twitter account](https://twitter.com/camillerouxart) and I will create a branch (tag? release?) for the project I'll mint.
 * I'll mint the projet on my [fxhash profile](https://www.fxhash.xyz/u/Camille%20Roux), the **[February 22th 18:00 CET](https://everytimezone.com/?t=62118480,f3c)**. For pricing, I'll do a Dutch auction.
 
@@ -39,8 +39,8 @@ If you contribute to the project, you must accept the following rules:
 In order to have your style selected, it must:
 
 * be dimension-less (same output whatever the canvas dimensions)
-* be determist (same output if you refresh with the same hash)
-* draw the tiles at the correct place (tiles must be not move if you change style)
+* be determistic (same output if you refresh with the same hash)
+* draw the tiles at the correct place (tiles must not move if you change style)
 * write your tez wallet adress in the comment in your code so that I can give you a share of the primary market revenue
 * have fun, make something awesome, collab with other artists (yes, why not a collab in a collab!)... ♥️
 
@@ -49,7 +49,7 @@ In order to have your style selected, it must:
 - Talk about this project, share this page...
 - Create a style if you know how to code
 - Introduce the project to the artists you would like to see participate
-- Fix bugs, answer questions, add documentation, give feedbacks...
+- Fix bugs, answer questions, add documentation, give feedback...
 
 ## 💻 Technical info
 
