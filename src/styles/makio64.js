@@ -63,12 +63,12 @@ export default class Makio64Style extends Style {
     for (let i = 0; i < count; i++) {
       const r = FXRandomBetween(0, radius / 2)
       const angle = FXRandomBetween(0.0, Math.PI * 2)
-      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30])
+      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30 * this._s * 0.001])
     }
     for (let i = 0; i < 16; i++) {
       const r = radius / 2
       const angle = i / 16 * Math.PI * 2
-      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30])
+      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30 * this._s * 0.001])
     }
     const delaunay = Delaunator.from(points)
     const triangles = delaunay.triangles
@@ -98,9 +98,8 @@ export default class Makio64Style extends Style {
       const center = triangleCenter(vertex1, vertex2, vertex3)
       const dist = distance(center[0], center[1], attractor[0], attractor[1])
       let power = (1 - smoothstep(0, radius, dist))
-      power = 1
-      // power *= power
-      // power *= FXRandomBetween(100, 1000)
+      power *= power
+      power *= FXRandomBetween(100, 500) * this._s * 0.01
 
       p5.strokeWeight(0.001 * this._s)
       p5.stroke(this.bgColor)
@@ -109,10 +108,6 @@ export default class Makio64Style extends Style {
       p5.vertex(vertex1[0] + Math.cos(angle) * power, vertex1[1] + Math.sin(angle) * power)
       p5.vertex(vertex2[0] + Math.cos(angle) * power, vertex2[1] + Math.sin(angle) * power)
       p5.vertex(vertex3[0] + Math.cos(angle) * power, vertex3[1] + Math.sin(angle) * power)
-      // p5.vertex(vertex1[0], vertex1[1])
-      // p5.vertex(vertex2[0], vertex2[1])
-      // p5.vertex(vertex3[0], vertex3[1])
-
       p5.endShape()
     }
   }
@@ -151,7 +146,7 @@ export default class Makio64Style extends Style {
       const z1 = ((Math.sin(x * 0.05 + y) + 1) * 0.3 + (0.05 + (y * 0.6 + 1) * noiseVal + y * 0.2)) * smoothstep(10, 50, Math.abs(x))// + smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * smoothstep(min, max, Math.abs(x)) * 0.5
       const v = this.projectedPoint(x1, y1, z1)
       if (prev) {
-        stroke = smoothstep(0, 5, z1) * 4.5
+        stroke = smoothstep(0, 5, z1) * 4.5 * this._s * 0.001
         p5.strokeWeight(stroke * 0.001 * this._s)
         p5.line(prev.x, prev.y, v.x, v.y)
       }
