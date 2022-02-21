@@ -36,8 +36,7 @@ export default class s extends Style {
     this._p5.drawingContext.fillStyle = this.bgColor;
     this._p5.ellipseMode(this._p5.CENTER);
     this._p5.angleMode(this._p5.DEGREES);
-// add the blury effect
-    this._p5.drawingContext.shadowBlur = 50;
+    this._p5.drawingContext.shadowBlur = this._s /10;
     this._p5.drawingContext.shadowColor = this.my_palette[0];
 
 
@@ -66,7 +65,6 @@ export default class s extends Style {
     this._p5.noStroke();
 
     // Draw stars
-    this._p5.drawingContext.shadowBlur = 0;
     this._p5.fill(this.my_palette[2]);
     for (let i = 0; i < 60; i++) {
       this._p5.circle(this._p5.width * this._p5.random(),
@@ -75,7 +73,7 @@ export default class s extends Style {
     }
 
     // Draw rectangle to hide half of the sun
-    this._p5.drawingContext.shadowBlur = 40;
+    this._p5.drawingContext.shadowBlur = this._s / 20;
     this._p5.fill(this.bgColor);
     this._p5.drawingContext.shadowColor = this.my_palette[2];
     this._p5.rect(0, horizonY, this._p5.width, this._p5.height);
@@ -90,29 +88,29 @@ export default class s extends Style {
     }
 
     // Draw horizon shiny line
-    this._p5.drawingContext.shadowBlur = 10
-    this._p5.stroke(sunCol2)
-    this._p5.strokeWeight(5)
-    this._p5.line(0, horizonY, this._p5.width, horizonY)
+    this._p5.drawingContext.shadowBlur = this._s / 5;
+    this._p5.stroke(sunCol2);
+    this._p5.strokeWeight(5);
+    this._p5.line(0, horizonY, this._p5.width, horizonY);
 
-    this._p5.stroke(this.my_palette[0])
-    this._p5.strokeWeight(1)
-    this._p5.line(0, horizonY, this._p5.width, horizonY)
+    this._p5.stroke(this.my_palette[0]);
+    this._p5.strokeWeight(1);
+    this._p5.line(0, horizonY, this._p5.width, horizonY);
 
-    this._p5.stroke("white")
-    this._p5.drawingContext.shadowBlur = 30;
+    this._p5.stroke("white");
+    this._p5.drawingContext.shadowBlur = this._s / 20;
     this._p5.drawingContext.shadowColor = "white";
     this._p5.strokeWeight(0.5)
     this._p5.line(this._p5.width / 3, horizonY, 2 * this._p5.width / 3, horizonY)
 
     // reset the glow effect
-    this._p5.drawingContext.shadowBlur = 35;
+    this._p5.drawingContext.shadowBlur = this._s / 10;
     this._p5.drawingContext.shadowColor = this.my_palette[0];
   }
 
   drawTile(tilePoints, frontLeftCorner3DCoord) {
 
-    this._p5.drawingContext.shadowBlur = 40;
+    this._p5.drawingContext.shadowBlur = this._s / 30;
     this._p5.drawingContext.shadowColor = this.my_palette[0];
 
     let chance = this._p5.random();
