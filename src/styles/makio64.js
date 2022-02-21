@@ -17,6 +17,7 @@ export default class Makio64Style extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.bgColor = '#000' // '#1c171d'
+    this.col = p5.color('#fff') // '#1c171d'
   }
 
   beforeDraw () {
@@ -26,6 +27,7 @@ export default class Makio64Style extends Style {
       this.drawMountain(y, -200, -this._gridSizeX / 2)
       this.drawMountain(y, this._gridSizeX / 2, 200)
     }
+    this.drawWater()
   }
 
   drawBackground () {
@@ -35,10 +37,26 @@ export default class Makio64Style extends Style {
 
   drawMoon () {
     const p5 = this._p5
-    p5.fill('#f5f5f5')
+    this.fill(1)
+    p5.noStroke()
     const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
     const radius = FXRandomBetween(0.1, 0.2) * this._s
     p5.circle(v.x, v.y - radius / 5, radius)
+  }
+
+  drawWater () {
+    const p5 = this._p5
+    this.fill(0.6)
+    p5.noStroke()
+    for (let x = -200; x < 200; x++) {
+      for (let y = 0; y < this._gridSizeY; y++) {
+        if (FXRandomBetween(0, 1) > 0.7) {
+          const v = this.projectedPoint(x + Math.cos(x + y) * 0.5, y + Math.sin(x + y) * 0.5, 0)
+          const radius = FXRandomBetween(0.01, 0.02) * this._s * (1 - smoothstep(0, this._gridSizeY, y)) * 0.1
+          p5.circle(v.x, v.y - radius / 5, radius)
+        }
+      }
+    }
   }
 
   drawMountain (y, min, max) {
@@ -62,7 +80,6 @@ export default class Makio64Style extends Style {
       if (prev) {
         stroke = smoothstep(0, 5, z1) * 4.5
         p5.strokeWeight(stroke)
-        // p5.stroke(`rgba(255,255,255,${smoothstep(-1, 6, z1)})`)
         p5.line(prev.x, prev.y, v.x, v.y)
       }
       prev = v
@@ -122,17 +139,20 @@ export default class Makio64Style extends Style {
       }
 
       const alpha = (1 - smoothstep(maxY - 150, maxY - 30, center[1])) * 0.3
-      p5.stroke(`rgba(255,255,255,${alpha})`)
+      // p5.stroke(`rgba(255,255,255,${alpha})`)
+      this.stroke(alpha)
+      p5.noFill()
       p5.beginShape()
       p5.vertex(vertex1[0], vertex1[1])
       p5.vertex(vertex2[0], vertex2[1])
       p5.vertex(vertex3[0], vertex3[1])
       p5.endShape()
 
-      p5.stroke('rgba(255,255,255,1)')
-      p5.circle(vertex1[0], vertex1[1], alpha * 0.015 * this._s)
-      p5.circle(vertex2[0], vertex2[1], alpha * 0.015 * this._s)
-      p5.circle(vertex3[0], vertex3[1], alpha * 0.015 * this._s)
+      p5.noStroke()
+      this.fill(1)
+      p5.circle(vertex1[0], vertex1[1], alpha * 0.01 * this._s)
+      p5.circle(vertex2[0], vertex2[1], alpha * 0.01 * this._s)
+      p5.circle(vertex3[0], vertex3[1], alpha * 0.01 * this._s)
     }
   }
 
@@ -206,7 +226,7 @@ export default class Makio64Style extends Style {
     const topRight2 = this.projectedPoint(x + 0.5 + sizeTop / 2, y + 0.5 + sizeTop / 2, z + height)
 
     p5.strokeWeight(ratio * 0.8 + 0.1)
-    p5.stroke('rgba(255,255,255,1)')
+    this.stroke(1)
     p5.fill(this.bgColor)
 
     // draw bottom
@@ -234,7 +254,7 @@ export default class Makio64Style extends Style {
     const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
 
     p5.strokeWeight(ratio * 0.8 + 0.1)
-    p5.stroke('rgba(255,255,255,1)')
+    this.stroke(1)
     p5.fill(this.bgColor)
 
     // draw bottom
@@ -250,7 +270,6 @@ export default class Makio64Style extends Style {
   }
 
   drawStone (p, ratio) {
-    const p5 = this._p5
     let y = 0
     let h = 0.01
     this.drawCylinder(p.x, p.y, p.z + y, 1, 1, h, ratio)
@@ -355,6 +374,16 @@ export default class Makio64Style extends Style {
     p5.vertex(p3.x, p3.y)
     p5.endShape(p5.CLOSE)
     p5.drawingContext.restore()
+  }
+
+  fill (alpha) {
+    this.col.setAlpha(alpha * 255)
+    this._p5.fill(this.col)
+  }
+
+  stroke (alpha) {
+    this.col.setAlpha(alpha * 255)
+    this._p5.stroke(this.col)
   }
 
   // add slight vigneting, code based on estienne.js
