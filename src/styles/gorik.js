@@ -41,8 +41,8 @@ export default class GorikStyle extends Style {
     this._p5.background(this.addAlpha(cc, 100))
     this._p5.fill(cc2)
 
-    for (let i = 0; i < this._p5.height; i += 3) {
-      for (let j = 0; j < this._p5.width; j += 3) {
+    for (let i = 0; i < this._s; i += 3) {
+      for (let j = 0; j < this._s; j += 3) {
         this._p5.rect(i, j, 2)
       }
     }
@@ -56,14 +56,14 @@ export default class GorikStyle extends Style {
   createShapes (f) {
     const offset = this._p5.random(-400, 400)
     const stretchedPentagon = [
-      this._p5.createVector(this._p5.width * 0.85 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
-      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
-      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.85 + offset),
-      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.75 + offset),
-      this._p5.createVector(this._p5.width * 0.3 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.5 + offset),
-      this._p5.createVector(this._p5.width * 0.4 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset),
-      this._p5.createVector(this._p5.width * 0.5 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.1 + offset),
-      this._p5.createVector(this._p5.width * 0.75 + this._p5.randomGaussian(0, f) + offset, this._p5.width * 0.25 + offset)
+      this._p5.createVector(this._s * 0.85 + this._p5.randomGaussian(0, f) + offset, this._s * 0.5 + offset),
+      this._p5.createVector(this._s * 0.75 + this._p5.randomGaussian(0, f) + offset, this._s * 0.75 + offset),
+      this._p5.createVector(this._s * 0.5 + this._p5.randomGaussian(0, f) + offset, this._s * 0.85 + offset),
+      this._p5.createVector(this._s * 0.4 + this._p5.randomGaussian(0, f) + offset, this._s * 0.75 + offset),
+      this._p5.createVector(this._s * 0.3 + this._p5.randomGaussian(0, f) + offset, this._s * 0.5 + offset),
+      this._p5.createVector(this._s * 0.4 + this._p5.randomGaussian(0, f) + offset, this._s * 0.25 + offset),
+      this._p5.createVector(this._s * 0.5 + this._p5.randomGaussian(0, f) + offset, this._s * 0.1 + offset),
+      this._p5.createVector(this._s * 0.75 + this._p5.randomGaussian(0, f) + offset, this._s * 0.25 + offset)
     ]
     return stretchedPentagon
   }
