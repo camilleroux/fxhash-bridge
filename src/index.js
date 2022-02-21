@@ -26,9 +26,7 @@ import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
-import BoilerplateStyle from './styles/boilerplate'
 import ShuhblamStyle from './styles/shuhblam'
-import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
 import CamilleRoux2Style from './styles/camilleroux2'
 import GorikStyle from './styles/gorik'
@@ -49,11 +47,14 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
-import JuLabatStyle from './styles/julabat'
+// import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
+import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
 import NickDimaStyle from './styles/nickdima'
+import GenerativePenStyle from './styles/generativepen'
+import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
 
 const FXR = require('fxrandomjs')
 
@@ -83,6 +84,7 @@ const perspective = Math.floor(FXRandomBetween(0.01, 0.08) * 100) / 100
 const missingTiles = Math.floor(FXRandomBetween(0.3, 0.8) * 10) / 10
 
 const stylesClasses = [
+  GenerativePenStyle,
   NickDimaStyle,
   AdaAdaAdaStyle,
   RVigStyle,
@@ -98,8 +100,6 @@ const stylesClasses = [
   RobinMetcalfeStyle,
   CamilleRoux2Style,
   CamilleRouxStyle,
-  BoilerplateStyle,
-  DemoStyle,
   AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle,
@@ -107,9 +107,11 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
-  JuLabatStyle,
+  // JuLabatStyle,
   bfosStyle,
   DevnullStyle,
+  AqwUnderscoreZertStyle,
+  JeresStyle,
   Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
@@ -187,6 +189,7 @@ const sketch = function (p5) {
     p5.pixelDensity(window.devicePixelRatio)
     p5.strokeWeight(1)
     p5.drawingContext.shadowBlur = 0
+    p5.drawingContext.filter = 'none'
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
