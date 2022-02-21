@@ -42,16 +42,12 @@ import ElsifStyle from './styles/elsif'
 import AdaAdaAdaStyle from './styles/ada_ada_ada'
 import MandyBrigwellStyle from './styles/mandybrigwell'
 import RVigStyle from './styles/rvig'
-import AzeemStyle from './styles/azeem'
 import BridgeTunnelStyle from './styles/bridgetunnel'
-import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
 import JuLabatStyle from './styles/julabat'
-import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
-import Nobody from './styles/nobody'
 import MattCirclesStyle from './styles/matt_circles'
 import NickDimaStyle from './styles/nickdima'
 import GenerativePenStyle from './styles/generativepen'
@@ -101,17 +97,13 @@ const stylesClasses = [
   RobinMetcalfeStyle,
   CamilleRoux2Style,
   CamilleRouxStyle,
-  AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle,
   BridgeTunnelStyle,
-  DreyStyle,
   LunareanStyle,
   GrosggStyle,
   JuLabatStyle,
-  bfosStyle,
   DevnullStyle,
-  Nobody,
   MattCirclesStyle,
   AqwUnderscoreZertStyle,
   JeresStyle
