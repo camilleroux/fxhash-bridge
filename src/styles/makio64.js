@@ -186,7 +186,7 @@ export default class Makio64Style extends Style {
 
     const delaunay = Delaunator.from(points)
     const triangles = delaunay.triangles
-    p5.strokeWeight(1)
+    p5.strokeWeight(1 * this._s * 0.001)
     p5.stroke(this.col)
 
     function triangleCenter (a, b, c) {
@@ -263,7 +263,7 @@ export default class Makio64Style extends Style {
     const botRight2 = this.projectedPoint(x + 0.5 + sizeTop / 2, y + 0.5 - sizeTop / 2, z + height)
     const topRight2 = this.projectedPoint(x + 0.5 + sizeTop / 2, y + 0.5 + sizeTop / 2, z + height)
 
-    p5.strokeWeight(ratio * 0.8 + 0.1)
+    p5.strokeWeight((ratio * 0.8 + 0.1) * this._s * 0.001)
     this.stroke(1)
     p5.fill(this.bgColor)
 
@@ -291,7 +291,7 @@ export default class Makio64Style extends Style {
     const botRight2 = this.projectedPoint(p.x + 1, p.y, p.z + height)
     const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
 
-    p5.strokeWeight(ratio * 0.8 + 0.1)
+    p5.strokeWeight((ratio * 0.8 + 0.1) * this._s * 0.001)
     this.stroke(1)
     p5.fill(this.bgColor)
 
