@@ -58,6 +58,7 @@ const words = [
 
 let word = 'SILTA'
 let palette = null
+let floydsteinbergThreshold = 129
 
 export default class AdaAdaAdaStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
@@ -73,9 +74,9 @@ export default class AdaAdaAdaStyle extends Style {
     palette = fettepalette.generateRandomColorRamp({
       total: 9,
       centerHue: this._p5.random() * 360,
-      hueCycle: this._p5.random() * 0.6,
+      hueCycle: 0.3,
       curveMethod: 'arc',
-      curveAccent: this._p5.random() * 0.25,
+      curveAccent: 0,
       offsetTint: 0.01,
       offsetShade: 0.01,
       tintShadeHueShift: 0.01,
@@ -101,6 +102,8 @@ export default class AdaAdaAdaStyle extends Style {
     // Draw sun
     this._p5.colorMode(this._p5.HSL, 360, 100, 100)
     this.drawDisc(sunRadius, sunStroke, palette.dark[4], palette.dark[6], sunCorners, true)
+
+    floydsteinbergThreshold = this._p5.random() * 129
   }
 
   // Draws a cool looking geometrical disc
@@ -187,8 +190,77 @@ export default class AdaAdaAdaStyle extends Style {
     }
   }
 
-  afterDraw () {
+  // Adapted (poorly with great glitchy effect) from p5.riso's dither implementation: https://github.com/antiboredom/p5.riso
+  dither (type, threshold) {
+  // source adapted from: https://github.com/meemoo/meemooapp/blob/44236a29574812026407c0288ab15390e88b556a/src/nodes/image-monochrome-worker.js
 
+    if (threshold === undefined) threshold = 128
+
+    const w = this._p5.width
+    let newPixel, err
+
+    const bayerThresholdMap = [
+      [15, 135, 45, 165],
+      [195, 75, 225, 105],
+      [60, 180, 30, 150],
+      [240, 120, 210, 90]
+    ]
+
+    const lumR = []
+    const lumG = []
+    const lumB = []
+
+    this._p5.loadPixels()
+
+    for (let i = 0; i < 256; i++) {
+      lumR[i] = i * 0.299
+      lumG[i] = i * 0.587
+      lumB[i] = i * 0.114
+    }
+
+    for (let i = 0; i <= this._p5.pixels.length; i += 4) {
+      this._p5.pixels[i] = Math.floor(lumR[this._p5.pixels[i]] + lumG[this._p5.pixels[i + 1]] + lumB[this._p5.pixels[i + 2]])
+    }
+
+    for (let i = 0; i <= this._p5.pixels.length; i += 4) {
+      if (type === 'none') {
+      // No dithering
+        this._p5.pixels[i] = this._p5.pixels[i] < threshold ? 0 : 255
+      } else if (type === 'bayer') {
+      // 4x4 Bayer ordered dithering algorithm
+        const x = i / 4 % w
+        const y = Math.floor(i / 4 / w)
+        const map = Math.floor((this._p5.pixels[i] + bayerThresholdMap[x % 4][y % 4]) / 2)
+        this._p5.pixels[i] = (map < threshold) ? 0 : 255
+      } else if (type === 'floydsteinberg') {
+      // Floyd–Steinberg dithering algorithm
+        newPixel = this._p5.pixels[i] < floydsteinbergThreshold ? 0 : 255
+        err = Math.floor((this._p5.pixels[i] - newPixel) / 16)
+        this._p5.pixels[i] = newPixel
+        this._p5.pixels[i + 4] += err * 7
+        this._p5.pixels[i + 4 * w - 4] += err * 3
+        this._p5.pixels[i + 4 * w] += err * 5
+        this._p5.pixels[i + 4 * w + 4] += err * 1
+      } else {
+      // Bill Atkinson's dithering algorithm
+        newPixel = this._p5.pixels[i] < 129 ? 0 : 255
+        err = Math.floor((this._p5.pixels[i] - newPixel) / 8)
+        this._p5.pixels[i] = newPixel
+
+        this._p5.pixels[i + 4] += err
+        this._p5.pixels[i + 8] += err
+        this._p5.pixels[i + 4 * w - 4] += err
+        this._p5.pixels[i + 4 * w] += err
+        this._p5.pixels[i + 4 * w + 4] += err
+        this._p5.pixels[i + 8 * w] += err
+      }
+    }
+    this._p5.updatePixels()
+  // return out
+  }
+
+  afterDraw () {
+    this.dither('floydsteinberg')
   }
 
   static author () { return 'Ada Ada Ada' }
