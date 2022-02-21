@@ -16,13 +16,22 @@ function smoothstep (min, max, value) {
 export default class Makio64Style extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-    this.bgColor = '#000' // '#1c171d'
-    this.col = p5.color('#fff') // '#1c171d'
+    if (FXRandomBetween(0, 1) > 0.5) {
+      this.bgColor = '#fff'
+      this.col = p5.color('#000')
+    } else {
+      this.bgColor = '#000'
+      this.col = p5.color('#fff')
+    }
   }
 
   beforeDraw () {
     this.drawBackground()
-    this.drawMoon()
+    if (FXRandomBetween(0, 1) > 0.5) {
+      this.drawMoon()
+    } else {
+      this.drawMoonSimple()
+    }
     for (let y = 5; y >= 1; y--) {
       this.drawMountain(y, -200, -this._gridSizeX / 2)
       this.drawMountain(y, this._gridSizeX / 2, 200)
@@ -35,13 +44,62 @@ export default class Makio64Style extends Style {
     p5.background(this.bgColor)
   }
 
-  drawMoon () {
+  drawMoonSimple () {
     const p5 = this._p5
     this.fill(1)
     p5.noStroke()
     const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
     const radius = FXRandomBetween(0.1, 0.2) * this._s
     p5.circle(v.x, v.y - radius / 5, radius)
+  }
+
+  drawMoon () {
+    const p5 = this._p5
+    p5.noStroke()
+    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
+    const radius = FXRandomBetween(0.1, 0.2) * this._s
+    const points = []
+    const count = FXRandomBetween(0, 1) * 50 + 50
+    for (let i = 0; i < count; i++) {
+      const r = FXRandomBetween(0, radius / 2)
+      const angle = FXRandomBetween(0.0, Math.PI * 2)
+      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30])
+    }
+    for (let i = 0; i < 16; i++) {
+      const r = radius / 2
+      const angle = i / 16 * Math.PI * 2
+      points.push([v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r - 30])
+    }
+    const delaunay = Delaunator.from(points)
+    const triangles = delaunay.triangles
+
+    function triangleCenter (a, b, c) {
+      return [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3]
+    }
+
+    const angle = FXRandomBetween(0, Math.PI * 2)
+    const r = radius * 1.2// + FXRandomBetween(0,1)
+
+    for (let k = 0; k < triangles.length; k += 3) {
+      const id1 = triangles[k]
+      const id2 = triangles[k + 1]
+      const id3 = triangles[k + 2]
+      const vertex1 = points[id1]
+      const vertex2 = points[id2]
+      const vertex3 = points[id3]
+
+      const center = triangleCenter(vertex1, vertex2, vertex3)
+      // center +=
+
+      p5.strokeWeight(1)
+      p5.stroke(this.bgColor)
+      this.fill(1)
+      p5.beginShape()
+      p5.vertex(vertex1[0], vertex1[1])
+      p5.vertex(vertex2[0], vertex2[1])
+      p5.vertex(vertex3[0], vertex3[1])
+      p5.endShape()
+    }
   }
 
   drawWater () {
@@ -64,7 +122,7 @@ export default class Makio64Style extends Style {
     const noiseScale = 0.1
     const noiseScale2 = 0.01
     p5.strokeWeight(2)
-    p5.stroke('#f5f5f5')
+    p5.stroke(this.col)
     let prev = null
     const paths = []
     let maxY = -100000
@@ -119,7 +177,7 @@ export default class Makio64Style extends Style {
     const delaunay = Delaunator.from(points)
     const triangles = delaunay.triangles
     p5.strokeWeight(1)
-    p5.stroke('#f5f5f5')
+    p5.stroke(this.col)
 
     function triangleCenter (a, b, c) {
       return [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3]
@@ -340,7 +398,7 @@ export default class Makio64Style extends Style {
   afterDraw () {
     const p5 = this._p5
     this.vignetting()
-    p5.stroke('#fff')
+    this.stroke(1)
     p5.strokeWeight(0.05 * this._s)
     p5.noFill()
     p5.rect(0, 0, this._s, this._s)
