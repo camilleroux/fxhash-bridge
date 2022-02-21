@@ -16,7 +16,7 @@ export default class DevnullStyle extends Style {
 
   beforeDraw () {
     this.cx.strokeStyle = "#000000";
-    this.cx.lineWidth = 1 / (window.devicePixelRatio || 1);
+    this.cx.lineWidth = 1 / (window.devicePixelRatio || 1) * this._s / 800;
     this.rand = DevnullStyle.mulberry32(DevnullStyle.xmur3(fxhash)());
     this.colors = DevnullStyle.getColors(DevnullStyle.getColorCount(this.rand()), this.rand);
     this.lastY = 0;
