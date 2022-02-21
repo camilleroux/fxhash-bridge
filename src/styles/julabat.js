@@ -5,12 +5,17 @@
 // Wallet: tz1UxPe68iFRp27KqowTo7nF9C6GxAKa2vFj
 
 import Style from './style'
-import { getWeightedOption } from '@liamegan1/fxhash-helpers'
+import { FXInit, getWeightedOption, FXRandomBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
 
-const noiseField = []
+// eslint-disable-next-line no-undef
+FXInit(fxrand)
+
+const starField = []
 
 export default class JuLabatStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
+    // eslint-disable-next-line no-undef
+    fxrand = sfc32(...hashes)
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.bgColor = '#080808'
     this.HUES = [
@@ -21,75 +26,61 @@ export default class JuLabatStyle extends Style {
     ]
     this.hues = getWeightedOption(this.HUES)
     this.offset = this._s / 100
-    this.starsGlow = false
     this.tileGlow = true
   }
 
   beforeDraw () {
     const P5 = this._p5
-    P5.loop()
 
     P5.colorMode(P5.HSB)
     P5.background(this.bgColor)
 
-    // Fill noiseField
-    if (noiseField.length === 0) {
-      const inc = P5.random(0.01, 0.03)
+    // Fill starField``
+    if (starField.length === 0) {
+      const inc = FXRandomBetween(0.01, 0.03)
       const def = 8
       let yoff = 0
       for (let j = 0; j < this._s; j += def) {
         let xoff = 0
         for (let i = 0; i < this._s; i += def) {
-          const val = P5.noise(xoff, yoff)
-          // Store slightly randomized position + noise value as vector's z
-          const point = P5.createVector(
-            (i + P5.random(0, def * 5)) / this._s,
-            (j + P5.random(0, def * 5)) / this._s,
-            val
-          )
-
-          if (point.x > 0 && point.y > 0 && point.x < this._s && point.y < this._s) noiseField.push(point)
+          // Generate star attributes
+          const x = (i + FXRandomBetween(-def * 5, def * 5)) / this._s
+          const y = (j + FXRandomBetween(-def * 5, def * 5)) / this._s
+          const v = P5.noise(xoff, yoff)
+          const b = P5.map(y * this._s, 0, this._s, 120, 10)
+          const col = P5.color(FXRandomOption(this.hues), FXRandomBetween(50, 90), b + FXRandomBetween(-20, 20))
+          const size = this._s / FXRandomBetween(170000, 450000)
+          const star = {
+            pos: P5.createVector(x, y),
+            val: v,
+            col: col,
+            size: size
+          }
+          // Store star in starField
+          if (star.val < FXRandomBetween(0, 1) * 0.5 &&
+            star.pos.x > 0 &&
+            star.pos.y > 0 &&
+            star.pos.x < this._s &&
+            star.pos.y < this._s
+          ) starField.push(star)
           xoff += inc
         }
         yoff += inc
       }
     }
 
-    // Compute average noiseField noise value
-    const sum = noiseField.reduce((a, v) => a + v.z, 0)
-    const avg = sum / noiseField.length
-    // Create star with random chance depending on noise value
-    const f = noiseField.reduce((a, v) => {
-      if (v.z < P5.random() * 0.5 && v.z <= avg) a.push(v)
-      return a
-    }, [])
-
-    console.log(f.length)
-    console.log(noiseField.length)
-
     // Draw stars
     P5.noFill()
-    f.forEach(p => {
-      const h = P5.random(this.hues)
-      const b = P5.map(p.y * this._s, 0, this._s, 120, 10)
-      const w = P5.random(this._s / 1400, this._s / 270)
-
-      P5.strokeWeight(w)
-      P5.stroke(h, P5.random(50, 90), b + P5.random(-20, 20))
-      P5.point(p.x * this._s, p.y * this._s)
-
-      if (this.starsGlow) {
-        P5.strokeWeight(w * 4)
-        P5.stroke(P5.color(h, 100, b, 0.25))
-        this.setBlur(w * 4)
-        P5.point(p.x * this._s, p.y * this._s)
-        this.removeBlur()
-      }
+    starField.forEach(p => {
+      P5.strokeWeight(p.size * this._s)
+      P5.stroke(p.col)
+      P5.point(p.pos.x * this._s, p.pos.y * this._s)
     })
   }
 
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
     const P5 = this._p5
+
     // Tile points
     const p0 = tilePoints[0]
     const p1 = tilePoints[1]
@@ -139,24 +130,17 @@ export default class JuLabatStyle extends Style {
         p2.x * this._s, p2.y * this._s,
         p3.x * this._s, p3.y * this._s
       )
+      P5.drawingContext.filter = 'none'
     }
 
     // Reset effects
-    this.removeBlur()
     P5.blendMode(P5.BLEND)
   }
 
-  afterDraw () {
-    const P5 = this._p5
-    if (P5.frameCount > 1) P5.noLoop()
-  }
+  afterDraw () {}
 
   setBlur (size) {
     this._p5.drawingContext.filter = `blur(${size}px)`
-  }
-
-  removeBlur () {
-    this._p5.drawingContext.filter = 'none'
   }
 
   static author () { return 'Julien Labat' }
