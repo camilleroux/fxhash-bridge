@@ -35,9 +35,9 @@ export default class RVigStyle extends Style {
     this._p5.background('#000000')
 
     this._p5.blendMode(this._p5.ADD)
+    this._p5.strokeWeight(this._s / 1600)
 
     this.rMax = this._s
-    this.dr = FXRandomBetween(-0.05, 0.05)
 
     const n = 18
     const p = Array(n)
