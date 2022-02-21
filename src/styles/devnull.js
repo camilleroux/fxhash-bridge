@@ -84,7 +84,7 @@ export default class DevnullStyle extends Style {
 
   drawMultiTile(tilePoints, count, isBorder) {
     let floorCount = isBorder ? (this.maxHeight) : this.minHeight + Math.floor(this.rand() * (1 + this.maxHeight - this.minHeight));
-    let width = Math.ceil((tilePoints[3].x - tilePoints[0].x) * this._s);
+    let width = (tilePoints[3].x - tilePoints[0].x) * this._s;
     let depth = (tilePoints[0].y - tilePoints[1].y) * this._s;
     let yb = tilePoints[0].y * this._s;
     let yt = tilePoints[1].y * this._s;
