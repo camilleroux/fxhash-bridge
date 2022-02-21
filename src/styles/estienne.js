@@ -581,6 +581,6 @@ export default class EstienneStyle extends Style {
   }
 
   static name() {
-    return "Estienne Style"
+    return "Path through the city"
   }
 }
