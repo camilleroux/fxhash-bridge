@@ -13,7 +13,7 @@ export default class Nobody extends Style {
     this.mul=this._p5.random(1,5)
     this.fillcel=this._p5.random(0,100)>50
     this.numberFunction=parseInt(this._p5.random(0,8))
-    console.log(this.numberFunction)
+    // (this.numberFunction)
     this.end=parseInt(this._p5.random(0,4))
     this.grainNumber=this._p5.random(18,30)
     if (!this.seed) this.seed = this._p5.random(9999999999)
@@ -62,7 +62,7 @@ export default class Nobody extends Style {
        this.circleNoise(this._p5.random(x+raio/3,x+this._s),this._p5.random(0,y),10,this.numberFunction==1?5:10,5,this._p5.color(this.colorL[this.colorpicker]),false,this.numberFunction,0.3)
         
     }
-    console.log(this.numberFunction)
+    // console.log(this.numberFunction)
     if(this._projectionCalculator3d.points2d[5][1]>0.02&&chooseEnd!==1){
         for(let o=0;o<this._s/4;o++){        
             if(chooseEnd!=2&&chooseEnd!=3)
