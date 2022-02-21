@@ -16,7 +16,7 @@ export default class MandybrigwellStyle extends Style {
 		this._p5.colorMode(this._p5.HSB, 360);
 		// Select a random hue for the background, making it light
 		this.backgroundColor = this._p5.random(360, 180);
-		this._p5.background(this.backgroundColor, 30, 360);
+		this._p5.background(this.backgroundColor, 30, 300);
 		this._p5.noStroke();
 		// Add some distant darkness; lighter below the horizon
 		for (var i=0; i<1; i+=0.2) {
@@ -25,21 +25,6 @@ export default class MandybrigwellStyle extends Style {
 			this._p5.fill(60, 5);
 			this._p5.arc(this._s*0.5, this._s*0.5, 0.9*i*this._s, 0.9*i*this._s, 0, this._p5.PI);
 		}
-		// Choose circle-overlay sizes based on the screen resolution
-		this.circleMin = this._s/8;
-		this.circleMax = this._s/32;
-		// Iterate across the canvas, using the screen resolution as step size
-		// Map strokeweight to distance, and then dot some random ellipses, weighted towards the top
-		for (var i=0; i<this._s; i+=this._s/640) {
-			this._p5.strokeWeight(this._p5.map(i, 0, this._s, 0, 1));
-			this._p5.noFill();
-			for (var j=0; j<32; j++) {
-				this.randomLocation = this._p5.random()*this._p5.random()*i;
-				this._p5.stroke(this.backgroundColor, 90, 300, this._p5.map(this.randomLocation, 0, this._s, 30, 0));
-				this.circleSize = this._p5.map(this.randomLocation, 0, this._s, this.circleMax, this.circleMin);
-				this._p5.ellipse(this._p5.random(this._s), this.randomLocation-this.circleMax, this.circleSize, this.circleSize);
-			}
-		}
 	}
 
 	drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
@@ -47,8 +32,8 @@ export default class MandybrigwellStyle extends Style {
 		this._p5.noStroke();
 		
 		// We're going to jiggle the tiles a little with a slight random value
-		this.randomMinumum = this._s/256;
-		this.randomMaximum = -this._s/256;
+		this.randomMinumum = 1.01;
+		this.randomMaximum = 0.95;
 			
 		// Use the distance to alter the hue and draw the tile: Bifrost is a rainbow bridge, after all
 		this.distance = this._p5.dist((tilePoints[0].x+tilePoints[1].x)*this._s*0.025, (tilePoints[0].y+tilePoints[2].y)*this._s, this._s/2, this._s/2)/this._s;
@@ -56,26 +41,18 @@ export default class MandybrigwellStyle extends Style {
 		
 		
 		this._p5.quad(
-		(tilePoints[0].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[0].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
-		(tilePoints[1].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[1].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
-		(tilePoints[2].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[2].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
-		(tilePoints[3].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[3].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum)
+		(tilePoints[0].x * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[0].y * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[1].x * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[1].y * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[2].x * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[2].y * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[3].x * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[3].y * this._s) * this._p5.random(this.randomMinumum, this.randomMaximum)
 		);
 	
 		// Now, radiative ray type things.
 		// Set the fill to a transparent white, and make rays from slightly outside the top corners to the vertical edges of each quad
 		this._p5.fill(360, this._p5.map(this.distance, 1, 2, 10, 60));
 		this._p5.stroke(360, 2);
-		this._p5.quad(
-		-this._s*0.05, 0,
-		0, -this._s*0.05,
-		tilePoints[2].x * this._s, tilePoints[2].y * this._s,
-		tilePoints[3].x * this._s, tilePoints[3].y * this._s);
-		this._p5.quad(
-		this._s*1.05, 0,
-		this._s, -this._s*0.05,
-		tilePoints[1].x * this._s, tilePoints[1].y * this._s,
-		tilePoints[0].x * this._s, tilePoints[0].y * this._s);
+		this._p5.quad(-this._s*0.05, 0, 0, -this._s*0.05,tilePoints[2].x * this._s, tilePoints[2].y * this._s,tilePoints[3].x * this._s, tilePoints[3].y * this._s);
+		this._p5.quad(this._s*1.05, 0, this._s, -this._s*0.05, tilePoints[1].x * this._s, tilePoints[1].y * this._s, tilePoints[0].x * this._s, tilePoints[0].y * this._s);
 	}
 
 	afterDraw () {
@@ -89,7 +66,7 @@ export default class MandybrigwellStyle extends Style {
 			this._p5.noFill();
 			for (var j=0; j<8; j++) {
 				this.randomLocation = (this._p5.random()*i);
-				this._p5.stroke(0, 0, 360, this._p5.map(i, this._s/2, this._s, 0, 30));
+				this._p5.stroke(0, 0, 360, this._p5.map(i, this._s/2, this._s, 0, 25));
 				this.circleSize = this._p5.map(this.randomLocation, 0, this._s, this.circleMax, this.circleMin);
 				this._p5.rect(this._p5.random(this._s), this._s-this.randomLocation, this.circleSize, this.circleSize);
 			}
