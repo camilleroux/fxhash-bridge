@@ -47,18 +47,19 @@ export default class MandybrigwellStyle extends Style {
 		this._p5.noStroke();
 		
 		// We're going to jiggle the tiles a little with a slight random value
-		this.randomMinumum = -0.01;
-		this.randomMaximum = 0.01;
+		this.randomMinumum = this._s/256;
+		this.randomMaximum = -this._s/256;
 			
 		// Use the distance to alter the hue and draw the tile: Bifrost is a rainbow bridge, after all
 		this.distance = this._p5.dist((tilePoints[0].x+tilePoints[1].x)*this._s*0.025, (tilePoints[0].y+tilePoints[2].y)*this._s, this._s/2, this._s/2)/this._s;
 		this._p5.fill(this._p5.map(this.distance, 0.75, 1.25, 0, 360), 360, 300, this._p5.map(this.distance, 0.75, 1.25, 90, 210));
 		
+		
 		this._p5.quad(
-		(tilePoints[0].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[0].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
-		(tilePoints[1].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[1].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
-		(tilePoints[2].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[2].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
-		(tilePoints[3].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[3].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s
+		(tilePoints[0].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[0].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[1].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[1].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[2].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[2].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum),
+		(tilePoints[3].x * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum), (tilePoints[3].y * this._s) + this._p5.random(this.randomMinumum, this.randomMaximum)
 		);
 	
 		// Now, radiative ray type things.
