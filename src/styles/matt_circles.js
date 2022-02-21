@@ -38,6 +38,8 @@ export default class MattCirclesStyle extends Style {
     this.nbStars = 200
     this.cloudH = this.refSize * 3
     this.cloudW = this.refSize * 5
+    this.resTextureW = 50
+    this.resTextureH = 110
 
     // Initialize colors
     const paletteIndex = this._p5.random([0, 0, 0, 0, 0, 0, 0, 1, 1, 2])
@@ -51,9 +53,8 @@ export default class MattCirclesStyle extends Style {
     this.starsColors = palette.starsPalettes.slice(0, 4)
     this.starsShadowColor = palette.starsPalettes[5]
 
-    this.flowField = this.createFlowField()
+    this.flowField = this.createFlowField(this.resTextureW, this.resTextureH)
     this.rainArea = this.getRainArea()
-    this.rainAreaImg = this.rainAreaImg()
 
     // Create textures and mask for rain
     this.rainMask = this.createGraphics(s, s)
@@ -66,9 +67,9 @@ export default class MattCirclesStyle extends Style {
 
   beforeDraw () {
     // Generate textures
-    this.createTexture(this.bgColors, this.bgShadowColor, this._p5)
-    this.createTexture(this.rainColors, this.rainShadowColor, this.rainTexture)
-    this.createTexture(this.starsColors, this.starsShadowColor, this.starsTexture)
+    this.createTexture(this.bgColors, this.bgShadowColor, this.resTextureW, this.resTextureH, this._p5)
+    this.createTexture(this.rainColors, this.rainShadowColor, this.resTextureW, this.resTextureH, this.rainTexture)
+    this.createTexture(this.starsColors, this.starsShadowColor, this.resTextureW, this.resTextureH, this.starsTexture)
   }
 
   drawTile (tilePoints, frontLeftCorner3DCoord, isBorder) {
@@ -80,13 +81,13 @@ export default class MattCirclesStyle extends Style {
   }
 
   afterDraw () {
-    // Draw stars on mask
+    // Draw stars
     this.drawStarsMask(this.nbStars, this.starsMask)
+    this.drawImage(this.starsMask, this.starsTexture)
 
     // Draw rain and stars with textures on sketch
     this.cloud((this.rainArea[0].x + this.rainArea[1].x) / 2, this.rainArea[2].y - this.cloudH / 2, this.cloudW, this.cloudH, this.rainMask)
     this.drawImage(this.rainMask, this.rainTexture)
-    this.drawImage(this.starsMask, this.starsTexture)
 
     // Draw border
     this.border(this.borderGap, this.bgColors[0])
@@ -159,11 +160,8 @@ export default class MattCirclesStyle extends Style {
 
   inTheSky (star) {
     if (star === undefined) return false
-    const img = this.rainAreaImg
-    const [r, g, b] = img.get(star.x, star.y)
-    const pixelc = this._p5.color(r, g, b)
-
-    return (pixelc.toString() === this._p5.color(255).toString())
+    const [p1, p2, p3, p4] = this.rainArea
+    return (this.sign(star, p1, p3) < 0 || this.sign(star, p2, p4) > 0) || star.y < p3.y - 3.5 * this.refSize
   }
 
   star1 (x, y, r, nbRays, g) {
@@ -262,39 +260,32 @@ export default class MattCirclesStyle extends Style {
   }
 
   getRainArea () {
-    const p1 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([-this._gridSizeX / 2, 0, 0]))
-    const p2 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([this._gridSizeX / 2, 0, 0]))
-    const p3 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([-this._gridSizeX / 2, this._gridSizeY, 0]))
-    const p4 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([this._gridSizeX / 2, this._gridSizeY, 0]))
+    const v1 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([-this._gridSizeX / 2, 0, 0]))
+    const v2 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([this._gridSizeX / 2, 0, 0]))
+    const v3 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([-this._gridSizeX / 2, this._gridSizeY, 0]))
+    const v4 = this._p5.createVector().set(this._projectionCalculator3d.getProjectedPoint([this._gridSizeX / 2, this._gridSizeY, 0]))
 
-    const area = [p1, p2, p3, p4].map((p) => {
+    const area = [v1, v2, v3, v4].map((p) => {
       return new Vector(p.x * this._s, p.y * this._s)
     })
 
     if (area[2].y < this.minSkyHeight) area[2].y = this.minSkyHeight
     if (area[3].y < this.minSkyHeight) area[3].y = this.minSkyHeight
 
-    return area
-  }
-
-  rainAreaImg () {
-    const area = this.rainArea
     const gap = this.refSize * 1.5
-    const g = this.createGraphics(this._s, this._s)
-    g.pixelDensity(1)
-    g.background('#fff')
-    g.fill('#000')
-    g.quad(area[0].x - gap, area[0].y, area[1].x + gap, area[1].y, area[3].x + gap, area[3].y - gap, area[2].x - gap, area[2].y - gap)
-    g.ellipse((area[0].x + area[1].x) / 2, area[2].y - gap, this.cloudW + 2.5 * gap, this.cloudH + 2 * gap)
-    const img = this.toImage(g)
-    img.loadPixels()
-    return img
+    const [p1, p2, p3, p4] = area
+    p1.x -= gap
+    p3.x -= gap * 2
+    p2.x += gap
+    p4.x += gap * 2
+
+    return area
   }
 
   // ////////////
   // Tools
   // ////////////
-  createTexture (colors, shadowColor, g) {
+  createTexture (colors, shadowColor, resTextureW, resTextureH, g) {
     const rs = this.refSize
     const size = rs * 0.35
     const weight = rs * 0.12
@@ -312,12 +303,12 @@ export default class MattCirclesStyle extends Style {
 
     let x = 0
     let y = -size
-    for (let i = 0; i < 110; i++) {
+    for (let i = 0; i < resTextureH; i++) {
       x = (i % 2 === 0) ? -4.4 * weight : 0
       y += size - 1 * weight
-      for (let j = 0; j < 50; j++) {
+      for (let j = 0; j < resTextureW; j++) {
         for (let k = 0; k < 2; k++) {
-          const color = g.random(colors)
+          const color = this._p5.random(colors)
           g.stroke(color)
           x += 2.2 * weight
           y = (k % 2 === 0) ? y + size / 8 : y - size / 8
@@ -340,15 +331,15 @@ export default class MattCirclesStyle extends Style {
     this._p5.rect(0, 0, this._s, this._s)
   }
 
-  createFlowField () {
+  createFlowField (resTextureW, resTextureH) {
     const flowField = []
     const inc = 0.02
     let yoff = 0
 
-    for (let y = 0; y < 110; y++) {
+    for (let y = 0; y < resTextureH; y++) {
       let xoff = 0
       flowField[y] = []
-      for (let x = 0; x < 50; x++) {
+      for (let x = 0; x < resTextureW; x++) {
         flowField[y][x] = this._p5.noise(xoff, yoff) * Math.PI * 2
         xoff += inc
       }
@@ -376,6 +367,10 @@ export default class MattCirclesStyle extends Style {
     const g = this._p5.createGraphics(w, h)
     g.background(this._p5.color(255, 255, 255, 0))
     return g
+  }
+
+  sign (p1, p2, p3) {
+    return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y)
   }
 
   static author () {
