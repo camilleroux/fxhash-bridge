@@ -89,3 +89,5 @@ In order to have your style selected, it must:
 | rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |
 | shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |
 | wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |
+
+**The code minted on fxhash is from the [fxhash](https://github.com/camilleroux/fxhash-bridge/tree/fxhash) branch**
