@@ -97,7 +97,7 @@ export default class DevnullStyle extends Style {
       yt: yb - 3 * (yb - yt) / 4,
       w: count,
       b: isBorder,
-      floorHeights: Array.from(Array(floorCount).keys(), p => isBorder ? 1.5 * width / count : Math.ceil(width / count * (1 + Math.floor(this.rand() * 3)) / 2))
+      floorHeights: Array.from(Array(floorCount).keys(), p => isBorder ? 1.5 * width / count : width / count * (1 + Math.floor(this.rand() * 3)) / 2)
     };
 
     this.drawBuilding(b, width, depth, this.maxHeight);
@@ -131,10 +131,10 @@ export default class DevnullStyle extends Style {
   drawCubeFloor(b, w, h, d, c, topFloor) {
     this.drawCube(b, h, c, topFloor);
     let windowCountX = 4 * b.w;
-    let windowSize = w / (windowCountX + (windowCountX + 2) / 2);
+    let windowSize = w / (windowCountX + (windowCountX + 4) / 2);
     let windowGap = windowSize / 2;
     let marginX = (w - windowCountX * windowSize - (windowCountX - 1) * windowGap) / 2;
-    let windowCountY = 1 + Math.floor((h - 2 * windowGap - windowSize) / (windowSize + windowGap));
+    let windowCountY = Math.ceil(windowCountX * h / w) - 1;
     let marginY = (h - windowCountY * windowSize - (windowCountY - 1) * windowGap) / 2;
     let drawRails = (this.rand() < 0.5) && (h * b.w > w);
     for (var i = 0; i < 2 * windowCountX; ++i) {
