@@ -5,7 +5,7 @@
 // Wallet: tz2Xbx5F7w6f8d5mrf5mCQSBT46veDysinkC
 
 import Style from './style'
-import { FXRandomBetween, FXRandomIntBetween } from '@liamegan1/fxhash-helpers'
+import { FXRandomBetween } from '@liamegan1/fxhash-helpers'
 import Delaunator from 'delaunator'
 import classifyPoint from 'robust-point-in-polygon'
 
@@ -76,8 +76,7 @@ export default class Makio64Style extends Style {
           continue
         }
         const jizz = y2 === 0 ? 0 : 10
-        points.push([paths[i].x + FXRandomBetween(-1, 1) * jizz, paths[i].y + y2 * 30 + FXRandomBetween(-1, 1) * jizz])
-        // y2 += FXRandomBetween(10, 40)
+        points.push([paths[i].x + p5.random() * jizz, paths[i].y + y2 * 30 + p5.random() * jizz])
       }
     }
 
@@ -103,10 +102,6 @@ export default class Makio64Style extends Style {
     p5.strokeWeight(1)
     p5.stroke('#f5f5f5')
 
-    // for (const p of points) {
-    //   p5.circle(p[0], p[1], 3)
-    // }
-
     function triangleCenter (a, b, c) {
       return [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3]
     }
@@ -121,8 +116,6 @@ export default class Makio64Style extends Style {
 
       const center = triangleCenter(vertex1, vertex2, vertex3)
       if (classifyPoint(polygon, center) === 1) {
-        // p5.stroke('#0000ff')
-        // p5.circle(center[0], center[1], 5)
         continue
       }
 
@@ -166,7 +159,7 @@ export default class Makio64Style extends Style {
     // p5.circle(topRight.x, topRight.y, r)
 
     // draw floor
-    // if (p5.random() > 0.8) {
+    // if (FXRandomBetween(0,1) > 0.8) {
     //   p5.strokeWeight(ratio * 1.5 + 0.1)
     //   p5.stroke('rgba(255,255,255,0.9)')
     //   p5.fill(this.bgColor)
@@ -174,13 +167,13 @@ export default class Makio64Style extends Style {
     // }
 
     if (isBorder) {
-      if (p5.random() > 0.15) {
+      if (FXRandomBetween(0, 1) > 0.15) {
         this.drawGrassTile(p, ratio)
       } else {
         this.drawStone(p, ratio)
       }
     } else {
-      if (p5.random() > 0.2) {
+      if (FXRandomBetween(0, 1) > 0.2) {
         this.drawGrassTile(p, ratio)
       } else {
         this.drawSlab(p, ratio)
@@ -268,9 +261,9 @@ export default class Makio64Style extends Style {
     // floor 1
     y += h
     y = this.drawLantern(p, y, 0.4, ratio)
-    if (p5.random() > 0.5) {
+    if (FXRandomBetween(0, 1) > 0.5) {
       y = this.drawLantern(p, y, 0.3, ratio)
-      if (p5.random() > 0.5) {
+      if (FXRandomBetween(0, 1) > 0.5) {
         y = this.drawLantern(p, y, 0.2, ratio)
       }
     }
@@ -298,10 +291,10 @@ export default class Makio64Style extends Style {
     const movementX = 0.03
     const z = p.z // + height
 
-    if (p5.random() > 0.2) {
+    if (FXRandomBetween(0, 1) > 0.2) {
       for (let x = p.x + 0.02; x < p.x + 1 - 0.02 - movementX; x += movementX) {
         for (let y = p.y + 1; y > p.y + 0.01; y -= movementY) {
-          if (p5.random() < 0.3) {
+          if (FXRandomBetween(0, 1) < 0.3) {
             continue
           }
           this.drawGrass(x, y, z, movementX, ratio)
@@ -313,8 +306,8 @@ export default class Makio64Style extends Style {
   drawGrass (x, y, z, width, ratio) {
     const p5 = this._p5
     const jizzPower = 0.01
-    x += (p5.random() - 0.5) * jizzPower
-    y += (p5.random() - 0.5) * jizzPower
+    x += (FXRandomBetween(0, 1) - 0.5) * jizzPower
+    y += (FXRandomBetween(0, 1) - 0.5) * jizzPower
 
     const noise = (p5.noise(x * 0.5, y) - 0.5) * 0.4
     const p1 = this.projectedPoint(x, y, z)
