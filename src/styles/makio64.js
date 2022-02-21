@@ -1,12 +1,11 @@
 // David Ronai - Makio64
-// Status: WIP
+// Status: Ready
 // Twitter: @makio64
 // Fxhash: https://www.fxhash.xyz/u/Makio64
 // Wallet: tz2Xbx5F7w6f8d5mrf5mCQSBT46veDysinkC
 
 import Style from './style'
-import { createCols } from '../utils'
-import { FXRandomBetween } from '@liamegan1/fxhash-helpers'
+import { FXRandomBetween, FXRandomIntBetween } from '@liamegan1/fxhash-helpers'
 import Delaunator from 'delaunator'
 import classifyPoint from 'robust-point-in-polygon'
 
@@ -21,16 +20,25 @@ export default class Makio64Style extends Style {
   }
 
   beforeDraw () {
-    const p5 = this._p5
-    p5.background(this.bgColor)
-    p5.fill('#f5f5f5')
-    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
-    const radius = FXRandomBetween(0.1, 0.2) * this._s
-    p5.circle(v.x, v.y - radius / 5, radius)
+    this.drawBackground()
+    this.drawMoon()
     for (let y = 5; y >= 1; y--) {
       this.drawMountain(y, -200, -this._gridSizeX / 2)
       this.drawMountain(y, this._gridSizeX / 2, 200)
     }
+  }
+
+  drawBackground () {
+    const p5 = this._p5
+    p5.background(this.bgColor)
+  }
+
+  drawMoon () {
+    const p5 = this._p5
+    p5.fill('#f5f5f5')
+    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
+    const radius = FXRandomBetween(0.1, 0.2) * this._s
+    p5.circle(v.x, v.y - radius / 5, radius)
   }
 
   drawMountain (y, min, max) {
@@ -145,17 +153,6 @@ export default class Makio64Style extends Style {
   drawTile (tilePoints, p, isBorder) {
     const p5 = this._p5
 
-    const botLeft = this.projectedPoint(p.x, p.y, p.z)
-    const topLeft = this.projectedPoint(p.x, p.y + 1, p.z)
-    const botRight = this.projectedPoint(p.x + 1, p.y, p.z)
-    const topRight = this.projectedPoint(p.x + 1, p.y + 1, p.z)
-
-    // const height = 0.015
-    // const botLeft2 = this.projectedPoint(p.x, p.y, p.z + height)
-    // const topLeft2 = this.projectedPoint(p.x, p.y + 1, p.z + height)
-    // const botRight2 = this.projectedPoint(p.x + 1, p.y, p.z + height)
-    // const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
-
     const ratio = (1 - smoothstep(0, 35, p.y))
 
     // const r = ratio * 5
@@ -169,13 +166,26 @@ export default class Makio64Style extends Style {
     // p5.circle(topRight.x, topRight.y, r)
 
     // draw floor
-    const paddingWidth = ratio * 1 + 0.1
-    p5.strokeWeight(paddingWidth)
+    // if (p5.random() > 0.8) {
+    //   p5.strokeWeight(ratio * 1.5 + 0.1)
+    //   p5.stroke('rgba(255,255,255,0.9)')
+    //   p5.fill(this.bgColor)
+    //   this.drawQuad(botLeft, botRight, topRight, topLeft)
+    // }
 
-    p5.strokeWeight(ratio * 1.5 + 0.1)
-    p5.stroke('#fff')
-    // p5.fill(this.bgColor)
-    this.drawQuad(botLeft, botRight, topRight, topLeft)
+    if (isBorder) {
+      if (p5.random() > 0.15) {
+        this.drawGrassTile(p, ratio)
+      } else {
+        this.drawStone(p, ratio)
+      }
+    } else {
+      if (p5.random() > 0.2) {
+        this.drawGrassTile(p, ratio)
+      } else {
+        this.drawSlab(p, ratio)
+      }
+    }
 
     // // draw left
     // this.drawQuad(botLeft2, botLeft, topLeft, topLeft2)
@@ -186,36 +196,136 @@ export default class Makio64Style extends Style {
 
     // draw top
     // this.drawQuad(botLeft2, botRight2, topRight2, topLeft2)
+  }
 
-    // draw herbs inside
+  drawCylinder (x, y, z, sizeBot, sizeTop, height, ratio) {
+    const p5 = this._p5
+    const botLeft = this.projectedPoint(x + 0.5 - sizeBot / 2, y + 0.5 - sizeBot / 2, z)
+    const topLeft = this.projectedPoint(x + 0.5 - sizeBot / 2, y + 0.5 + sizeBot / 2, z)
+    const botRight = this.projectedPoint(x + 0.5 + sizeBot / 2, y + 0.5 - sizeBot / 2, z)
+    const topRight = this.projectedPoint(x + 0.5 + sizeBot / 2, y + 0.5 + sizeBot / 2, z)
+
+    const botLeft2 = this.projectedPoint(x + 0.5 - sizeTop / 2, y + 0.5 - sizeTop / 2, z + height)
+    const topLeft2 = this.projectedPoint(x + 0.5 - sizeTop / 2, y + 0.5 + sizeTop / 2, z + height)
+    const botRight2 = this.projectedPoint(x + 0.5 + sizeTop / 2, y + 0.5 - sizeTop / 2, z + height)
+    const topRight2 = this.projectedPoint(x + 0.5 + sizeTop / 2, y + 0.5 + sizeTop / 2, z + height)
+
+    p5.strokeWeight(ratio * 0.8 + 0.1)
+    p5.stroke('rgba(255,255,255,1)')
+    p5.fill(this.bgColor)
+
+    // draw bottom
+    this.drawQuad(botLeft, botRight, topRight, topLeft)
+    // draw left
+    this.drawQuad(botLeft2, botLeft, topLeft, topLeft2)
+    // draw right
+    this.drawQuad(botRight2, botRight, topRight, topRight2)
+    // draw front
+    this.drawQuad(botLeft2, botRight2, botRight, botLeft)
+    // draw top
+    this.drawQuad(botLeft2, botRight2, topRight2, topLeft2)
+  }
+
+  drawSlab (p, ratio) {
+    const p5 = this._p5
+    const botLeft = this.projectedPoint(p.x, p.y, p.z)
+    const topLeft = this.projectedPoint(p.x, p.y + 1, p.z)
+    const botRight = this.projectedPoint(p.x + 1, p.y, p.z)
+    const topRight = this.projectedPoint(p.x + 1, p.y + 1, p.z)
+    const height = FXRandomBetween(0.001, 0.01)
+    const botLeft2 = this.projectedPoint(p.x, p.y, p.z + height)
+    const topLeft2 = this.projectedPoint(p.x, p.y + 1, p.z + height)
+    const botRight2 = this.projectedPoint(p.x + 1, p.y, p.z + height)
+    const topRight2 = this.projectedPoint(p.x + 1, p.y + 1, p.z + height)
+
+    p5.strokeWeight(ratio * 0.8 + 0.1)
+    p5.stroke('rgba(255,255,255,1)')
+    p5.fill(this.bgColor)
+
+    // draw bottom
+    this.drawQuad(botLeft, botRight, topRight, topLeft)
+    // draw left
+    this.drawQuad(botLeft2, botLeft, topLeft, topLeft2)
+    // draw right
+    this.drawQuad(botRight2, botRight, topRight, topRight2)
+    // draw front
+    this.drawQuad(botLeft2, botRight2, botRight, botLeft)
+    // draw top
+    this.drawQuad(botLeft2, botRight2, topRight2, topLeft2)
+  }
+
+  drawStone (p, ratio) {
+    const p5 = this._p5
+    let y = 0
+    let h = 0.01
+    this.drawCylinder(p.x, p.y, p.z + y, 1, 1, h, ratio)
+    y += h
+    h = 0.04
+    this.drawCylinder(p.x, p.y, p.z + y, 0.9, 0.8, h, ratio)
+    y += h
+    h = 0.01
+    this.drawCylinder(p.x, p.y, p.z + y, 0.5, 0.6, h, ratio)
+    // floor 1
+    y += h
+    y = this.drawLantern(p, y, 0.4, ratio)
+    if (p5.random() > 0.5) {
+      y = this.drawLantern(p, y, 0.3, ratio)
+      if (p5.random() > 0.5) {
+        y = this.drawLantern(p, y, 0.2, ratio)
+      }
+    }
+    // this.drawCylinder(p.x, p.y, p.z + y, 0.4, 0.4, h, ratio)
+    // y += h
+    // h = 0.02
+    // this.drawCylinder(p.x, p.y, p.z + y, 0.6, 0.4, h, ratio)
+  }
+
+  drawLantern (p, y, size, ratio) {
+    let h = size * 0.06
+    this.drawCylinder(p.x, p.y, p.z + y, size, size, h, ratio)
+    y += h
+    h = 0.02
+    this.drawCylinder(p.x, p.y, p.z + y, size * 1.5, size, h, ratio)
+    y += h
+    return y
+  }
+
+  drawGrassTile (p, ratio) {
+    const p5 = this._p5
     p5.strokeWeight(0)
 
     const movementY = 0.1
     const movementX = 0.03
     const z = p.z // + height
 
-    const jizzPower = 0.01
-
     if (p5.random() > 0.2) {
       for (let x = p.x + 0.02; x < p.x + 1 - 0.02 - movementX; x += movementX) {
         for (let y = p.y + 1; y > p.y + 0.01; y -= movementY) {
-          if (p5.random() < 0.5) {
+          if (p5.random() < 0.3) {
             continue
           }
-          const jx = (p5.random() - 0.5) * jizzPower
-          const jy = (p5.random() - 0.5) * jizzPower
-          const p1 = this.projectedPoint(jx + x, jy + y, z)
-          const p2 = this.projectedPoint(jx + x + movementX / 2, jy + y, z + FXRandomBetween(0.005, 0.04))
-          const p3 = this.projectedPoint(jx + x + movementX, jy + y, z)
-          this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(255,255,255,${0.05 + ratio * 0.95})`), p5.color(`rgba(0,0,0,${0.05 + ratio * 0.45})`))
+          this.drawGrass(x, y, z, movementX, ratio)
         }
       }
     }
   }
 
+  drawGrass (x, y, z, width, ratio) {
+    const p5 = this._p5
+    const jizzPower = 0.01
+    x += (p5.random() - 0.5) * jizzPower
+    y += (p5.random() - 0.5) * jizzPower
+
+    const noise = (p5.noise(x * 0.5, y) - 0.5) * 0.4
+    const p1 = this.projectedPoint(x, y, z)
+    const p2 = this.projectedPoint(x + width / 2 + noise, y, z + FXRandomBetween(0.001, 0.02))
+    const p3 = this.projectedPoint(x + width, y, z)
+    this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(255,255,255,${0.05 + ratio * 0.95})`), p5.color(`rgba(0,0,0,${0.05 + ratio * 0.45})`))
+  }
+
   afterDraw () {
     const p5 = this._p5
-    this.paperVignette()
+    this.vignetting()
     p5.stroke('#fff')
     p5.strokeWeight(0.05 * this._s)
     p5.noFill()
@@ -253,7 +363,7 @@ export default class Makio64Style extends Style {
   }
 
   // add slight vigneting, code based on estienne.js
-  paperVignette () {
+  vignetting () {
     const p5 = this._p5
     // Creates a radial gradient fill
     const grad = p5.drawingContext.createRadialGradient(
