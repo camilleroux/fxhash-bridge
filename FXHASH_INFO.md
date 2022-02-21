@@ -1,7 +1,7 @@
 # Infos for fxhash mint
 
 - Name of the piece: BRIDGE
-- Tags: 
+- Tags: collaboration, collab, bridge
 - Price: Dutch auction 10/6/4/3/2 - 10 minutes between decrements (go to 1 to be sure to soldout?)
 - 20 editions per included styles 
 - Royalties: 15%
