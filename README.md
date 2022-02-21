@@ -58,3 +58,34 @@ In order to have your style selected, it must:
   - y: from 0 (front) to gridSizeY (back)
   - z: from 0 (down) to 1 (up)
 - The 2D coordinates of the tiles are an array of p5.Vector. The coord go from (0,0) (top left) to (1,1) (bottom right). So you'll have to multiply them by `s` at drawing (this is done to be dimension-less)
+
+## 🖼 26 Styles included the fxhash mint
+
+| Style | Twitter | fxhash |
+| :---: | :---: | :---: |
+| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada |
+| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic |
+| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |
+| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |
+| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |
+| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |
+| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |
+| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull |
+| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |
+| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne |
+| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative |
+| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen |
+| gorik.js | @gorikfr | https://www.fxhash.xyz/u/Gorik |
+| grosgg.js | grosgg | https://www.fxhash.xyz/u/grosgg |
+| jeres.js | @heyjeres | https://www.fxhash.xyz/u/jeres |
+| julabat.js | @julabat | https://www.fxhash.xyz/u/julabat |
+| lunarean.js | @lunarean | https://www.fxhash.xyz/u/lunarean |
+| makio64.js | @makio64 | https://www.fxhash.xyz/u/Makio64 |
+| mandybrigwell.js | @mandybrigwell | https://www.fxhash.xyz/u/mandybrigwell |
+| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles |
+| nickdima.js | @nickdima | https://www.fxhash.xyz/u/Nick%20Dima |
+| phil_osophie.js | @phil_osophie | https://www.fxhash.xyz/u/phil_osophie |
+| robinmetcalfe.js | @solarise_webdev | https://www.fxhash.xyz/u/Robin |
+| rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |
+| shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |
+| wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |
