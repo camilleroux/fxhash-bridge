@@ -52,6 +52,7 @@ import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
+import MattCirclesStyle from './styles/matt_circles'
 import NickDimaStyle from './styles/nickdima'
 import GenerativePenStyle from './styles/generativepen'
 import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
@@ -110,6 +111,8 @@ const stylesClasses = [
   // JuLabatStyle,
   bfosStyle,
   DevnullStyle,
+  Nobody,
+  MattCirclesStyle,
   AqwUnderscoreZertStyle,
   JeresStyle,
   Nobody
