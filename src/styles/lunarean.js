@@ -78,7 +78,7 @@ export default class LunareanStyle extends Style {
     // draw stars
     for (const tile of this.tiles) {
       const [mx, my] = this.centroid(tile);
-      this.drawFragment("stars", tile, 0.04, this.modifyAlpha(this.WHITE, p5.random(0.1, 0.2)));
+      this.drawFragment("stars", tile, 0.03, this.modifyAlpha(this.WHITE, p5.random(0.1, 0.15)));
     }
 
     // draw tiles
@@ -199,7 +199,7 @@ export default class LunareanStyle extends Style {
 
     // use separate layer because for some reason updatePixels() interferes with canvas
     const layer = p5.createGraphics(SIZE, SIZE);
-    layer.stroke(this.modifyAlpha(this.WHITE, 0.016));
+    layer.stroke(this.modifyAlpha(this.WHITE, 0.012));
     layer.strokeWeight(0.0003 * SIZE);
 
     // draw radiants
@@ -217,8 +217,8 @@ export default class LunareanStyle extends Style {
     // make center brighter
     let n = 20;
     for (let i = 1; i < n; i++) {
-      const r = i * 0.003;
-      const alpha = 0.4 * p5.sq(p5.map(i, 0, n, 1, 0));
+      const r = i * 0.004;
+      const alpha = 0.3 * p5.sq(p5.map(i, 0, n, 1, 0));
       layer.fill(this.modifyAlpha(this.WHITE, alpha));
       layer.ellipse(this.flareX * SIZE, this.flareY * SIZE, r * SIZE, r * SIZE)
     }
@@ -229,7 +229,7 @@ export default class LunareanStyle extends Style {
     const p5 = this._p5;
     const SIZE = this._s;
 
-    const alpha = 0.2;
+    const alpha = 0.16;
     p5.stroke(this.modifyAlpha(this.WHITE, alpha));
 
     const noiseAmpl = 0.01;
@@ -396,7 +396,7 @@ export default class LunareanStyle extends Style {
         const db = p5.random(-2, 2);
         p5.stroke(strokeColor)
 
-        const ampl = isLift ? p5.sq(p5.constrain(p5.map(ty, this.flareY-0.1, 1, 1, 0), p5.sqrt(0.1), 1)) : 0.03;
+        const ampl = isLift ? p5.sq(p5.constrain(p5.map(ty, this.flareY-0.1, 1, 1, 0), p5.sqrt(0.1), 1)) : 0.025;
         const sw = isStars ? 0.001 : 0.0008 * p5.exp(0.1 * mod + 0.12 * swMod) * ampl;
         p5.strokeWeight(sw * SIZE);
 
