@@ -137,6 +137,7 @@ export default class DevnullStyle extends Style {
     let windowCountY = Math.ceil(windowCountX * h / w) - 1;
     let marginY = (h - windowCountY * windowSize - (windowCountY - 1) * windowGap) / 2;
     let drawRails = (this.rand() < 0.5) && (h * b.w > w);
+
     for (var i = 0; i < 2 * windowCountX; ++i) {
       for (var j = 0; j < windowCountX; ++j) {
         if ((i >= (drawRails ? windowCountY / 2 : 0)) && (i < windowCountY)) {
