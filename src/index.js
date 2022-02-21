@@ -114,8 +114,7 @@ const stylesClasses = [
   Nobody,
   MattCirclesStyle,
   AqwUnderscoreZertStyle,
-  JeresStyle,
-  Nobody
+  JeresStyle
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
