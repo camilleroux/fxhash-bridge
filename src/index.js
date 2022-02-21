@@ -49,7 +49,7 @@ import BridgeTunnelStyle from './styles/bridgetunnel'
 import DreyStyle from './styles/drey'
 import LunareanStyle from './styles/lunarean'
 import GrosggStyle from './styles/grosgg'
-// import JuLabatStyle from './styles/julabat'
+import JuLabatStyle from './styles/julabat'
 import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
@@ -111,7 +111,7 @@ const stylesClasses = [
   DreyStyle,
   LunareanStyle,
   GrosggStyle,
-  // JuLabatStyle,
+  JuLabatStyle,
   bfosStyle,
   DevnullStyle,
   Nobody,
@@ -119,7 +119,7 @@ const stylesClasses = [
   JeresStyle,
   Nobody
 ]
-let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
+let styleClassId = stylesClasses.length - 7// FXRandomIntBetween(0, stylesClasses.length)
 let currentStyle
 
 let fxpreviewDone = false
