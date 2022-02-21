@@ -38,7 +38,6 @@ export default class RVigStyle extends Style {
     this._p5.strokeWeight(this._s / 1600)
 
     this.rMax = this._s
-    this.dr = FXRandomBetween(-0.05, 0.05)
 
     const n = 18
     const p = Array(n)
