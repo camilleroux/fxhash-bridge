@@ -115,7 +115,6 @@ const stylesClasses = [
   Nobody
 ]
 let styleClassId = FXRandomIntBetween(0, stylesClasses.length)
-styleClassId = 1
 let currentStyle
 
 let fxpreviewDone = false
