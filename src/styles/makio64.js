@@ -48,7 +48,7 @@ export default class Makio64Style extends Style {
     const p5 = this._p5
     this.fill(1)
     p5.noStroke()
-    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
+    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.4)
     const radius = FXRandomBetween(0.1, 0.2) * this._s
     p5.circle(v.x, v.y - radius / 5, radius)
   }
@@ -56,7 +56,7 @@ export default class Makio64Style extends Style {
   drawMoon () {
     const p5 = this._p5
     p5.noStroke()
-    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.5)
+    const v = this.projectedPoint(0, this._gridSizeY + 10, 1.4)
     const radius = FXRandomBetween(0.1, 0.2) * this._s
     const points = []
     const count = FXRandomBetween(0, 1) * 50 + 50
@@ -77,8 +77,15 @@ export default class Makio64Style extends Style {
       return [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3]
     }
 
+    function distance (x1, y1, x2, y2) {
+      const dx = x1 - x2
+      const dy = y1 - y2
+      return Math.sqrt(dx * dx + dy * dy)
+    }
+
     const angle = FXRandomBetween(0, Math.PI * 2)
-    const r = radius * 1.2// + FXRandomBetween(0,1)
+    const r = radius * 1
+    const attractor = [v.x + Math.cos(angle) * r, v.y + Math.sin(angle) * r]
 
     for (let k = 0; k < triangles.length; k += 3) {
       const id1 = triangles[k]
@@ -89,15 +96,23 @@ export default class Makio64Style extends Style {
       const vertex3 = points[id3]
 
       const center = triangleCenter(vertex1, vertex2, vertex3)
-      // center +=
+      const dist = distance(center[0], center[1], attractor[0], attractor[1])
+      let power = (1 - smoothstep(0, radius, dist))
+      power = 1
+      // power *= power
+      // power *= FXRandomBetween(100, 1000)
 
-      p5.strokeWeight(1)
+      p5.strokeWeight(0.001 * this._s)
       p5.stroke(this.bgColor)
       this.fill(1)
       p5.beginShape()
-      p5.vertex(vertex1[0], vertex1[1])
-      p5.vertex(vertex2[0], vertex2[1])
-      p5.vertex(vertex3[0], vertex3[1])
+      p5.vertex(vertex1[0] + Math.cos(angle) * power, vertex1[1] + Math.sin(angle) * power)
+      p5.vertex(vertex2[0] + Math.cos(angle) * power, vertex2[1] + Math.sin(angle) * power)
+      p5.vertex(vertex3[0] + Math.cos(angle) * power, vertex3[1] + Math.sin(angle) * power)
+      // p5.vertex(vertex1[0], vertex1[1])
+      // p5.vertex(vertex2[0], vertex2[1])
+      // p5.vertex(vertex3[0], vertex3[1])
+
       p5.endShape()
     }
   }
@@ -121,7 +136,7 @@ export default class Makio64Style extends Style {
     const p5 = this._p5
     const noiseScale = 0.1
     const noiseScale2 = 0.01
-    p5.strokeWeight(2)
+    p5.strokeWeight(2 * 0.001 * this._s)
     p5.stroke(this.col)
     let prev = null
     const paths = []
@@ -137,7 +152,7 @@ export default class Makio64Style extends Style {
       const v = this.projectedPoint(x1, y1, z1)
       if (prev) {
         stroke = smoothstep(0, 5, z1) * 4.5
-        p5.strokeWeight(stroke)
+        p5.strokeWeight(stroke * 0.001 * this._s)
         p5.line(prev.x, prev.y, v.x, v.y)
       }
       prev = v
@@ -147,13 +162,13 @@ export default class Makio64Style extends Style {
     const points = []
     for (let i = 0; i < paths.length; i++) {
       for (let y2 = 0; y2 < 20; y2++) {
-        if (paths[i].y + y2 * 30 > maxY) {
+        if (paths[i].y + y2 * 30 * 0.001 * this._s > maxY) {
           continue
         }
         const jizz = y2 === 0 ? 0 : 5
         const r = Math.sin(i + y2) * jizz
         const r2 = Math.cos(i + y2) * jizz
-        points.push([paths[i].x + r, paths[i].y + y2 * 30 + r2])
+        points.push([paths[i].x + r, paths[i].y + y2 * 30 * 0.001 * this._s + r2])
       }
     }
 
@@ -224,27 +239,7 @@ export default class Makio64Style extends Style {
   }
 
   drawTile (tilePoints, p, isBorder) {
-    const p5 = this._p5
-
     const ratio = (1 - smoothstep(0, 35, p.y))
-
-    // const r = ratio * 5
-    // p5.fill('#ff0000')
-    // p5.circle(botLeft.x, botLeft.y, r)
-    // p5.fill('#ff0000')
-    // p5.circle(botRight.x, botRight.y, r)
-    // p5.fill('#ff0000')
-    // p5.circle(topLeft.x, topLeft.y, r)
-    // p5.fill('#ff0000')
-    // p5.circle(topRight.x, topRight.y, r)
-
-    // draw floor
-    // if (FXRandomBetween(0,1) > 0.8) {
-    //   p5.strokeWeight(ratio * 1.5 + 0.1)
-    //   p5.stroke('rgba(255,255,255,0.9)')
-    //   p5.fill(this.bgColor)
-    //   this.drawQuad(botLeft, botRight, topRight, topLeft)
-    // }
 
     if (isBorder) {
       if (FXRandomBetween(0, 1) > 0.15) {
@@ -259,16 +254,6 @@ export default class Makio64Style extends Style {
         this.drawSlab(p, ratio)
       }
     }
-
-    // // draw left
-    // this.drawQuad(botLeft2, botLeft, topLeft, topLeft2)
-    // // draw right
-    // this.drawQuad(botRight2, botRight, topRight, topRight2)
-    // // draw front
-    // this.drawQuad(botLeft2, botRight2, botRight, botLeft)
-
-    // draw top
-    // this.drawQuad(botLeft2, botRight2, topRight2, topLeft2)
   }
 
   drawCylinder (x, y, z, sizeBot, sizeTop, height, ratio) {
@@ -346,10 +331,6 @@ export default class Makio64Style extends Style {
         y = this.drawLantern(p, y, 0.2, ratio)
       }
     }
-    // this.drawCylinder(p.x, p.y, p.z + y, 0.4, 0.4, h, ratio)
-    // y += h
-    // h = 0.02
-    // this.drawCylinder(p.x, p.y, p.z + y, 0.6, 0.4, h, ratio)
   }
 
   drawLantern (p, y, size, ratio) {
@@ -368,7 +349,7 @@ export default class Makio64Style extends Style {
 
     const movementY = 0.1
     const movementX = 0.03
-    const z = p.z // + height
+    const z = p.z
 
     if (FXRandomBetween(0, 1) > 0.2) {
       for (let x = p.x + 0.02; x < p.x + 1 - 0.02 - movementX; x += movementX) {
@@ -459,7 +440,6 @@ export default class Makio64Style extends Style {
     const col1 = p5.color(this.bgColor)
     const col2 = p5.color(this.bgColor)
     col1.setAlpha(0)
-    // col2.setAlpha(1)
     grad.addColorStop(0, col1)
     grad.addColorStop(0.4, col2)
     p5.drawingContext.fillStyle = grad
