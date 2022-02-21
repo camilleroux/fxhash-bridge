@@ -75,8 +75,10 @@ export default class Makio64Style extends Style {
         if (paths[i].y + y2 * 30 > maxY) {
           continue
         }
-        const jizz = y2 === 0 ? 0 : 10
-        points.push([paths[i].x + p5.random() * jizz, paths[i].y + y2 * 30 + p5.random() * jizz])
+        const jizz = y2 === 0 ? 0 : 5
+        const r = Math.sin(i + y2) * jizz
+        const r2 = Math.cos(i + y2) * jizz
+        points.push([paths[i].x + r, paths[i].y + y2 * 30 + r2])
       }
     }
 
