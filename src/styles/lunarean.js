@@ -25,8 +25,10 @@ export default class LunareanStyle extends Style {
     // set center of flare slightly below vanishing point
     [this.flareX, this.flareY] = [vanX, vanY + 0.02];
 
-    // rotation of rugs
-    this.rugAngle = p5.random(0.1, 0.2) * p5.random([-1, 1]);
+    // the only randomly chosen feature - each output is Perfect, Anima or Tranquil
+    const dice = p5.random();
+    this.feature1 = dice < 0.11 ? "Perfect" : dice < 0.11 + 0.13 ? "Anima" : "Tranquil";
+    // console.log(this.feature1);
   }
 
   /*~ In the distance is a star. ~*/
@@ -69,14 +71,8 @@ export default class LunareanStyle extends Style {
     this.drawFlare();
 
     // draw rugs
-    if (p5.random() < 0.8) {
-      this.drawRug(1, false);
-    }
-    if (p5.random() < 0.8) {
-      this.drawRug(0.7, false);
-    }
     for (let i = 0; i < 20; i++) {
-      this.drawRug(0.5, true);
+      this.drawRug(0.5);
     }
 
     // draw stars
@@ -229,14 +225,14 @@ export default class LunareanStyle extends Style {
     p5.image(layer.get(), 0, 0);
   }
 
-  drawRug(sizeMod, isDots) {
+  drawRug(sizeMod) {
     const p5 = this._p5;
     const SIZE = this._s;
 
-    const alpha = isDots ? 0.2 : 0.04;
+    const alpha = 0.2;
     p5.stroke(this.modifyAlpha(this.WHITE, alpha));
 
-    const noiseAmpl = isDots ? 0.01 : 0.005;
+    const noiseAmpl = 0.01;
     const noiseScale = 30;
 
     const phaseX = p5.random(p5.TWO_PI);
@@ -244,11 +240,11 @@ export default class LunareanStyle extends Style {
     const freqX = p5.random(30, 40);
     const freqY = p5.random(30, 40);
 
-    const minY = isDots ? 0 : this.flareY + 0.1;
-    const maxY = isDots ? 1 : 0.9;
+    const minY = 0;
+    const maxY = 1;
 
-    const w = sizeMod * (isDots ? p5.random(0.4, 0.5) : p5.random(0.3, 0.4));
-    const h = sizeMod * (isDots ? p5.random(0.2, 0.3) : p5.random(0.15, 0.2));
+    const w = sizeMod * p5.random(0.4, 0.5);
+    const h = sizeMod * p5.random(0.2, 0.3);
     const x = p5.random(0.1, 0.9-w);
     const y = p5.map(p5.sqrt(p5.random()), 0, 1, minY, maxY-h);
     const sc = (y + h - this.flareY) / (y - this.flareY);
@@ -261,23 +257,12 @@ export default class LunareanStyle extends Style {
     ]
 
     // add gaussian noise
-    if (isDots) {
-      const sd = 0.05;
-      points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
-    }
+    const sd = 0.05;
+    points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
     // rotate
-    const [mx, my] = this.centroid(points);
-    p5.push();
-    if (!isDots) {
-      p5.translate(mx * SIZE, my * SIZE);
-      p5.rotate(0.3 * (mx - 0.5) + this.rugAngle);
-      p5.translate(-mx * SIZE, -my * SIZE);
-    }
-
-    const density = isDots ? 0.2 : 0.3;
+    const density = 0.2;
     const triangles = this.triangulateQuad(points, density);
-
     for (let triangle of triangles) {
       let [a, b, c, mod] = triangle;
 
@@ -290,20 +275,11 @@ export default class LunareanStyle extends Style {
         return [x * SIZE, y * SIZE];
       })
 
-      const swSd = isDots ? 0.06 : 0.1;
+      const swSd = 0.06;
       const sw = 0.0005 * p5.exp(swSd * mod);
       p5.strokeWeight(sw * SIZE);
-
-      if (isDots) {
-        p5.point(...a);
-      } else {
-        p5.line(...b, ...c);
-        p5.line(...c, ...a);
-        p5.line(...a, ...b);
-      }
+      p5.point(...a);
     }
-
-    p5.pop();
   }
 
   /*~ Where do they come from? ~*/
@@ -322,14 +298,14 @@ export default class LunareanStyle extends Style {
     // center of rectangle
     const [mx, my] = this.centroid(points);
 
-    const noiseAmpl = 0.01;
+    const liftProb = p5.sqrt(p5.map(my, this.flareY, 1, 1, 0));
+    const isLift = p5.random() < liftProb;
+
+    const noiseAmpl = this.feature1 === "Perfect" ? 0 : this.feature1 === "Anima" ? 0.02 : 0.01;
     const noiseScale = 30;
 
     const phaseY = p5.random(p5.TWO_PI);
     const freqY = p5.random(30, 40);
-
-    const liftProb = p5.sqrt(p5.map(my, this.flareY, 1, 1, 0));
-    const isLift = p5.random() < liftProb;
 
     let offsetX = 0;
     let offsetY = 0;
@@ -358,13 +334,13 @@ export default class LunareanStyle extends Style {
     })
 
     // add gaussian noise
-    let sdMod = isDebris ? 0.1 : 0;
+    let sdMod = isDebris ? 0.1 : isBase && isLift ? 0.03 : 0;
     const sd = sdMod * p5.dist(...points[0], ...points[3]);
     points = points.map(([x, y]) => [x + sd * p5.randomGaussian(), y + sd * p5.randomGaussian()]);
 
     const swMod = p5.randomGaussian();
     const densityMod = isDebris ? 0.1 : 0.8;
-    const skipProb = isBase ? 0.4 * p5.map(my, this.flareY, 1, 0.1, 1) : 0;
+    const skipProb = isBase ? (isLift ? 0.04 : 0.4 * p5.map(my, this.flareY, 1, 0.1, 1)) : 0;
     const jumpProb = 0.2 * p5.sq(p5.max(p5.map(my, this.flareY, 1, -0.5, 1), 0.1));
 
     const tileSize = p5.dist(...points[0], ...points[3]);
@@ -420,8 +396,8 @@ export default class LunareanStyle extends Style {
         const db = p5.random(-2, 2);
         p5.stroke(strokeColor)
 
-        const ampl = isLift ? p5.sq(p5.constrain(p5.map(ty, this.flareY-0.1, 1, 1, 0), p5.sqrt(0.16), 1)) : 0.045;
-        const sw = isStars ? 0.001 : 0.00055 * p5.exp(0.1 * mod + 0.12 * swMod) * ampl;
+        const ampl = isLift ? p5.sq(p5.constrain(p5.map(ty, this.flareY-0.1, 1, 1, 0), p5.sqrt(0.1), 1)) : 0.03;
+        const sw = isStars ? 0.001 : 0.0008 * p5.exp(0.1 * mod + 0.12 * swMod) * ampl;
         p5.strokeWeight(sw * SIZE);
 
         // draw triangle edges
