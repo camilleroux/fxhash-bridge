@@ -22,7 +22,7 @@ export default class bfosStyle extends Style {
     
     let backColor = (this._p5.color("#111111"))
     backColor.setAlpha(100)
-    console.log(this._s)
+    // console.log(this._s)
     this._p5.stroke(backColor)
     this._p5.fill(backColor)
     for (let iy=0; iy < this._s; iy+=this._s/200){

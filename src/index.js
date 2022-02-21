@@ -26,9 +26,7 @@ import p5 from 'p5'
 import { ProjectionCalculator3d } from 'projection-3d-2d'
 import { FXInit, FXRandomBetween, FXRandomIntBetween, getWeightedOption } from '@liamegan1/fxhash-helpers'
 
-import BoilerplateStyle from './styles/boilerplate'
 import ShuhblamStyle from './styles/shuhblam'
-import DemoStyle from './styles/demo'
 import CamilleRouxStyle from './styles/camilleroux'
 import CamilleRoux2Style from './styles/camilleroux2'
 import GorikStyle from './styles/gorik'
@@ -54,6 +52,7 @@ import bfosStyle from './styles/bfos'
 import DevnullStyle from './styles/devnull'
 import JeresStyle from './styles/jeres'
 import Nobody from './styles/nobody'
+import MattCirclesStyle from './styles/matt_circles'
 import NickDimaStyle from './styles/nickdima'
 import GenerativePenStyle from './styles/generativepen'
 import AqwUnderscoreZertStyle from './styles/aqwunderscorezert'
@@ -102,8 +101,6 @@ const stylesClasses = [
   RobinMetcalfeStyle,
   CamilleRoux2Style,
   CamilleRouxStyle,
-  BoilerplateStyle,
-  DemoStyle,
   AzeemStyle,
   Makio64Style,
   MandyBrigwellStyle,
@@ -115,6 +112,7 @@ const stylesClasses = [
   bfosStyle,
   DevnullStyle,
   Nobody,
+  MattCirclesStyle,
   AqwUnderscoreZertStyle,
   JeresStyle,
   Nobody
@@ -194,6 +192,7 @@ const sketch = function (p5) {
     p5.strokeWeight(1)
     p5.drawingContext.shadowBlur = 0
     p5.drawingContext.filter = 'none'
+    p5.noiseDetail(4, 0.5) 
 
     currentStyle = new stylesClasses[styleClassId](gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     currentStyle.beforeDraw()
