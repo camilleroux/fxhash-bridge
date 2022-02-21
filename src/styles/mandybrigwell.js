@@ -8,18 +8,8 @@
 // It's the path from the realm of men to the realm of the Gods.
 
 import Style from './style'
-import { createCols } from '../utils'
 
-const palettes = ['https://coolors.co/fdfffc-2ec4b6-ff9f1c-e71d36-011627', 'https://coolors.co/011627-ff9f1c-2ec4b6-e71d36-fdfffc']
-
-export default class DemoStyle extends Style {
-	constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
-		super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
-		const palette = this._p5.random([0, 0, 0, 1])
-		this.colors = createCols(palettes[palette])
-		this.backgroundColor = this.colors.pop()
-		this.defaultColor = this.colors[0]
-	}
+export default class MandybrigwellStyle extends Style {
 
 	beforeDraw () {
 		// I like HSB, 360 and I'll get confused if I don't stick with it.
@@ -63,6 +53,7 @@ export default class DemoStyle extends Style {
 		// Use the distance to alter the hue and draw the tile: Bifrost is a rainbow bridge, after all
 		this.distance = this._p5.dist((tilePoints[0].x+tilePoints[1].x)*this._s*0.025, (tilePoints[0].y+tilePoints[2].y)*this._s, this._s/2, this._s/2)/this._s;
 		this._p5.fill(this._p5.map(this.distance, 0.75, 1.25, 0, 360), 360, 300, this._p5.map(this.distance, 0.75, 1.25, 90, 210));
+		
 		this._p5.quad(
 		(tilePoints[0].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[0].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
 		(tilePoints[1].x+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s, (tilePoints[1].y+this._p5.random(this.randomMinumum, this.randomMaximum)) * this._s,
