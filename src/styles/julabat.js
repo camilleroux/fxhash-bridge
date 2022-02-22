@@ -7,15 +7,10 @@
 import Style from './style'
 import { FXInit, getWeightedOption, FXRandomBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
 
-// eslint-disable-next-line no-undef
-FXInit(fxrand)
-
 const starField = []
 
 export default class JuLabatStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
-    // eslint-disable-next-line no-undef
-    fxrand = sfc32(...hashes)
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     this.bgColor = '#080808'
     this.HUES = [
