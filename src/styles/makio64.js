@@ -17,9 +17,11 @@ export default class Makio64Style extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
     if (FXRandomBetween(0, 1) > 0.5) {
+      this.isWhite = true
       this.bgColor = '#fff'
       this.col = p5.color('#000')
     } else {
+      this.isWhite = false
       this.bgColor = '#000'
       this.col = p5.color('#fff')
     }
@@ -368,7 +370,11 @@ export default class Makio64Style extends Style {
     const p1 = this.projectedPoint(x, y, z)
     const p2 = this.projectedPoint(x + width / 2 + noise, y, z + FXRandomBetween(0.001, 0.02))
     const p3 = this.projectedPoint(x + width, y, z)
-    this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(255,255,255,${0.05 + ratio * 0.95})`), p5.color(`rgba(0,0,0,${0.05 + ratio * 0.45})`))
+    if (this.isWhite) {
+      this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(0,0,0,${0.05 + ratio * 0.95})`), p5.color(`rgba(255,255,255,${0.05 + ratio * 0.45})`))
+    } else {
+      this.drawTriangleGradient(p1, p2, p3, p5.color(`rgba(255,255,255,${0.05 + ratio * 0.95})`), p5.color(`rgba(0,0,0,${0.05 + ratio * 0.45})`))
+    }
   }
 
   afterDraw () {
