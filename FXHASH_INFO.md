@@ -24,7 +24,109 @@ The project has also served as an inspiration for participants to extend and dev
 
 INCLUDED STYLES
 
-- name, author, twitter, fxhash profile
+Text-to-Bridge (TTB) by Ada Ada Ada
+https://twitter.com/ada_ada_ada_art
+https://www.fxhash.xyz/u/Ada%20Ada%20Ada
+
+Blest Path by Anaglyphic
+https://twitter.com/anaglyph_ic
+https://www.fxhash.xyz/u/anaglyphic
+
+The Old Woody Dock by Aqw_Zert
+https://twitter.com/Aqw_Zert
+https://www.fxhash.xyz/u/Aqw_Zert
+
+Bridge-Tunnel by Laurent Houdard
+https://twitter.com/CablesAndPixels
+https://www.fxhash.xyz/u/Laurent%20Houdard
+
+Evaporating by Camille Roux
+https://twitter.com/camillerouxart
+https://www.fxhash.xyz/u/Camille%20Roux
+
+Buildings by Camille Roux
+https://twitter.com/camillerouxart
+https://www.fxhash.xyz/u/Camille%20Roux
+
+TGH Bridge by David Esq
+https://twitter.com/emcyze
+https://www.fxhash.xyz/u/David%20Esq
+
+Citadel by devnull
+https://twitter.com/lostpunks
+https://www.fxhash.xyz/u/devnull
+
+Einstein–Rosen by Elsif
+https://twitter.com/ElsifThen
+https://www.fxhash.xyz/u/elsif
+
+Path through the city by Estienne
+https://twitter.com/Estienne_ca
+https://www.fxhash.xyz/u/Estienne
+
+starry night//glitchy night by frederative
+https://twitter.com/frederative
+https://www.fxhash.xyz/u/frederative
+
+Blackboard by Generative Pen
+https://twitter.com/GenerativePen
+https://www.fxhash.xyz/u/Generative%20Pen
+
+Mozaik by Gorik
+https://twitter.com/gorikfr
+https://www.fxhash.xyz/u/Gorik
+
+Devour by grosgg
+https://twitter.com/rosgg
+https://www.fxhash.xyz/u/grosgg
+
+burning bridges by jeres
+https://twitter.com/heyjeres
+https://www.fxhash.xyz/u/jeres
+
+Space Disco Dancefloor by Julien Labat
+https://twitter.com/JulienLabat
+https://www.fxhash.xyz/u/julabat
+
+/nt/r/t///a/ by lunarean
+https://twitter.com/lunarean
+https://www.fxhash.xyz/u/lunarean
+
+Nara by Makio64
+https://twitter.com/makio64
+https://www.fxhash.xyz/u/Makio64
+
+Bifrost by mandyBrigwell
+https://twitter.com/mandybrigwell
+https://www.fxhash.xyz/u/mandybrigwell
+
+Rain under the stars by Matt Circles
+https://twitter.com/matt_circles
+https://www.fxhash.xyz/u/Matt%20Circles
+
+Esoteric Oasis by Nick Dima
+https://twitter.com/nickdima
+https://www.fxhash.xyz/u/Nick%20Dima
+
+Street Lights by phil_osophie
+https://twitter.com/phil_osophie
+https://www.fxhash.xyz/u/phil_osophie
+
+Rise by Robin Metcalfe
+https://twitter.com/solarise_webdev
+https://www.fxhash.xyz/u/Robin
+
+Flower Bridge by RVig
+https://twitter.com/rvig_art
+https://www.fxhash.xyz/u/rvig
+
+here comes the sun by shuhblam
+https://twitter.com/shuhblam
+https://www.fxhash.xyz/u/shuhblam
+
+Into another world by Claus O. Wilke
+https://twitter.com/ClausWilke
+https://www.fxhash.xyz/u/clauswilke
 
 LINKS
 
