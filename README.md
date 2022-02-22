@@ -91,7 +91,7 @@ In order to have your style selected, it must:
 | wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |  |
 **The code minted on fxhash is from the [fxhash](https://github.com/camilleroux/fxhash-bridge/tree/fxhash) branch**
 
-## 💰
+## 💰 Money
 
 - Primary market is: 4050.00 tez
 - Fees are: 2.5%
