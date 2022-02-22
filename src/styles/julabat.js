@@ -5,7 +5,7 @@
 // Wallet: tz1UxPe68iFRp27KqowTo7nF9C6GxAKa2vFj
 
 import Style from './style'
-import { FXInit, getWeightedOption, FXRandomBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
+import { getWeightedOption, FXRandomBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
 
 const starField = []
 
