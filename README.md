@@ -61,33 +61,40 @@ In order to have your style selected, it must:
 
 ## 🖼 26 Styles included the fxhash mint
 
-| Style | Twitter | fxhash |
-| :---: | :---: | :---: |
-| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada |
-| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic |
-| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |
-| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |
-| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |
-| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |
-| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |
-| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull |
-| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |
-| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne |
-| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative |
-| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen |
-| gorik.js | @gorikfr | https://www.fxhash.xyz/u/Gorik |
-| grosgg.js | grosgg | https://www.fxhash.xyz/u/grosgg |
-| jeres.js | @heyjeres | https://www.fxhash.xyz/u/jeres |
-| julabat.js | @julabat | https://www.fxhash.xyz/u/julabat |
-| lunarean.js | @lunarean | https://www.fxhash.xyz/u/lunarean |
-| makio64.js | @makio64 | https://www.fxhash.xyz/u/Makio64 |
-| mandybrigwell.js | @mandybrigwell | https://www.fxhash.xyz/u/mandybrigwell |
-| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles |
-| nickdima.js | @nickdima | https://www.fxhash.xyz/u/Nick%20Dima |
-| phil_osophie.js | @phil_osophie | https://www.fxhash.xyz/u/phil_osophie |
-| robinmetcalfe.js | @solarise_webdev | https://www.fxhash.xyz/u/Robin |
-| rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |
-| shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |
-| wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |
-
+| Style | Twitter | fxhash | 💰 |
+| :---: | :---: | :---: |  :---: |
+| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada |  |
+| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic |  |
+| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |  |
+| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |  |
+| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |  |
+| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |  |
+| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |  |
+| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull |  |
+| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |  |
+| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne |  |
+| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative |  |
+| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen |  |
+| gorik.js | @gorikfr | https://www.fxhash.xyz/u/Gorik |  |
+| grosgg.js | grosgg | https://www.fxhash.xyz/u/grosgg |  |
+| jeres.js | @heyjeres | https://www.fxhash.xyz/u/jeres |  |
+| julabat.js | @julabat | https://www.fxhash.xyz/u/julabat |  |
+| lunarean.js | @lunarean | https://www.fxhash.xyz/u/lunarean |  |
+| makio64.js | @makio64 | https://www.fxhash.xyz/u/Makio64 |  |
+| mandybrigwell.js | @mandybrigwell | https://www.fxhash.xyz/u/mandybrigwell |  |
+| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles |  |
+| nickdima.js | @nickdima | https://www.fxhash.xyz/u/Nick%20Dima |  |
+| phil_osophie.js | @phil_osophie | https://www.fxhash.xyz/u/phil_osophie |  |
+| robinmetcalfe.js | @solarise_webdev | https://www.fxhash.xyz/u/Robin |  |
+| rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |  |
+| shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |  |
+| wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |  |
 **The code minted on fxhash is from the [fxhash](https://github.com/camilleroux/fxhash-bridge/tree/fxhash) branch**
+
+## 💰
+
+- Primary market is: 4050.00 tez
+- Fees are: 2.5%
+- So "net revenue" is: 3948.75 tez
+- They are 26 styles in the minted project so each included contributor will receive: 151.875 tez.
+I'm exhausted right now, I'll will send tez, tomorrow, the feb 23 and report each paiement. Please let me know if I did a mistake :)
