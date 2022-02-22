@@ -62,10 +62,6 @@ export default class JuLabatStyle extends Style {
         }
         yoff += inc
       }
-    } else {
-      starField.forEach(p => {
-        p.size = this._s / FXRandomBetween(170000, 450000)
-      })
     }
 
     // Draw stars
