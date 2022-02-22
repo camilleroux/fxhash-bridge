@@ -7,8 +7,6 @@
 import Style from './style'
 import { getWeightedOption, FXRandomBetween, FXRandomOption } from '@liamegan1/fxhash-helpers'
 
-const starField = []
-
 export default class JuLabatStyle extends Style {
   constructor (gridSizeX, gridSizeY, s, projectionCalculator3d, p5) {
     super(gridSizeX, gridSizeY, s, projectionCalculator3d, p5)
@@ -22,6 +20,7 @@ export default class JuLabatStyle extends Style {
     this.hues = getWeightedOption(this.HUES)
     this.offset = this._s / 100
     this.tileGlow = true
+    this.starField = []
   }
 
   beforeDraw () {
@@ -30,34 +29,32 @@ export default class JuLabatStyle extends Style {
     P5.colorMode(P5.HSB)
     P5.background(this.bgColor)
 
-    // Fill starField``
-    if (starField.length === 0) {
-      const inc = FXRandomBetween(0.01, 0.03)
+    // Fill this.starField
+    if (this.starField.length === 0) {
+      const inc = 0.03
       const def = 8
+      const initialSize = 800
       let yoff = 0
-      for (let j = 0; j < this._s; j += def) {
+      for (let j = 0; j < initialSize; j += def) {
         let xoff = 0
-        for (let i = 0; i < this._s; i += def) {
-          // Generate star attributes
-          const x = (i + FXRandomBetween(-def * 5, def * 5)) / this._s
-          const y = (j + FXRandomBetween(-def * 5, def * 5)) / this._s
+        for (let i = 0; i < initialSize; i += def) {
+          // Check noise value
           const v = P5.noise(xoff, yoff)
-          const b = P5.map(y * this._s, 0, this._s, 120, 10)
-          const col = P5.color(FXRandomOption(this.hues), FXRandomBetween(50, 90), b + FXRandomBetween(-20, 20))
-          const size = this._s / FXRandomBetween(170000, 450000)
-          const star = {
-            pos: P5.createVector(x, y),
-            val: v,
-            col: col,
-            size: size
+          // Store star in this.starField
+          if (v < FXRandomBetween(0, 1) * 0.5) {
+            const x = (i + FXRandomBetween(-def * 5, def * 5)) / initialSize
+            const y = (j + FXRandomBetween(-def * 5, def * 5)) / initialSize
+            const b = P5.map(y * initialSize, 0, initialSize, 120, 10)
+            const col = P5.color(FXRandomOption(this.hues), FXRandomBetween(50, 90), b + FXRandomBetween(-20, 20))
+            const size = FXRandomBetween(1, 3) / initialSize
+            const star = {
+              pos: P5.createVector(x, y),
+              val: v,
+              col: col,
+              size: size
+            }
+            this.starField.push(star)
           }
-          // Store star in starField
-          if (star.val < FXRandomBetween(0, 1) * 0.5 &&
-            star.pos.x > 0 &&
-            star.pos.y > 0 &&
-            star.pos.x < this._s &&
-            star.pos.y < this._s
-          ) starField.push(star)
           xoff += inc
         }
         yoff += inc
@@ -66,7 +63,7 @@ export default class JuLabatStyle extends Style {
 
     // Draw stars
     P5.noFill()
-    starField.forEach(p => {
+    this.starField.forEach(p => {
       P5.strokeWeight(p.size * this._s)
       P5.stroke(p.col)
       P5.point(p.pos.x * this._s, p.pos.y * this._s)
@@ -125,11 +122,10 @@ export default class JuLabatStyle extends Style {
         p2.x * this._s, p2.y * this._s,
         p3.x * this._s, p3.y * this._s
       )
+      // Reset effects
+      P5.blendMode(P5.BLEND)
       P5.drawingContext.filter = 'none'
     }
-
-    // Reset effects
-    P5.blendMode(P5.BLEND)
   }
 
   afterDraw () {}
