@@ -65,8 +65,8 @@ In order to have your style selected, it must:
 | :---: | :---: | :---: |  :---: |
 | ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada | [✅](https://tzkt.io/opXhZ9r7BPBd79nC1yzQ4HScP58DtT6ZCAmuPVX5RPkkvZVPaNp) |
 | anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic | [✅](https://tzkt.io/ootMgYTjfzMrt5fsGyt2XZkTrRFLdX2SoZ9bEgtd4KHvGkZFL7B) |
-| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |  |
-| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |  |
+| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert | [✅](https://tzkt.io/oozV9KKev9BucftP2mBuYmZZJ3rFDbVnXmy9mETanMefNiWQdSJ) |
+| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard | [✅](https://tzkt.io/opNt8NfiufeF3bL4nuuN11neB1U2MC3Sz63H8u2xceehauTLQDL) |
 | camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
 | camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
 | davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |  |
