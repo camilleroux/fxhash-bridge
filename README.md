@@ -63,32 +63,32 @@ In order to have your style selected, it must:
 
 | Style | Twitter | fxhash | 💰 |
 | :---: | :---: | :---: |  :---: |
-| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada | [✅](https://tzkt.io/opXhZ9r7BPBd79nC1yzQ4HScP58DtT6ZCAmuPVX5RPkkvZVPaNp) |
-| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic | [✅](https://tzkt.io/ootMgYTjfzMrt5fsGyt2XZkTrRFLdX2SoZ9bEgtd4KHvGkZFL7B) |
-| aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert | [✅](https://tzkt.io/oozV9KKev9BucftP2mBuYmZZJ3rFDbVnXmy9mETanMefNiWQdSJ) |
-| bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard | [✅](https://tzkt.io/opNt8NfiufeF3bL4nuuN11neB1U2MC3Sz63H8u2xceehauTLQDL) |
-| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
-| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
-| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq | [✅](https://tzkt.io/opYSkCima6HnW5yMLiXrcPQRdjdTkkxTeB9bxTLgEVYzDvmN23D) |
-| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull | [✅](https://tzkt.io/oojDUm8EkuWvKDMFtkmQwMQdHtXpemHUafwaiGVkizkbZ6yybh7) |
-| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif | [✅](https://tzkt.io/op3JXGym5hkfhGqrh47YFEcVcvtvFTaDCoNzqmjA5HsJsK8XL1D) |
-| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne | [✅](https://tzkt.io/onrPc89oY6tNMhtW2mLHKgyvyNdMrLKDgiDNfYm9JkDBLN63rSv) |
-| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative | [✅](https://tzkt.io/opCiJduNMZX9hqaF6qjAXnaPSc5kr9fAGWokyiyoxQTcRCGEH5F) |
-| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen | [✅](https://tzkt.io/opXh45eVgRf1qCQcUdFLCzrptsbkB2Woj69qq8nHaCZ65dxdvwo) |
-| gorik.js | @gorikfr | https://www.fxhash.xyz/u/Gorik |  |
-| grosgg.js | grosgg | https://www.fxhash.xyz/u/grosgg |  |
-| jeres.js | @heyjeres | https://www.fxhash.xyz/u/jeres |  |
-| julabat.js | @julabat | https://www.fxhash.xyz/u/julabat |  |
-| lunarean.js | @lunarean | https://www.fxhash.xyz/u/lunarean |  |
-| makio64.js | @makio64 | https://www.fxhash.xyz/u/Makio64 |  |
-| mandybrigwell.js | @mandybrigwell | https://www.fxhash.xyz/u/mandybrigwell |  |
-| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles | [✅](https://tzkt.io/op59cDYnjaPeiZvtoKBtzpQz9o2iLatNHPc3cnvSNZHwmXeDbZ5) |
-| nickdima.js | @nickdima | https://www.fxhash.xyz/u/Nick%20Dima |  |
-| phil_osophie.js | @phil_osophie | https://www.fxhash.xyz/u/phil_osophie |  |
-| robinmetcalfe.js | @solarise_webdev | https://www.fxhash.xyz/u/Robin |  |
-| rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |  |
-| shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |  |
-| wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |  |
+| ada_ada_ada.js | [[@ada_ada_ada_art](https://twitter.com/ada_ada_ada_art)](https://twitter.com/ada_ada_ada_art](https://twitter.com/ada_ada_ada_art)) | https://www.fxhash.xyz/u/Ada%20Ada%20Ada | [✅](https://tzkt.io/opXhZ9r7BPBd79nC1yzQ4HScP58DtT6ZCAmuPVX5RPkkvZVPaNp) |
+| anaglyphic.js | [@anaglyph_ic](https://twitter.com/anaglyph_ic) | https://www.fxhash.xyz/u/anaglyphic | [✅](https://tzkt.io/ootMgYTjfzMrt5fsGyt2XZkTrRFLdX2SoZ9bEgtd4KHvGkZFL7B) |
+| aqwunderscorezert.js | [@Aqw_Zert](https://twitter.com/Aqw_Zert) | https://www.fxhash.xyz/u/Aqw_Zert | [✅](https://tzkt.io/oozV9KKev9BucftP2mBuYmZZJ3rFDbVnXmy9mETanMefNiWQdSJ) |
+| bridgetunnel.js | [@CablesAndPixels](https://twitter.com/CablesAndPixels) | https://www.fxhash.xyz/u/Laurent%20Houdard | [✅](https://tzkt.io/opNt8NfiufeF3bL4nuuN11neB1U2MC3Sz63H8u2xceehauTLQDL) |
+| camilleroux.js | [@camillerouxart](https://twitter.com/camillerouxart) | https://www.fxhash.xyz/u/Camille%20Roux | - |
+| camilleroux2.js | [@camillerouxart](https://twitter.com/camillerouxart) | https://www.fxhash.xyz/u/Camille%20Roux | - |
+| davidesq.js | [@emcyze](https://twitter.com/emcyze) | https://www.fxhash.xyz/u/David%20Esq | [✅](https://tzkt.io/opYSkCima6HnW5yMLiXrcPQRdjdTkkxTeB9bxTLgEVYzDvmN23D) |
+| devnull.js | [@lostpunks](https://twitter.com/lostpunks) | https://www.fxhash.xyz/u/devnull | [✅](https://tzkt.io/oojDUm8EkuWvKDMFtkmQwMQdHtXpemHUafwaiGVkizkbZ6yybh7) |
+| elsif.js | [@ElsifThen](https://twitter.com/ElsifThen) | https://www.fxhash.xyz/u/elsif | [✅](https://tzkt.io/op3JXGym5hkfhGqrh47YFEcVcvtvFTaDCoNzqmjA5HsJsK8XL1D) |
+| estienne.js | [@Estienne_ca](https://twitter.com/Estienne_ca) | https://www.fxhash.xyz/u/Estienne | [✅](https://tzkt.io/onrPc89oY6tNMhtW2mLHKgyvyNdMrLKDgiDNfYm9JkDBLN63rSv) |
+| frederative.js | [@frederative](https://twitter.com/frederative) | https://www.fxhash.xyz/u/frederative | [✅](https://tzkt.io/opCiJduNMZX9hqaF6qjAXnaPSc5kr9fAGWokyiyoxQTcRCGEH5F) |
+| generativepen.js | [@GenerativePen](https://twitter.com/GenerativePen) | https://www.fxhash.xyz/u/Generative%20Pen | [✅](https://tzkt.io/opXh45eVgRf1qCQcUdFLCzrptsbkB2Woj69qq8nHaCZ65dxdvwo) |
+| gorik.js | [@gorikfr](https://twitter.com/gorikfr) | https://www.fxhash.xyz/u/Gorik |  |
+| grosgg.js | [@grosgg](https://twitter.com/grosgg) | https://www.fxhash.xyz/u/grosgg |  |
+| jeres.js | [@heyjeres](https://twitter.com/heyjeres) | https://www.fxhash.xyz/u/jeres |  |
+| julabat.js | [@julabat](https://twitter.com/julabat) | https://www.fxhash.xyz/u/julabat |  |
+| lunarean.js | [@lunarean](https://twitter.com/lunarean) | https://www.fxhash.xyz/u/lunarean |  |
+| makio64.js | [@makio64](https://twitter.com/makio64) | https://www.fxhash.xyz/u/Makio64 |  |
+| mandybrigwell.js | [@mandybrigwell](https://twitter.com/mandybrigwell) | https://www.fxhash.xyz/u/mandybrigwell |  |
+| matt_circles.js | [@matt_circles](https://twitter.com/matt_circles) | https://www.fxhash.xyz/u/Matt%20Circles | [✅](https://tzkt.io/op59cDYnjaPeiZvtoKBtzpQz9o2iLatNHPc3cnvSNZHwmXeDbZ5) |
+| nickdima.js | [@nickdima](https://twitter.com/nickdima) | https://www.fxhash.xyz/u/Nick%20Dima |  |
+| phil_osophie.js | [@phil_osophie](https://twitter.com/phil_osophie) | https://www.fxhash.xyz/u/phil_osophie |  |
+| robinmetcalfe.js | [@solarise_webdev](https://twitter.com/solarise_webdev) | https://www.fxhash.xyz/u/Robin |  |
+| rvig.js | [@rvig_art](https://twitter.com/rvig_art) | https://www.fxhash.xyz/u/rvig |  |
+| shuhblam.js | [@shuhblam](https://twitter.com/shuhblam) | https://www.fxhash.xyz/u/shuhblam |  |
+| wilke.js | [@ClausWilke](https://twitter.com/ClausWilke) | https://www.fxhash.xyz/u/clauswilke |  |
 
 **The code minted on fxhash is from the [fxhash](https://github.com/camilleroux/fxhash-bridge/tree/fxhash) branch**
 
