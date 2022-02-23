@@ -64,7 +64,7 @@ In order to have your style selected, it must:
 | Style | Twitter | fxhash | 💰 |
 | :---: | :---: | :---: |  :---: |
 | ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada | [✅](https://tzkt.io/opXhZ9r7BPBd79nC1yzQ4HScP58DtT6ZCAmuPVX5RPkkvZVPaNp) |
-| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic |  |
+| anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic | [✅](https://tzkt.io/ootMgYTjfzMrt5fsGyt2XZkTrRFLdX2SoZ9bEgtd4KHvGkZFL7B) |
 | aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |  |
 | bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |  |
 | camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
