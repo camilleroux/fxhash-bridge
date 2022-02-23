@@ -69,8 +69,8 @@ In order to have your style selected, it must:
 | bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard | [✅](https://tzkt.io/opNt8NfiufeF3bL4nuuN11neB1U2MC3Sz63H8u2xceehauTLQDL) |
 | camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
 | camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
-| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |  |
-| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull |  |
+| davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq | [✅](https://tzkt.io/opYSkCima6HnW5yMLiXrcPQRdjdTkkxTeB9bxTLgEVYzDvmN23D) |
+| devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull | [✅](https://tzkt.io/oojDUm8EkuWvKDMFtkmQwMQdHtXpemHUafwaiGVkizkbZ6yybh7) |
 | elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |  |
 | estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne |  |
 | frederative.js | @frederative | https://www.fxhash.xyz/u/frederative |  |
