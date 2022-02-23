@@ -82,13 +82,14 @@ In order to have your style selected, it must:
 | lunarean.js | @lunarean | https://www.fxhash.xyz/u/lunarean |  |
 | makio64.js | @makio64 | https://www.fxhash.xyz/u/Makio64 |  |
 | mandybrigwell.js | @mandybrigwell | https://www.fxhash.xyz/u/mandybrigwell |  |
-| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles |  |
+| matt_circles.js | @matt_circles | https://www.fxhash.xyz/u/Matt%20Circles | [✅](https://tzkt.io/op59cDYnjaPeiZvtoKBtzpQz9o2iLatNHPc3cnvSNZHwmXeDbZ5) |
 | nickdima.js | @nickdima | https://www.fxhash.xyz/u/Nick%20Dima |  |
 | phil_osophie.js | @phil_osophie | https://www.fxhash.xyz/u/phil_osophie |  |
 | robinmetcalfe.js | @solarise_webdev | https://www.fxhash.xyz/u/Robin |  |
 | rvig.js | @rvig_art | https://www.fxhash.xyz/u/rvig |  |
 | shuhblam.js | @shuhblam | https://www.fxhash.xyz/u/shuhblam |  |
 | wilke.js | @ClausWilke | https://www.fxhash.xyz/u/clauswilke |  |
+
 **The code minted on fxhash is from the [fxhash](https://github.com/camilleroux/fxhash-bridge/tree/fxhash) branch**
 
 ## 💰 Money
@@ -97,4 +98,3 @@ In order to have your style selected, it must:
 - Fees are: 2.5%
 - So "net revenue" is: 3948.75 tez
 - They are 26 styles in the minted project so each included contributor will receive: 151.875 tez.
-I'm exhausted right now, I'll will send tez, tomorrow, the feb 23 and report each paiement. Please let me know if I did a mistake :)
