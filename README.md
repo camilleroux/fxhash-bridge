@@ -75,13 +75,13 @@ In order to have your style selected, it must:
 | estienne.js | [@Estienne_ca](https://twitter.com/Estienne_ca) | https://www.fxhash.xyz/u/Estienne | [✅](https://tzkt.io/onrPc89oY6tNMhtW2mLHKgyvyNdMrLKDgiDNfYm9JkDBLN63rSv) |
 | frederative.js | [@frederative](https://twitter.com/frederative) | https://www.fxhash.xyz/u/frederative | [✅](https://tzkt.io/opCiJduNMZX9hqaF6qjAXnaPSc5kr9fAGWokyiyoxQTcRCGEH5F) |
 | generativepen.js | [@GenerativePen](https://twitter.com/GenerativePen) | https://www.fxhash.xyz/u/Generative%20Pen | [✅](https://tzkt.io/opXh45eVgRf1qCQcUdFLCzrptsbkB2Woj69qq8nHaCZ65dxdvwo) |
-| gorik.js | [@gorikfr](https://twitter.com/gorikfr) | https://www.fxhash.xyz/u/Gorik |  |
-| grosgg.js | [@grosgg](https://twitter.com/grosgg) | https://www.fxhash.xyz/u/grosgg |  |
-| jeres.js | [@heyjeres](https://twitter.com/heyjeres) | https://www.fxhash.xyz/u/jeres |  |
-| julabat.js | [@julabat](https://twitter.com/julabat) | https://www.fxhash.xyz/u/julabat |  |
-| lunarean.js | [@lunarean](https://twitter.com/lunarean) | https://www.fxhash.xyz/u/lunarean |  |
-| makio64.js | [@makio64](https://twitter.com/makio64) | https://www.fxhash.xyz/u/Makio64 |  |
-| mandybrigwell.js | [@mandybrigwell](https://twitter.com/mandybrigwell) | https://www.fxhash.xyz/u/mandybrigwell |  |
+| gorik.js | [@gorikfr](https://twitter.com/gorikfr) | https://www.fxhash.xyz/u/Gorik | [✅](https://tzkt.io/ooQRkKxYJK7CevwYE36yXVUMMHy6XwmMdGCkWPG5N2voWvToQ7g) |
+| grosgg.js | [@grosgg](https://twitter.com/grosgg) | https://www.fxhash.xyz/u/grosgg | [✅](https://tzkt.io/oo2VSENLgU4x8TKANwZnJCBMH4cNPvqJZwRCU85t5CfcUKuRnpp) |
+| jeres.js | [@heyjeres](https://twitter.com/heyjeres) | https://www.fxhash.xyz/u/jeres | [✅](https://tzkt.io/ooEXFATUaXkgQX5JPwZzvmTFdcZxX39fozxWwoQtFo4ZmxA43mQ) |
+| julabat.js | [@julabat](https://twitter.com/julabat) | https://www.fxhash.xyz/u/julabat | [✅](https://tzkt.io/oofH9jpDmQo55MmWNt1LquazKA1pvSREr1vnTyLSS3TBGnHQc3w) |
+| lunarean.js | [@lunarean](https://twitter.com/lunarean) | https://www.fxhash.xyz/u/lunarean | [✅](https://tzkt.io/onxRACDzJYTtezjuV2XnW1mZzcTi2wAwCeWwTcQq1XrdZw367ta) |
+| makio64.js | [@makio64](https://twitter.com/makio64) | https://www.fxhash.xyz/u/Makio64 | [✅](https://tzkt.io/onyLnS8UySCJrTPoVcyqS3kc5tCYvNJH2hriZ9fUb4b2scQR2aE) |
+| mandybrigwell.js | [@mandybrigwell](https://twitter.com/mandybrigwell) | https://www.fxhash.xyz/u/mandybrigwell | [✅](https://tzkt.io/opSqxNm56uGnz4RuPHy2dee6Mkq9pNeSu29mwd3HanEm8DQY5RF) |
 | matt_circles.js | [@matt_circles](https://twitter.com/matt_circles) | https://www.fxhash.xyz/u/Matt%20Circles | [✅](https://tzkt.io/op59cDYnjaPeiZvtoKBtzpQz9o2iLatNHPc3cnvSNZHwmXeDbZ5) |
 | nickdima.js | [@nickdima](https://twitter.com/nickdima) | https://www.fxhash.xyz/u/Nick%20Dima |  |
 | phil_osophie.js | [@phil_osophie](https://twitter.com/phil_osophie) | https://www.fxhash.xyz/u/phil_osophie |  |
