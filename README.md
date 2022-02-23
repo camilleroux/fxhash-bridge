@@ -71,10 +71,10 @@ In order to have your style selected, it must:
 | camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
 | davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq | [✅](https://tzkt.io/opYSkCima6HnW5yMLiXrcPQRdjdTkkxTeB9bxTLgEVYzDvmN23D) |
 | devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull | [✅](https://tzkt.io/oojDUm8EkuWvKDMFtkmQwMQdHtXpemHUafwaiGVkizkbZ6yybh7) |
-| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |  |
-| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne |  |
-| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative |  |
-| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen |  |
+| elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif | [✅](https://tzkt.io/op3JXGym5hkfhGqrh47YFEcVcvtvFTaDCoNzqmjA5HsJsK8XL1D) |
+| estienne.js | @Estienne_ca | https://www.fxhash.xyz/u/Estienne | [✅](https://tzkt.io/onrPc89oY6tNMhtW2mLHKgyvyNdMrLKDgiDNfYm9JkDBLN63rSv) |
+| frederative.js | @frederative | https://www.fxhash.xyz/u/frederative | [✅](https://tzkt.io/opCiJduNMZX9hqaF6qjAXnaPSc5kr9fAGWokyiyoxQTcRCGEH5F) |
+| generativepen.js | @GenerativePen | https://www.fxhash.xyz/u/Generative%20Pen | [✅](https://tzkt.io/opXh45eVgRf1qCQcUdFLCzrptsbkB2Woj69qq8nHaCZ65dxdvwo) |
 | gorik.js | @gorikfr | https://www.fxhash.xyz/u/Gorik |  |
 | grosgg.js | grosgg | https://www.fxhash.xyz/u/grosgg |  |
 | jeres.js | @heyjeres | https://www.fxhash.xyz/u/jeres |  |
