@@ -63,12 +63,12 @@ In order to have your style selected, it must:
 
 | Style | Twitter | fxhash | 💰 |
 | :---: | :---: | :---: |  :---: |
-| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada |  |
+| ada_ada_ada.js | @ada_ada_ada_art | https://www.fxhash.xyz/u/Ada%20Ada%20Ada | [✅](https://tzkt.io/opXhZ9r7BPBd79nC1yzQ4HScP58DtT6ZCAmuPVX5RPkkvZVPaNp) |
 | anaglyphic.js | @anaglyph_ic | https://www.fxhash.xyz/u/anaglyphic |  |
 | aqwunderscorezert.js | @Aqw_Zert | https://www.fxhash.xyz/u/Aqw_Zert |  |
 | bridgetunnel.js | @CablesAndPixels | https://www.fxhash.xyz/u/Laurent%20Houdard |  |
-| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |  |
-| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux |  |
+| camilleroux.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
+| camilleroux2.js | @camillerouxart | https://www.fxhash.xyz/u/Camille%20Roux | - |
 | davidesq.js | @emcyze | https://www.fxhash.xyz/u/David%20Esq |  |
 | devnull.js | @lostpunks | https://www.fxhash.xyz/u/devnull |  |
 | elsif.js | @ElsifThen | https://www.fxhash.xyz/u/elsif |  |
