@@ -84,7 +84,7 @@ In order to have your style selected, it must:
 | mandybrigwell.js | [@mandybrigwell](https://twitter.com/mandybrigwell) | https://www.fxhash.xyz/u/mandybrigwell | [✅](https://tzkt.io/opSqxNm56uGnz4RuPHy2dee6Mkq9pNeSu29mwd3HanEm8DQY5RF) |
 | matt_circles.js | [@matt_circles](https://twitter.com/matt_circles) | https://www.fxhash.xyz/u/Matt%20Circles | [✅](https://tzkt.io/op59cDYnjaPeiZvtoKBtzpQz9o2iLatNHPc3cnvSNZHwmXeDbZ5) |
 | nickdima.js | [@nickdima](https://twitter.com/nickdima) | https://www.fxhash.xyz/u/Nick%20Dima | [✅](https://tzkt.io/ooK1p4B2dPKNrM5qE63dcDf4H1QXk5RdfA1hF548U47aNcQAd1W) |
-| phil_osophie.js | [@phil_osophie](https://twitter.com/phil_osophie) | https://www.fxhash.xyz/u/phil_osophie | [✅]( |
+| phil_osophie.js | [@phil_osophie](https://twitter.com/phil_osophie) | https://www.fxhash.xyz/u/phil_osophie | [✅](https://tzkt.io/opGnrayfCjT9VEaVRAXJzgeDvU1jqjANFSoh8jrT8B9cG2kX4xv) |
 | robinmetcalfe.js | [@solarise_webdev](https://twitter.com/solarise_webdev) | https://www.fxhash.xyz/u/Robin | [✅](https://tzkt.io/op2pCfqjqFKQT8wkQ6hNZpqY1M4tYEfmuABc1MFKBYwATjjhshr) |
 | rvig.js | [@rvig_art](https://twitter.com/rvig_art) | https://www.fxhash.xyz/u/rvig | [✅](https://tzkt.io/oopR9xVdiYGeBARcAw2ZmJmyfgiwrnUDGuVRMd4eHj1y4orWfHv) |
 | shuhblam.js | [@shuhblam](https://twitter.com/shuhblam) | https://www.fxhash.xyz/u/shuhblam | [✅](https://tzkt.io/op23pryQWPk3apkBc2RV5SWMB35krJ8F3RXMAMxutn7RAeeye4w) |
